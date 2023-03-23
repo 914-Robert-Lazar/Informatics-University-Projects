@@ -1,0 +1,16 @@
+     1                                  bits 32
+     2                                  
+     3                                  global _compute
+     4                                  segment code public code use32
+     5                                  _compute:
+     6 00000000 55                          push ebp
+     7 00000001 89E5                        mov ebp, esp
+     8                                      
+     9 00000003 8B4508                      mov eax, [ebp + 8]
+    10 00000006 03450C                      add eax, [ebp + 12]
+    11 00000009 2B4510                      sub eax, [ebp + 16]
+    12                                      
+    13 0000000C 89EC                        mov esp, ebp
+    14 0000000E 5D                          pop ebp
+    15                                      
+    16 0000000F C3                          ret

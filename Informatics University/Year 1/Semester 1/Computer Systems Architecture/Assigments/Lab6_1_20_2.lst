@@ -1,0 +1,80 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 6B6563736B65206369-         s db 'kecske cic kalak kalap e rutturruttur'
+    14 00000009 63206B616C616B206B-
+    14 00000012 616C61702065207275-
+    14 0000001B 747475727275747475-
+    14 00000024 72                 
+    15                                      lenS equ $ - s
+    16 00000025 00                          d db 0
+    17                                      it equ 0
+    18                                  ; our code starts here
+    19                                  segment code use32 class=code
+    20                                      start:
+    21                                          ; ...
+    22 00000000 B925000000                      mov ecx, lenS
+    23 00000005 BE[00000000]                    mov esi, s 
+    24 0000000A BF[00000000]                    mov edi, s
+    25 0000000F B800000000                      mov eax, 0
+    26                                          forS:
+    27 00000014 803F20                              cmp [edi], byte ' '
+    28 00000017 7529                                jne notSpace
+    29 00000019 56                                      push esi
+    30 0000001A 57                                      push edi
+    31 0000001B 4F                                      dec edi
+    32                                                  palindrom:
+    33 0000001C 8A16                                        mov dl, [esi]
+    34 0000001E 3A17                                        cmp dl, [edi]
+    35 00000020 7506                                        jne notSame
+    36 00000022 46                                          inc esi
+    37 00000023 4F                                          dec edi
+    38 00000024 39FE                                    cmp esi, edi
+    39 00000026 72F4                                    jb palindrom
+    40                                                  notSame:
+    41 00000028 39FE                                    cmp esi, edi
+    42 0000002A 7209                                    jb palindromConfirmed
+    43 0000002C C680[25000000]01                            mov [d + eax], byte 1
+    44 00000033 EB07                                        jmp skip
+    45                                                  palindromConfirmed:
+    46 00000035 C680[25000000]00                            mov [d + eax], byte 0
+    47                                                  skip:
+    48 0000003C 40                                      inc eax
+    49 0000003D 5F                                      pop edi
+    50 0000003E 5E                                      pop esi
+    51 0000003F 89FE                                    mov esi, edi
+    52 00000041 46                                      inc esi
+    53                                              notSpace:
+    54 00000042 47                                  inc edi
+    55 00000043 E2CF                            loop forS
+    56 00000045 4F                              dec edi
+    57                                          palindrom2:
+    58 00000046 8A16                                mov dl, [esi]
+    59 00000048 3A17                                cmp dl, [edi]
+    60 0000004A 7506                                jne notSame2
+    61 0000004C 46                                  inc esi
+    62 0000004D 4F                                  dec edi
+    63 0000004E 39FE                            cmp esi, edi
+    64 00000050 72F4                            jb palindrom2
+    65                                          notSame2:
+    66 00000052 39FE                            cmp esi, edi
+    67 00000054 7209                            jb palindromConfirmed2
+    68 00000056 C680[25000000]01                    mov [d + eax], byte 1
+    69 0000005D EB07                                jmp skip2
+    70                                          palindromConfirmed2:
+    71 0000005F C680[25000000]00                    mov [d + eax], byte 0
+    72                                          skip2:
+    73                                          
+    74                                          ; exit(0)
+    75 00000066 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    76 00000068 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

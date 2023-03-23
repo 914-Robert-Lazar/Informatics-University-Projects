@@ -1,0 +1,28 @@
+     1                                  use32
+     2                                  
+     3                                  global compute
+     4                                  extern ranks
+     5                                  extern sum
+     6                                  
+     7                                  segment code use32 class=code
+     8                                      Compute:
+     9 00000000 8B742404                        mov esi, [esp + 4]
+    10                                          forloop:
+    11 00000004 AB                                  stosd
+    12 00000005 83F800                              cmp eax, 0
+    13 00000008 7416                                je done
+    14                                              
+    15 0000000A B200                                mov dl, 0
+    16 0000000C B904000000                          mov ecx, 4
+    17                                              getMax:
+    18 00000011 38D0                                    cmp al, dl
+    19 00000013 7206                                    jb skip
+    20 00000015 88C2                                        mov dl, al
+    21 00000017 B605                                        mov dh, 5
+    22 00000019 28CE                                        sub dh, cl; dh is the current rank
+    23                                                      
+    24                                                  skip:
+    25 0000001B C1C808                                  ror eax, 8
+    26 0000001E E2F1                                loop getMax
+    27                                          done:
+    28                                          

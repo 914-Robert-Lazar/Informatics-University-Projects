@@ -1,0 +1,6 @@
+1;single room
+2;family room
+3;single room
+4;double room
+5;double room
+6;family room

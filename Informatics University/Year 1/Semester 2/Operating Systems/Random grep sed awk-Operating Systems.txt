@@ -1,0 +1,9 @@
+1. awk -F: '(NR % 2 == 0) {print $1,$2,$3,$4}' /etc/passwd
+2. grep -E "^[^a-zA-Z0-9]*$" /etc/passwd / grep -E -v "[^a-zA-Z0-9]"
+3. 
+
+5. awk -F: -f file5.awk /etc/passwd
+NF % 2 == 1 {
+    print NR
+    print $(int(NF / 2) + 1)
+}

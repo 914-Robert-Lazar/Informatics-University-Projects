@@ -1,0 +1,36 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  global ranks
+     5                                  global sum
+     6                                  
+     7                                  extern printf
+     8                                  extern Compute
+     9                                  extern exit
+    10                                  import exit msvcrt.dll
+    11                                  import printf msvcrt.dll
+    12                                  
+    13                                  segment data use32 class=data
+    14 00000000 78A63412785634127D-         string dd 1234A678h, 12345678h, 1AC3B47Dh, 0FEDC9876h, 0
+    14 00000009 B4C31A7698DCFE0000-
+    14 00000012 0000               
+    15 00000014 00<rept>                    ranks times 5 db 0
+    16 00000019 00000000                    sum dd 0
+    17 0000001D 303132333400                printTable db '01234', 0
+    18 00000023 537472696E67206F66-         printFormat db 'String of byte ranks: %s, the sum: %d', 0
+    18 0000002C 20627974652072616E-
+    18 00000035 6B733A2025732C2074-
+    18 0000003E 68652073756D3A2025-
+    18 00000047 6400               
+    19                                  segment code use32 class=code
+    20                                      start:
+    21 00000000 BB[1D000000]                    mov ebx, printTable
+    22 00000005 68[00000000]                    push string
+    23 0000000A E8(00000000)                    call Compute
+    24 0000000F 83C404                          add esp, 4
+    25                                          
+    26 00000012 FF35[19000000]                  push dword [sum]
+    27 00000018 68[14000000]                    push dword ranks
+    28 0000001D FF15[00000000]                  call [printf]
+    29                                          
+    30                                          

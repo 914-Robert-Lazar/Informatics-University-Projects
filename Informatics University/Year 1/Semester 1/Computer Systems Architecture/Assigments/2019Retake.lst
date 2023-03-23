@@ -1,0 +1,60 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start
+     4                                  
+     5                                  extern exit, printf
+     6                                  import exit msvcrt.dll
+     7                                  import printf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 78A63412345678122B-         string dd 1234A678h, 12785634h, 1A4D3C2Bh
+    10 00000009 3C4D1A             
+    11                                      lens equ ($ - string) / 4
+    12 0000000C 00000000                    sum dd 0
+    13 00000010 546865206E756D6265-         printFormat db 'The number of 1 bits in solution string is: %d'
+    13 00000019 72206F662031206269-
+    13 00000022 747320696E20736F6C-
+    13 0000002B 7574696F6E20737472-
+    13 00000034 696E672069733A2025-
+    13 0000003D 64                 
+    14 0000003E 0000                        sol_string dw 0
+    15                                      
+    16                                  segment code use32 class=code
+    17                                      start:
+    18 00000000 BE[00000000]                    mov esi, string
+    19 00000005 BF[3E000000]                    mov edi, sol_string
+    20                                          
+    21 0000000A B903000000                      mov ecx, lens
+    22 0000000F E324                            jecxz done
+    23                                          forLoop:
+    24                                              
+    25 00000011 46                                  inc esi
+    26 00000012 AC                                  lodsb
+    27                                              
+    28 00000013 88C4                                mov ah, al
+    29 00000015 46                                  inc esi
+    30 00000016 AC                                  lodsb
+    31                                              
+    32 00000017 86E0                                xchg ah, al
+    33 00000019 66AB                                stosw
+    34                                              
+    35 0000001B 51                                  push ecx
+    36 0000001C B910000000                              mov ecx, 16
+    37                                                  getSol:
+    38 00000021 66A90100                                    test ax, 1
+    39 00000025 7406                                        jz skip
+    40 00000027 FF05[0C000000]                                  inc dword [sum]
+    41                                                      skip:
+    42 0000002D 66D1C8                                      ror ax, 1
+    43 00000030 E2EF                                    loop getSol
+    44 00000032 59                                  pop ecx
+    45 00000033 E2DC                            loop forLoop
+    46                                          done:
+    47                                          
+    48 00000035 FF35[0C000000]                  push dword [sum]
+    49 0000003B 68[10000000]                    push dword printFormat
+    50 00000040 FF15[00000000]                  call [printf]
+    51                                          
+    52 00000046 6A00                            push dword 0
+    53 00000048 FF15[00000000]                  call [exit]
+    54                                          

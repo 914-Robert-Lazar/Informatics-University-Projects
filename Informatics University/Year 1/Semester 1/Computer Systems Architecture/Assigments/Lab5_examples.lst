@@ -1,0 +1,42 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  ; our data is declared here (the variables needed by our program)
+    12                                  segment data use32 class=data
+    13                                      ; ...
+    14 00000000 0102030405                  a db 1,2,3,4,5
+    15                                      lenZ1 equ $-a 
+    16 00000005 0102030405                  b db 1,2,3,4,5
+    17                                      lenZ2 equ $-b
+    18                                      lenZ3 equ $-a
+    19 0000000A 010002000300040005-         c dw 1,2,3,4,5
+    19 00000013 00                 
+    20                                      lenA3 equ $-c
+    21                                      lenB1 equ $-b
+    22                                      lenA1 equ $-a 
+    23                                      lenA2 equ $-b 
+    24                                      lenB2 equ $-c
+    25                                      lenB3 equ $-b - c 
+    26                                  ; our code starts here
+    27                                  segment code use32 class=code
+    28                                      start:
+    29                                          ; ...
+    30 00000000 B005                            mov al, lenZ1
+    31 00000002 B005                            mov al, lenZ2
+    32 00000004 B00A                            mov al, lenZ3
+    33 00000006 B014                            mov al, lenA1
+    34 00000008 B00F                            mov al, lenA2
+    35 0000000A B00A                            mov al, lenA3
+    36 0000000C B00F                            mov al, lenB1
+    37 0000000E B00A                            mov al, lenB2
+    38 00000010 B005                            mov al, lenB3
+    39                                          ; exit(0)
+    40 00000012 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    41 00000014 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

@@ -1,0 +1,11 @@
+back(x, n)
+	el = first(...)
+	x.append(el)
+	    while el is not None:
+		if is consistent(...)
+			if is solution(...)
+				output_solution(...)
+			else:
+				back(...)
+		el = next_element(...)
+		x[-1] = el
