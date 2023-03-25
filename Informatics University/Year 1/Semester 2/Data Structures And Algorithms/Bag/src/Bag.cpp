@@ -92,21 +92,59 @@ void Bag::add(TElem elem) {
 
 bool Bag::remove(TElem elem) {
 	if (elem >= this->minimumNumber && elem <= this->minimumNumber + this->currentLength - 1 &&
-	 this->frequencies[elem - this->minimumNumber] > 0)
+	this->frequencies[elem - this->minimumNumber] > 0)
 	{
 		this->frequencies[elem - this->minimumNumber]--;
 		this->nrTElems--;
-		// cout << "Remove: ";
-		// for (int i = 0; i < this->currentLength; ++i)
-		// {
-		// 	cout << this->frequencies[i] << " ";
-		// }
-		// cout << endl;
+
+		//Cut the unnecesarry 0s at left
+		if (elem == this->minimumNumber)
+		{
+			int shiftCounter;
+			for (shiftCounter = 0; shiftCounter < this->currentLength; ++shiftCounter)
+			{
+				if (this->frequencies[shiftCounter] != 0)
+				{
+					break;
+				}
+			}
+			if (shiftCounter > 0)
+			{
+				for (int i = 0; i < this->currentLength; ++i)
+				{
+					if (i < this->currentLength - shiftCounter)
+					{
+						this->frequencies[i] = this->frequencies[i + shiftCounter];
+					}
+					else
+					{
+						this->frequencies[i] = 0;
+					}
+				}
+				this->currentLength -= shiftCounter;
+				this->minimumNumber += shiftCounter;
+			}
+		}
+		
+		//Cut the unnecesarry 0s at right
+		if (elem == this->minimumNumber + this->currentLength - 1)
+		{
+			int shiftCounter = 0;
+			for (int i = this->currentLength - 1; i >= 0; --i)
+			{
+				if (this->frequencies[i] != 0)
+				{
+					break;
+				}
+				shiftCounter++;
+			}
+			this->currentLength -= shiftCounter;
+		}
 		return true;
 	}
 	return false; 
 }
-//Theta(1)
+//O(Maximum element - minimum element in bag)
 
 bool Bag::search(TElem elem) const {
 	return elem >= this->minimumNumber && elem <= this->minimumNumber + this->currentLength - 1 &&
