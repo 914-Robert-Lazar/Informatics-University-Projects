@@ -44,6 +44,11 @@ public:
 	//checks if the bag is empty
 	bool isEmpty() const;
 
+	//keeps only the elements which appear in b as well
+	//if an element appears multiple times in both bags, it will be kept the minimum times(if
+	// it appears 3 times in one Bag and 5 times in the other, 3 occurrences will be kept)
+	void intersection(const Bag& b);
+
 	//destructor
 	~Bag();
 };

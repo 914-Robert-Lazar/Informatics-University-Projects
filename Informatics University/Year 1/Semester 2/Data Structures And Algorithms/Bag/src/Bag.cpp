@@ -176,7 +176,22 @@ BagIterator Bag::iterator() const {
 }
 //Theta(1)
 
+void Bag::intersection(const Bag& b)
+{
+	for (int i = 0; i < this->currentLength; ++i)
+	{
+		int currentNumber = i + this->minimumNumber;
+		if (this->frequencies[i] > b.nrOccurrences(currentNumber))
+		{
+			this->nrTElems -= this->frequencies[i] - b.nrOccurrences(currentNumber);
+			this->frequencies[i] = b.nrOccurrences(currentNumber);
+		}
+	}
+}
+//Theta(Maximum element - minimum element in the bag)
+
 Bag::~Bag() {
 	delete[] this->frequencies;
 }
+//Theta(1)
 
