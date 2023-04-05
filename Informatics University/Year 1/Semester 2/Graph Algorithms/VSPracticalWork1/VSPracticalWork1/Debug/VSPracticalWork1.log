@@ -1,0 +1,7 @@
+﻿  Graph.cpp
+  Edge.cpp
+  Ui.cpp
+  VSPracticalWork1.cpp
+C:\Programok\Informatics-University-Projects\Informatics University\Year 1\Semester 2\Graph Algorithms\VSPracticalWork1\VSPracticalWork1\VSPracticalWork1.cpp(10,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  VSPracticalWork1.vcxproj -> C:\Programok\Informatics-University-Projects\Informatics University\Year 1\Semester 2\Graph Algorithms\VSPracticalWork1\Debug\VSPracticalWork1.exe

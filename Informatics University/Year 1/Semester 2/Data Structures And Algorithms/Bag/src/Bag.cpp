@@ -80,12 +80,6 @@ void Bag::add(TElem elem) {
 		this->frequencies[elem - this->minimumNumber]++;
 	}
 	this->nrTElems++;
-	// cout << "Add: ";
-	// for (int i = 0; i < this->currentLength; ++i)
-	// {
-	// 	cout << this->frequencies[i] << " ";
-	// }
-	// cout << endl;
 }
 // O(max(elem - maximum element in bag, minimum element in bag - elem))
 
@@ -188,7 +182,7 @@ void Bag::intersection(const Bag& b)
 		}
 	}
 }
-//Theta(Maximum element - minimum element in the bag)
+//O(Maximum element - minimum element in the bag)
 
 Bag::~Bag() {
 	delete[] this->frequencies;

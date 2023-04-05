@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Programok/Informatics University/Year 1/Semester 2/Graph Algorithms/Practical work nr.1",
-      "program": "c:/Programok/Informatics University/Year 1/Semester 2/Graph Algorithms/Practical work nr.1/build/Debug/outDebug",
+      "cwd": "c:/Programok/Informatics-University-Projects/Informatics University/Year 1/Semester 2/Graph Algorithms/Practical work nr.1",
+      "program": "c:/Programok/Informatics-University-Projects/Informatics University/Year 1/Semester 2/Graph Algorithms/Practical work nr.1/bin/main.exe",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -20,5 +20,6 @@
         }
       ]
     }
+
   ]
 }
