@@ -1,0 +1,10 @@
+%product(L - list, D - integer, M - integer, R - List)
+%flow model (i, i, i, o)
+
+product([], _, 0, []).
+product([H|T], D, M, R):-
+    product(T, D, NewM, NewR),
+    Current is H * D + NewM,
+    X is Current mod 10,
+    append([X], NewR, R),
+    M is Current / 10.

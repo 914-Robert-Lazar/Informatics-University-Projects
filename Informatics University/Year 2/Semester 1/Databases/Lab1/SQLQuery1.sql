@@ -1,0 +1,108 @@
+USE Fitness_Guide
+GO
+
+CREATE TABLE MUSCLE
+( MuscleID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(20),
+Role VARCHAR(30)
+)
+GO
+
+CREATE TABLE Exercise
+(ExerciseID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(20),
+Type VARCHAR(10),
+Orientation VARCHAR(20)
+)
+
+CREATE TABLE Uses
+(ExerciseID INT REFERENCES Exercise(ExerciseID),
+MuscleId INT REFERENCES MUSCLE(MuscleID),
+PRIMARY KEY(ExerciseID, MuscleId)
+)
+GO
+
+CREATE TABLE ExercisePlan
+(ExercisePlanID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(30) NOT NULL,
+Level VARCHAR(15),
+NUmberOfDaysAWeek INT NOT NULL
+)
+
+CREATE TABLE Meal
+(MealID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(20) NOT NULL UNIQUE,
+TimeToPrepare DATETIME,
+CaloryIntake INT
+)
+
+CREATE TABLE DietPlan
+(DietPlanID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(30) NOT NULL,
+Level VARCHAR(15)
+)
+
+CREATE TABLE DayOfTrainingWeek
+(DayOfWeekID INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(15) NOT NULL,
+ExercisePlanId INT REFERENCES ExercisePlan(ExercisePlanID),
+DietPlanID INT REFERENCES DietPlan(DietPlanID)
+)
+
+CREATE TABLE CarriedOut
+(DayOfWeekID INT REFERENCES DayOfTrainingWeek(DayOfWeekID),
+ExerciseID INT REFERENCES Exercise(ExerciseID)
+PRIMARY KEY(DayOfWeekID, ExerciseID)
+)
+
+CREATE TABLE Consumed
+(DayOfWeekID INT REFERENCES DayOfTrainingWeek(DayOfWeekID),
+MealID INT REFERENCES Meal(MealID)
+PRIMARY KEY(DayOfWeekID, MealID)
+)
+
+CREATE TABLE FitnessCalendar
+(DayOfWeekID INT REFERENCES DayOfTrainingWeek(DayOfWeekID),
+DateOfDay DATE NOT NULL,
+PRIMARY KEY(DayOfWeekID, DateOfDay)
+)
+GO
+
+CREATE TABLE FitnessPlan
+(ExercisePlanID INT REFERENCES ExercisePlan(ExercisePlanID),
+DietPlanID INT REFERENCES DietPlan(DietPlanID)
+)
+GO
+
+
+ALTER TABLE DayOfTrainingWeek
+DROP CONSTRAINT FK_DayOfTrainingWeek_ExercisePlan, FK_DayOfTrainingWeek_DietPlan
+GO
+
+ALTER TABLE DayOfTrainingWeek
+DROP COLUMN ExercisePlanId, DietPlanID
+GO
+
+ALTER TABLE DayOfTrainingWeek
+ADD ExercisePlanID INT, DietPlanID INT
+GO
+
+
+
+ALTER TABLE FitnessPlan
+ALTER COLUMN
+ExercisePlanID INT NOT NULL
+
+ALTER TABLE FitnessPlan
+ALTER COLUMN
+DietPlanID INT NOT NULL
+
+ALTER TABLE FitnessPlan
+ADD PRIMARY KEY(ExercisePlanID, DietPlanID)
+
+ALTER TABLE DayOfTrainingWeek
+ADD FOREIGN KEY (ExercisePlanID, DietPLanID) REFERENCES FitnessPLan(ExercisePlanID, DietPlanID)
+GO
+
+DROP TABLE DayOfTraningWeek
+GO
