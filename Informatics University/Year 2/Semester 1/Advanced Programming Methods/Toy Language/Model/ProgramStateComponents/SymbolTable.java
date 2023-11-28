@@ -2,7 +2,7 @@ package Model.ProgramStateComponents;
 
 import java.util.HashMap;
 import java.util.Map;
-public class SymbolTable<Key, Val> implements ISymbolTable<Key, Val>{
+public class SymbolTable<Key, Val> implements IDictionary<Key, Val>{
     Map<Key, Val> map;
 
     public SymbolTable() {
@@ -37,5 +37,10 @@ public class SymbolTable<Key, Val> implements ISymbolTable<Key, Val>{
 
     public void setMap(Map<Key, Val> map) {
         this.map = map;
+    }
+
+    @Override
+    public void remove(Key key) {
+        this.map.remove(key);
     }
 }

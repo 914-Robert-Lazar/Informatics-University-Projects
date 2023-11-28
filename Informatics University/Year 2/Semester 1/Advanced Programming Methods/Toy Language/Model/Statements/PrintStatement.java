@@ -21,7 +21,7 @@ public class PrintStatement implements IStatement{
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
         IOutputList<Value> outputList = programState.getOut();
-        Value value = this.expression.evaluate(programState.getSymTable());
+        Value value = this.expression.evaluate(programState.getSymTable(), programState.getHeap());
         outputList.add(value);
 
         return programState;

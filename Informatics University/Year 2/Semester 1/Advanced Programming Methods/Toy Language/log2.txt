@@ -1,0 +1,42 @@
+ExecutionStack:
+(int var1 ; (var1 = 8 / 2 ; Print(var1)))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+int var1
+(var1 = 8 / 2 ; Print(var1))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+(var1 = 8 / 2 ; Print(var1))
+SymbolTable:
+var1 --> 0
+OutputList:
+FileTable:
+
+ExecutionStack:
+var1 = 8 / 2
+Print(var1)
+SymbolTable:
+var1 --> 0
+OutputList:
+FileTable:
+
+ExecutionStack:
+Print(var1)
+SymbolTable:
+var1 --> 4
+OutputList:
+FileTable:
+
+ExecutionStack:
+SymbolTable:
+var1 --> 4
+OutputList:
+4
+FileTable:
+

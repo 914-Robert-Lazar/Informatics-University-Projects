@@ -1,7 +1,8 @@
 package Model.Expressions;
 
 import Controller.MyException;
-import Model.ProgramStateComponents.ISymbolTable;
+import Model.ProgramStateComponents.IDictionary;
+import Model.ProgramStateComponents.IHeap;
 import Model.Types.BooleanType;
 import Model.Values.BooleanValue;
 import Model.Values.Value;
@@ -17,10 +18,10 @@ public class LogicalExpression  implements Expression{
     }
 
     @Override
-    public Value evaluate(ISymbolTable<String, Value> table) throws MyException {
-        Value value1 = expression1.evaluate(table);
+    public Value evaluate(IDictionary<String, Value> table, IHeap<Value> heap) throws MyException {
+        Value value1 = expression1.evaluate(table, heap);
         if (value1.getType().equals(new BooleanType())) {
-            Value value2 = expression2.evaluate(table);
+            Value value2 = expression2.evaluate(table, heap);
             if (value2.getType().equals(new BooleanType())) {
                 BooleanValue i1 = (BooleanValue)value1;
                 BooleanValue i2 = (BooleanValue)value2;

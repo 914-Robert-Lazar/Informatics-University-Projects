@@ -1,7 +1,8 @@
 package Model.Expressions;
 
 import Controller.MyException;
-import Model.ProgramStateComponents.ISymbolTable;
+import Model.ProgramStateComponents.IDictionary;
+import Model.ProgramStateComponents.IHeap;
 import Model.Values.Value;
 
 public class ValueExpression implements Expression{
@@ -12,7 +13,7 @@ public class ValueExpression implements Expression{
     }
 
     @Override
-    public Value evaluate(ISymbolTable<String, Value> table) throws MyException {
+    public Value evaluate(IDictionary<String, Value> table, IHeap<Value> heap) throws MyException {
         return e;
     }
     

@@ -84,7 +84,7 @@ DROP COLUMN ExercisePlanId, DietPlanID
 GO
 
 ALTER TABLE DayOfTrainingWeek
-ADD ExercisePlanID INT, DietPlanID INT
+ADD ExercisePlanID INT NOT NULL, DietPlanID INT NOT NULL
 GO
 
 
@@ -102,7 +102,4 @@ ADD PRIMARY KEY(ExercisePlanID, DietPlanID)
 
 ALTER TABLE DayOfTrainingWeek
 ADD FOREIGN KEY (ExercisePlanID, DietPLanID) REFERENCES FitnessPLan(ExercisePlanID, DietPlanID)
-GO
-
-DROP TABLE DayOfTraningWeek
 GO

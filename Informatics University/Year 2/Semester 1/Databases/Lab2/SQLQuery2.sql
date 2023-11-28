@@ -62,3 +62,12 @@ WHERE E.Type = 'Pull'
 
 DELETE ExercisePlan
 WHERE NUmberOfDaysAWeek < 4 AND Level != NULL
+
+DELETE Exercise
+WHERE Orientation IS NULL OR Type LIKE 'Core'
+
+UPDATE ExercisePlan
+SET Level = 'Easy'
+WHERE NUmberOfDaysAWeek BETWEEN 6 AND 9 OR ExercisePlanID NOT IN 
+	(SELECT F.ExercisePlanID
+	FROM FitnessPlan F)

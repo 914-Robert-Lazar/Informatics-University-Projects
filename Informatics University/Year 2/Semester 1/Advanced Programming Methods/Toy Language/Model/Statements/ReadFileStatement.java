@@ -1,0 +1,71 @@
+package Model.Statements;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import Controller.MyException;
+import Model.Expressions.Expression;
+import Model.ProgramStateComponents.IDictionary;
+import Model.ProgramStateComponents.ProgramState;
+import Model.Types.IntegerType;
+import Model.Types.StringType;
+import Model.Values.IntegerValue;
+import Model.Values.StringValue;
+import Model.Values.Value;
+
+public class ReadFileStatement implements IStatement{
+    Expression expression;
+    String variableName;
+
+    public ReadFileStatement(Expression expression, String variableName) {
+        this.expression = expression;
+        this.variableName = variableName;
+    }
+
+    @Override
+    public String toString() {
+        return "ReadFile(" + expression.toString() + ", " + variableName + ")"; 
+    }
+
+    @Override
+    public ProgramState execute(ProgramState programState) throws MyException, IOException {
+        IDictionary<String, Value> symbolTable = programState.getSymTable();
+        if (!symbolTable.isDefined(variableName)) {
+            throw new MyException("The variable is not declared yet.");
+        }
+        else {
+            Value value = symbolTable.findValue(variableName);
+            if (!(value.getType().equals(new IntegerType()))) {
+                throw new MyException("The value of variable is not an int.");
+            }
+            else { 
+                Value fileNameValue = this.expression.evaluate(programState.getSymTable(), programState.getHeap());
+                if (!(fileNameValue.getType() instanceof StringType)) {
+                    throw new MyException("The expression does not evaluate to a string.");
+                }
+                else {
+                    IDictionary<StringValue, BufferedReader> fileTable = programState.getFileTable();
+                    StringValue fileName = (StringValue)fileNameValue;
+                    if (!fileTable.isDefined(fileName)) {
+                        throw new MyException("The file is not open.");
+                    }
+                    else {
+                        BufferedReader file = fileTable.findValue(fileName);
+                        String line = file.readLine();
+                        Value newValue;
+                        if (line == null) {
+                            newValue = new IntegerValue(0);
+                        }
+                        else {
+                            newValue = new IntegerValue(Integer.parseInt(line));
+                        }
+                        symbolTable.put(variableName, newValue);
+                    }
+                }
+            }
+        }
+
+        return programState;
+    }
+    
+}

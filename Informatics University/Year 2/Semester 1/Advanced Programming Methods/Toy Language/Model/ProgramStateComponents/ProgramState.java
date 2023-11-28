@@ -1,18 +1,26 @@
 package Model.ProgramStateComponents;
 
+import java.io.BufferedReader;
+
 import Model.Statements.IStatement;
+import Model.Values.StringValue;
 import Model.Values.Value;
 
 public class ProgramState {
     IExecutionStack<IStatement> executionStack;
-    ISymbolTable<String, Value> symbolTable;
+    IDictionary<String, Value> symbolTable;
     IOutputList<Value> outputList;
+    IDictionary<StringValue, BufferedReader> fileTable;
+    IHeap<Value> heap;
 
-    public ProgramState(IExecutionStack<IStatement> executionStack, ISymbolTable<String, Value> symbolTable, 
-                        IOutputList<Value> outputList, IStatement program) {
+    public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, 
+                        IOutputList<Value> outputList, IDictionary<StringValue, BufferedReader> fileTable, IHeap<Value> heap,
+                        IStatement program) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.outputList = outputList;
+        this.fileTable = fileTable;
+        this.heap = heap;
 
         this.executionStack.push(program);
     }
@@ -25,11 +33,11 @@ public class ProgramState {
         this.executionStack = executionStack;
     }
 
-    public ISymbolTable<String, Value> getSymTable() {
+    public IDictionary<String, Value> getSymTable() {
         return this.symbolTable;
     }
 
-    public void setSymTable(ISymbolTable<String, Value> symbolTable) {
+    public void setSymTable(IDictionary<String, Value> symbolTable) {
         this.symbolTable = symbolTable;
     }
 
@@ -41,11 +49,29 @@ public class ProgramState {
         this.outputList = outputList;
     }
 
+    public IDictionary<StringValue, BufferedReader> getFileTable() {
+        return this.fileTable;
+    }
+
+    public void setFileTable(IDictionary<StringValue, BufferedReader> fileTable) {
+        this.fileTable = fileTable;
+    }
+
+    public IHeap<Value> getHeap() {
+        return this.heap;
+    }
+
+    public void setHeap(IHeap<Value> heap) {
+        this.heap = heap;
+    }
+
     @Override
     public String toString() {
         return "ProgramState { exeStack = " + this.executionStack.getReversed() +
                 ", symTable = " + this.symbolTable +
                 ", out = " + this.outputList +
-                '}';
+                ", fileTable = " + this.fileTable +
+                ", heapTable = " + this.heap + 
+                "}";
     }
 }

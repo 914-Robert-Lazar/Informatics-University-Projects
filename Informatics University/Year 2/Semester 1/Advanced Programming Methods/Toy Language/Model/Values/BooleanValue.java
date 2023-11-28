@@ -10,6 +10,11 @@ public class BooleanValue implements Value {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof BooleanValue && this.value == ((BooleanValue) other).value;
+    }
+
     public boolean getValue() {
         return value;
     }

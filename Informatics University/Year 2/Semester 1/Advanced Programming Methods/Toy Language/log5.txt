@@ -1,0 +1,235 @@
+ExecutionStack:
+int v
+(v = 4 ; (while (v > 0) (Print(v) ; v = v - 1); ; Print(v)))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+(v = 4 ; (while (v > 0) (Print(v) ; v = v - 1); ; Print(v)))
+SymbolTable:
+v --> 0
+OutputList:
+FileTable:
+
+ExecutionStack:
+v = 4
+(while (v > 0) (Print(v) ; v = v - 1); ; Print(v))
+SymbolTable:
+v --> 0
+OutputList:
+FileTable:
+
+ExecutionStack:
+(while (v > 0) (Print(v) ; v = v - 1); ; Print(v))
+SymbolTable:
+v --> 4
+OutputList:
+FileTable:
+
+ExecutionStack:
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 4
+OutputList:
+FileTable:
+
+ExecutionStack:
+(Print(v) ; v = v - 1)
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 4
+OutputList:
+FileTable:
+
+ExecutionStack:
+Print(v)
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 4
+OutputList:
+FileTable:
+
+ExecutionStack:
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 4
+OutputList:
+4
+FileTable:
+
+ExecutionStack:
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 3
+OutputList:
+4
+FileTable:
+
+ExecutionStack:
+(Print(v) ; v = v - 1)
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 3
+OutputList:
+4
+FileTable:
+
+ExecutionStack:
+Print(v)
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 3
+OutputList:
+4
+FileTable:
+
+ExecutionStack:
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 3
+OutputList:
+4
+3
+FileTable:
+
+ExecutionStack:
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 2
+OutputList:
+4
+3
+FileTable:
+
+ExecutionStack:
+(Print(v) ; v = v - 1)
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 2
+OutputList:
+4
+3
+FileTable:
+
+ExecutionStack:
+Print(v)
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 2
+OutputList:
+4
+3
+FileTable:
+
+ExecutionStack:
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 2
+OutputList:
+4
+3
+2
+FileTable:
+
+ExecutionStack:
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 1
+OutputList:
+4
+3
+2
+FileTable:
+
+ExecutionStack:
+(Print(v) ; v = v - 1)
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 1
+OutputList:
+4
+3
+2
+FileTable:
+
+ExecutionStack:
+Print(v)
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 1
+OutputList:
+4
+3
+2
+FileTable:
+
+ExecutionStack:
+v = v - 1
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 1
+OutputList:
+4
+3
+2
+1
+FileTable:
+
+ExecutionStack:
+while (v > 0) (Print(v) ; v = v - 1);
+Print(v)
+SymbolTable:
+v --> 0
+OutputList:
+4
+3
+2
+1
+FileTable:
+
+ExecutionStack:
+Print(v)
+SymbolTable:
+v --> 0
+OutputList:
+4
+3
+2
+1
+FileTable:
+
+ExecutionStack:
+SymbolTable:
+v --> 0
+OutputList:
+4
+3
+2
+1
+0
+FileTable:
+

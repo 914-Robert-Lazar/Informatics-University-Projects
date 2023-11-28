@@ -1,0 +1,154 @@
+ExecutionStack:
+string varf
+(varf = test.in ; (OpenRFile(varf) ; (int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))))))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+(varf = test.in ; (OpenRFile(varf) ; (int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))))))
+SymbolTable:
+varf --> 
+OutputList:
+FileTable:
+
+ExecutionStack:
+varf = test.in
+(OpenRFile(varf) ; (int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))))))
+SymbolTable:
+varf --> 
+OutputList:
+FileTable:
+
+ExecutionStack:
+(OpenRFile(varf) ; (int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))))))
+SymbolTable:
+varf --> test.in
+OutputList:
+FileTable:
+
+ExecutionStack:
+OpenRFile(varf)
+(int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))))
+SymbolTable:
+varf --> test.in
+OutputList:
+FileTable:
+
+ExecutionStack:
+(int varc ; (ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))))
+SymbolTable:
+varf --> test.in
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+int varc
+(ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))))
+SymbolTable:
+varf --> test.in
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+(ReadFile(varf, varc) ; (Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))))
+SymbolTable:
+varf --> test.in
+varc --> 0
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+ReadFile(varf, varc)
+(Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))
+SymbolTable:
+varf --> test.in
+varc --> 0
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+(Print(varc) ; (ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf))))
+SymbolTable:
+varf --> test.in
+varc --> 15
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+Print(varc)
+(ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))
+SymbolTable:
+varf --> test.in
+varc --> 15
+OutputList:
+FileTable:
+test.in
+
+ExecutionStack:
+(ReadFile(varf, varc) ; (Print(varc) ; CloseRFile(varf)))
+SymbolTable:
+varf --> test.in
+varc --> 15
+OutputList:
+15
+FileTable:
+test.in
+
+ExecutionStack:
+ReadFile(varf, varc)
+(Print(varc) ; CloseRFile(varf))
+SymbolTable:
+varf --> test.in
+varc --> 15
+OutputList:
+15
+FileTable:
+test.in
+
+ExecutionStack:
+(Print(varc) ; CloseRFile(varf))
+SymbolTable:
+varf --> test.in
+varc --> 50
+OutputList:
+15
+FileTable:
+test.in
+
+ExecutionStack:
+Print(varc)
+CloseRFile(varf)
+SymbolTable:
+varf --> test.in
+varc --> 50
+OutputList:
+15
+FileTable:
+test.in
+
+ExecutionStack:
+CloseRFile(varf)
+SymbolTable:
+varf --> test.in
+varc --> 50
+OutputList:
+15
+50
+FileTable:
+test.in
+
+ExecutionStack:
+SymbolTable:
+varf --> test.in
+varc --> 50
+OutputList:
+15
+50
+FileTable:
+

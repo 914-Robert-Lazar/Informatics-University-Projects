@@ -2,7 +2,8 @@ package Model.Statements;
 
 import Controller.MyException;
 import Model.Expressions.Expression;
-import Model.ProgramStateComponents.ISymbolTable;
+import Model.ProgramStateComponents.IDictionary;
+import Model.ProgramStateComponents.IHeap;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.Type;
 import Model.Values.Value;
@@ -18,10 +19,11 @@ public class AssignmentStatement implements IStatement{
 
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        ISymbolTable<String, Value> symbolTable = programState.getSymTable();
+        IDictionary<String, Value> symbolTable = programState.getSymTable();
+        IHeap<Value> heap = programState.getHeap();
 
         if (symbolTable.isDefined(id)) {
-            Value rightSide = this.expression.evaluate(symbolTable);
+            Value rightSide = this.expression.evaluate(symbolTable, heap);
 
             Type idType = (symbolTable.findValue(id)).getType();
             if (idType.equals(rightSide.getType())) {

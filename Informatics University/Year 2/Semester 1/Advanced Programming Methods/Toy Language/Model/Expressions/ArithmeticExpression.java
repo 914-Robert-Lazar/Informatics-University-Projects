@@ -1,7 +1,8 @@
 package Model.Expressions;
 
 import Controller.MyException;
-import Model.ProgramStateComponents.ISymbolTable;
+import Model.ProgramStateComponents.IDictionary;
+import Model.ProgramStateComponents.IHeap;
 import Model.Types.IntegerType;
 import Model.Values.IntegerValue;
 import Model.Values.Value;
@@ -17,11 +18,11 @@ public class ArithmeticExpression implements Expression{
     }
 
     @Override
-    public Value evaluate(ISymbolTable<String, Value> table) throws MyException {
+    public Value evaluate(IDictionary<String, Value> table, IHeap<Value> heap) throws MyException {
         Value value1, value2;
-        value1 = expression1.evaluate(table);
+        value1 = expression1.evaluate(table, heap);
         if (value1.getType().equals(new IntegerType())) {
-            value2 = expression2.evaluate(table);
+            value2 = expression2.evaluate(table, heap);
             if (value2.getType().equals(new IntegerType())) {
                 IntegerValue i1 = (IntegerValue)value1;
                 IntegerValue i2 = (IntegerValue)value2;

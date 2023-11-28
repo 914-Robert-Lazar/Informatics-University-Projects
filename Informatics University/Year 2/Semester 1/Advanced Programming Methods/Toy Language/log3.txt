@@ -1,0 +1,101 @@
+ExecutionStack:
+If (false || true) then ((boolean bool1 ; (bool1 = false || true ; Print(bool1)))) else (If (5 <= 3 && true) then ((int number1 ; (number1 = 3 ; Print(number1)))) else ((int var1 ; (var1 = 8 / 2 ; Print(var1)))))
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+(boolean bool1 ; (bool1 = false || true ; Print(bool1)))
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+boolean bool1
+(bool1 = false || true ; Print(bool1))
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+OutputList:
+FileTable:
+
+ExecutionStack:
+(bool1 = false || true ; Print(bool1))
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+bool1 --> false
+OutputList:
+FileTable:
+
+ExecutionStack:
+bool1 = false || true
+Print(bool1)
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+bool1 --> false
+OutputList:
+FileTable:
+
+ExecutionStack:
+Print(bool1)
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+bool1 --> true
+OutputList:
+FileTable:
+
+ExecutionStack:
+(int number1 ; (number1 = 3 ; Print(number1)))
+SymbolTable:
+bool1 --> true
+OutputList:
+true
+FileTable:
+
+ExecutionStack:
+int number1
+(number1 = 3 ; Print(number1))
+SymbolTable:
+bool1 --> true
+OutputList:
+true
+FileTable:
+
+ExecutionStack:
+(number1 = 3 ; Print(number1))
+SymbolTable:
+number1 --> 0
+bool1 --> true
+OutputList:
+true
+FileTable:
+
+ExecutionStack:
+number1 = 3
+Print(number1)
+SymbolTable:
+number1 --> 0
+bool1 --> true
+OutputList:
+true
+FileTable:
+
+ExecutionStack:
+Print(number1)
+SymbolTable:
+number1 --> 3
+bool1 --> true
+OutputList:
+true
+FileTable:
+
+ExecutionStack:
+SymbolTable:
+number1 --> 3
+bool1 --> true
+OutputList:
+true
+3
+FileTable:
+

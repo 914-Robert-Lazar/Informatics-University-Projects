@@ -22,7 +22,7 @@ public class IfStatement implements IStatement{
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
         IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
-        Value value = condition.evaluate(programState.getSymTable());
+        Value value = condition.evaluate(programState.getSymTable(), programState.getHeap());
         if (value.getType() instanceof BooleanType) {
             BooleanValue booleanValue = (BooleanValue) value;
             if (booleanValue.getValue() == true) {
