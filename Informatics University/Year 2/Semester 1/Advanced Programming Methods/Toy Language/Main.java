@@ -28,6 +28,7 @@ import Model.Statements.PrintStatement;
 import Model.Statements.ReadFileStatement;
 import Model.Statements.VariableDeclarationStatement;
 import Model.Statements.WhileStatement;
+import Model.Statements.WriteToHeapStatement;
 import Model.Types.BooleanType;
 import Model.Types.IntegerType;
 import Model.Types.ReferenceType;
@@ -130,6 +131,17 @@ public class Main {
         Controller controller6 = new Controller(repository6);
         controller6.addProgramToRepository(programState6);
 
+        IStatement example7 = new CompoundStatement(new VariableDeclarationStatement("v", new ReferenceType(new IntegerType())), 
+                new CompoundStatement(new NewStatement("v", new ValueExpression(new IntegerValue(20))), 
+                new CompoundStatement(new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v"))), 
+                new CompoundStatement(new WriteToHeapStatement("v", new ValueExpression(new IntegerValue(30))), 
+                new PrintStatement(new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v")), 
+                new ValueExpression(new IntegerValue(5)), 1))))));
+        ProgramState programState7 = createProgramState(example7);
+        IRepository repository7 = new Repository("log7.txt");
+        Controller controller7 = new Controller(repository7);
+        controller7.addProgramToRepository(programState7);
+
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
         menu.addCommand(new RunExampleCommand("1", example1.toString(), controller1));
@@ -138,6 +150,7 @@ public class Main {
         menu.addCommand(new RunExampleCommand("4", example4.toString(), controller4));
         menu.addCommand(new RunExampleCommand("5", example5.toString(), controller5));  
         menu.addCommand(new RunExampleCommand("6", example6.toString(), controller6));
+        menu.addCommand(new RunExampleCommand("7", example7.toString(), controller7));  
         menu.show();
     }
 }

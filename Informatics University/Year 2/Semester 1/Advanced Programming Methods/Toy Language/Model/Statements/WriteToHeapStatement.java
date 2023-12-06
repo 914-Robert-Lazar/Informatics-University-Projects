@@ -49,4 +49,8 @@ public class WriteToHeapStatement implements IStatement{
         return programState;
     }
     
+    @Override
+    public String toString() {
+        return "WriteToHeap(" + this.variableName + ", " + this.expression.toString() + ")";
+    }
 }

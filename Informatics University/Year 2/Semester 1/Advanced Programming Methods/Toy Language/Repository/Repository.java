@@ -59,6 +59,11 @@ public class Repository implements IRepository{
         for (Map.Entry<StringValue, BufferedReader> entry : fileTable.getMap().entrySet()) {
             logFile.println(entry.getKey().toString());
         }
+        logFile.println("Heap:");
+        Map<Integer, Value> heap = this.getCurrentProgram().getHeap().getContent();
+        for (Map.Entry<Integer, Value> entry : heap.entrySet()) {
+            logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
+        }
         logFile.println();
         logFile.close();
     }
