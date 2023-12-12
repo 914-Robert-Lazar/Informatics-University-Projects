@@ -1,7 +1,9 @@
 package Model.ProgramStateComponents;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 
+import Controller.MyException;
 import Model.Statements.IStatement;
 import Model.Values.StringValue;
 import Model.Values.Value;
@@ -12,6 +14,8 @@ public class ProgramState {
     IOutputList<Value> outputList;
     IDictionary<StringValue, BufferedReader> fileTable;
     IHeap<Value> heap;
+    private static int id = 0;
+    private int myId;
 
     public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, 
                         IOutputList<Value> outputList, IDictionary<StringValue, BufferedReader> fileTable, IHeap<Value> heap,
@@ -21,7 +25,8 @@ public class ProgramState {
         this.outputList = outputList;
         this.fileTable = fileTable;
         this.heap = heap;
-
+        id = newId();
+        this.myId = id;
         this.executionStack.push(program);
     }
 
@@ -65,9 +70,31 @@ public class ProgramState {
         this.heap = heap;
     }
 
+    public boolean isNotCompleted() {
+        return !this.executionStack.isEmpty();
+    }
+
+    public ProgramState oneStep() throws MyException, IOException {
+
+        if (this.executionStack.isEmpty()) {
+            throw new MyException("ProgramState Stack is empty.");
+        }
+
+        IStatement currStatement = executionStack.pop();
+        return currStatement.execute(this);
+    }
+
+    public static synchronized Integer newId() {
+        return id + 1;
+    }
+
+    public Integer getId() {
+        return this.myId;
+    }
     @Override
     public String toString() {
-        return "ProgramState { exeStack = " + this.executionStack.getReversed() +
+        return "ID = " + this.myId + 
+                ", ProgramState { exeStack = " + this.executionStack.getReversed() +
                 ", symTable = " + this.symbolTable +
                 ", out = " + this.outputList +
                 ", fileTable = " + this.fileTable +

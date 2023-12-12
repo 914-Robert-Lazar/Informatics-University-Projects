@@ -44,7 +44,7 @@ public class CloseRFileStatement implements IStatement {
             }
         }
 
-        return programState;
+        return null;
     }
     
 }

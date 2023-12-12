@@ -37,7 +37,7 @@ public class AssignmentStatement implements IStatement{
             throw new MyException("The used variable " + id + " was not declared yet.");
         }
 
-        return programState;
+        return null;
     }
 
     @Override

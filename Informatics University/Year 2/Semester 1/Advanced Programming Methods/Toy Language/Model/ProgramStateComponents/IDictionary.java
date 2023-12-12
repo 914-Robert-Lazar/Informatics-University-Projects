@@ -13,5 +13,5 @@ public interface IDictionary<Key, Val> {
 
     void remove(Key key);
 
-
+    public IDictionary<Key, Val> copy();
 }

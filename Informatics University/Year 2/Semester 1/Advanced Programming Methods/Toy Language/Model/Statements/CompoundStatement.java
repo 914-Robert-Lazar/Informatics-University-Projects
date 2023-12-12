@@ -23,6 +23,6 @@ public class CompoundStatement implements IStatement {
         IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
         executionStack.push(second);
         executionStack.push(first);
-        return programState;
+        return null;
     }
 }

@@ -43,4 +43,13 @@ public class SymbolTable<Key, Val> implements IDictionary<Key, Val>{
     public void remove(Key key) {
         this.map.remove(key);
     }
+
+    @Override
+    public IDictionary<Key, Val> copy() {
+        IDictionary<Key, Val> copied = new SymbolTable<>();
+        for (Key key:this.map.keySet()) {
+            copied.put(key, this.findValue(key));
+        }
+        return copied;
+    }
 }

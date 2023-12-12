@@ -33,7 +33,7 @@ public class WhileStatement implements IStatement {
             throw new MyException("Condition expression is not a boolean.");
         }
 
-        return programState;
+        return null;
     }
     
     @Override

@@ -1,0 +1,252 @@
+Thread Id: 8
+ExecutionStack:
+(int v; (Ref(int) a; (v = 10; (new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a))))))))
+SymbolTable:
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+int v
+(Ref(int) a; (v = 10; (new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a)))))))
+SymbolTable:
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+(Ref(int) a; (v = 10; (new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a)))))))
+SymbolTable:
+v --> 0
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+Ref(int) a
+(v = 10; (new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a))))))
+SymbolTable:
+v --> 0
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+(v = 10; (new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a))))))
+SymbolTable:
+a --> (0, int)
+v --> 0
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+v = 10
+(new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a)))))
+SymbolTable:
+a --> (0, int)
+v --> 0
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+(new(a, 22); (Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a)))))
+SymbolTable:
+a --> (0, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+new(a, 22)
+(Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a))))
+SymbolTable:
+a --> (0, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+
+Thread Id: 8
+ExecutionStack:
+(Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));; (Print(v); Print(ReadHeap(a))))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 8
+ExecutionStack:
+Fork((WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a))))));
+(Print(v); Print(ReadHeap(a)))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 8
+ExecutionStack:
+(Print(v); Print(ReadHeap(a)))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 9
+ExecutionStack:
+(WriteToHeap(a, 30); (v = 32; (Print(v); Print(ReadHeap(a)))))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 8
+ExecutionStack:
+Print(v)
+Print(ReadHeap(a))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 9
+ExecutionStack:
+WriteToHeap(a, 30)
+(v = 32; (Print(v); Print(ReadHeap(a))))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+FileTable:
+Heap:
+1: 22
+
+Thread Id: 8
+ExecutionStack:
+Print(ReadHeap(a))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+10
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+(v = 32; (Print(v); Print(ReadHeap(a))))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+10
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 8
+ExecutionStack:
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+10
+30
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+v = 32
+(Print(v); Print(ReadHeap(a)))
+SymbolTable:
+a --> (1, int)
+v --> 10
+OutputList:
+10
+30
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+(Print(v); Print(ReadHeap(a)))
+SymbolTable:
+a --> (1, int)
+v --> 32
+OutputList:
+10
+30
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+Print(v)
+Print(ReadHeap(a))
+SymbolTable:
+a --> (1, int)
+v --> 32
+OutputList:
+10
+30
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+Print(ReadHeap(a))
+SymbolTable:
+a --> (1, int)
+v --> 32
+OutputList:
+10
+30
+32
+FileTable:
+Heap:
+1: 30
+
+Thread Id: 9
+ExecutionStack:
+SymbolTable:
+a --> (1, int)
+v --> 32
+OutputList:
+10
+30
+32
+30
+FileTable:
+Heap:
+1: 30
+

@@ -8,6 +8,7 @@ import Model.Expressions.Expression;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
 import Model.ProgramStateComponents.ProgramState;
+import Model.Types.ReferenceType;
 import Model.Values.ReferenceValue;
 import Model.Values.Value;
 
@@ -27,16 +28,22 @@ public class NewStatement implements IStatement {
             throw new MyException("The variable is not yet defined.");
         }
         else  {
-            Value value = expression.evaluate(programState.getSymTable(), programState.getHeap());
-            if (!value.getType().equals(((ReferenceValue) symbolTable.findValue(name)).getLocationType())) {
-                throw new MyException("The type of the expression's result and the location type of the varialbe are different.");
+            Value refValue = symbolTable.findValue(name);
+            if (!(refValue.getType() instanceof ReferenceType)) {
+                throw new MyException("The type of the variable is not a reference type.");
             }
             else {
-                int currentAddress = heap.put(value);
-                symbolTable.put(name, new ReferenceValue(currentAddress, value.getType()));
+                Value value = expression.evaluate(programState.getSymTable(), programState.getHeap());
+                if (!value.getType().equals(((ReferenceValue) refValue).getLocationType())) {
+                    throw new MyException("The type of the expression's result and the location type of the varialbe are different.");
+                }
+                else {
+                    int currentAddress = heap.put(value);
+                    symbolTable.put(name, new ReferenceValue(currentAddress, value.getType()));
+                }
             }
         }
-        return programState;
+        return null;
     }
     @Override
     public String toString() {

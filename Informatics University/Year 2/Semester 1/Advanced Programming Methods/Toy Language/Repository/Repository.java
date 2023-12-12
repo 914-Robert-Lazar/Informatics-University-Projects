@@ -5,10 +5,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
+import java.util.Vector;
 
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.ProgramState;
@@ -17,50 +16,45 @@ import Model.Values.StringValue;
 import Model.Values.Value;
 
 public class Repository implements IRepository{
-    Queue<ProgramState> queue;
     String logFilePath;
+    List<ProgramState> programStates;
 
     public Repository(String logFilePath) {
-        this.queue = new LinkedList<ProgramState>();
         this.logFilePath = logFilePath;
+        this.programStates = new Vector<>();
     }
-
-    @Override
-    public ProgramState getCurrentProgram() {
-        return this.queue.peek();
-    }
-    
 
     @Override
     public void add(ProgramState programState) {
-        this.queue.add(programState);
+        this.programStates.add(programState);
     }
 
     @Override
-    public void logProgramState() throws IOException {
+    public void logProgramState(ProgramState programState) throws IOException {
         PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(this.logFilePath, true)));
+        logFile.println("Thread Id: " + programState.getId());
         logFile.println("ExecutionStack:");
-        List<IStatement> executionStack = this.getCurrentProgram().getExecutionStack().getReversed();
+        List<IStatement> executionStack = programState.getExecutionStack().getReversed();
         for (IStatement statement : executionStack) {
             logFile.println(statement.toString());
         }
         logFile.println("SymbolTable:");
-        IDictionary<String, Value> symbolTable = this.getCurrentProgram().getSymTable();
+        IDictionary<String, Value> symbolTable = programState.getSymTable();
         for (Map.Entry<String, Value> entry : symbolTable.getMap().entrySet()) {
             logFile.println(entry.getKey() + " --> " + entry.getValue());
         }
         logFile.println("OutputList:");
-        List<Value> outputList = this.getCurrentProgram().getOut().getOutput();
+        List<Value> outputList = programState.getOut().getOutput();
         for (Value value : outputList) {
             logFile.println(value);
         }
         logFile.println("FileTable:");
-        IDictionary<StringValue, BufferedReader> fileTable = this.getCurrentProgram().getFileTable();
+        IDictionary<StringValue, BufferedReader> fileTable = programState.getFileTable();
         for (Map.Entry<StringValue, BufferedReader> entry : fileTable.getMap().entrySet()) {
             logFile.println(entry.getKey().toString());
         }
         logFile.println("Heap:");
-        Map<Integer, Value> heap = this.getCurrentProgram().getHeap().getContent();
+        Map<Integer, Value> heap = programState.getHeap().getContent();
         for (Map.Entry<Integer, Value> entry : heap.entrySet()) {
             logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
         }
@@ -68,9 +62,15 @@ public class Repository implements IRepository{
         logFile.close();
     }
 
+
     @Override
-    public void removeCurrentProgram() {
-        this.queue.poll();
+    public List<ProgramState> getProgramList() {
+        return this.programStates;
+    }
+
+    @Override
+    public void setProgramList(List<ProgramState> programStates) {
+        this.programStates = programStates;
     }
 
     

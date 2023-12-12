@@ -36,7 +36,7 @@ public class IfStatement implements IStatement{
             throw new MyException("The condition does not evaluate to a boolean type.");
         }
 
-        return programState;
+        return null;
     }
     
     @Override

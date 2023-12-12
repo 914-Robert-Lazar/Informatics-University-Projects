@@ -24,7 +24,7 @@ public class PrintStatement implements IStatement{
         Value value = this.expression.evaluate(programState.getSymTable(), programState.getHeap());
         outputList.add(value);
 
-        return programState;
+        return null;
     }
 
     

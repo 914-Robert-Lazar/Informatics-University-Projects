@@ -45,4 +45,13 @@ public class FileTable<Key, Val> implements IDictionary<Key, Val>{
                 "map=" + map +
                 '}';
     }
+
+    @Override
+    public IDictionary<Key, Val> copy() {
+        IDictionary<Key, Val> copied = new FileTable<>();
+        for (Key key:this.map.keySet()) {
+            copied.put(key, this.findValue(key));
+        }
+        return copied;
+    }
 }

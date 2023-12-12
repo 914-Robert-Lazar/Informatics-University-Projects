@@ -65,7 +65,7 @@ public class ReadFileStatement implements IStatement{
             }
         }
 
-        return programState;
+        return null;
     }
     
 }

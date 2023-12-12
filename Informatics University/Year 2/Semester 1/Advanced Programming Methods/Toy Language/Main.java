@@ -20,6 +20,7 @@ import Model.ProgramStateComponents.SymbolTable;
 import Model.Statements.AssignmentStatement;
 import Model.Statements.CloseRFileStatement;
 import Model.Statements.CompoundStatement;
+import Model.Statements.ForkStatement;
 import Model.Statements.IStatement;
 import Model.Statements.IfStatement;
 import Model.Statements.NewStatement;
@@ -133,14 +134,30 @@ public class Main {
 
         IStatement example7 = new CompoundStatement(new VariableDeclarationStatement("v", new ReferenceType(new IntegerType())), 
                 new CompoundStatement(new NewStatement("v", new ValueExpression(new IntegerValue(20))), 
+                new CompoundStatement(new NewStatement("v", new ValueExpression(new StringValue("30"))),
                 new CompoundStatement(new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v"))), 
                 new CompoundStatement(new WriteToHeapStatement("v", new ValueExpression(new IntegerValue(30))), 
                 new PrintStatement(new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v")), 
-                new ValueExpression(new IntegerValue(5)), 1))))));
+                new ValueExpression(new IntegerValue(5)), 1)))))));
         ProgramState programState7 = createProgramState(example7);
         IRepository repository7 = new Repository("log7.txt");
         Controller controller7 = new Controller(repository7);
         controller7.addProgramToRepository(programState7);
+
+        IStatement example8 = new CompoundStatement(new VariableDeclarationStatement("v", new IntegerType()), 
+                new CompoundStatement(new VariableDeclarationStatement("a", new ReferenceType(new IntegerType())), 
+                new CompoundStatement(new AssignmentStatement("v", new ValueExpression(new IntegerValue(10))), 
+                new CompoundStatement(new NewStatement("a", new ValueExpression(new IntegerValue(22))), 
+                new CompoundStatement(new ForkStatement(new CompoundStatement(new WriteToHeapStatement("a", new ValueExpression(new IntegerValue(30))), 
+                new CompoundStatement(new AssignmentStatement("v", new ValueExpression(new IntegerValue(32))), 
+                new CompoundStatement(new PrintStatement(new VariableExpression("v")), new PrintStatement(new ReadFromHeapExpression(new VariableExpression("a"))))))), 
+                new CompoundStatement(new PrintStatement(new VariableExpression("v")), new PrintStatement(new ReadFromHeapExpression(new VariableExpression("a")))))))));
+        ProgramState programState8 = createProgramState(example8);
+        IRepository repository8 = new Repository("log8.txt");
+        Controller controller8 = new Controller(repository8);
+        controller8.addProgramToRepository(programState8);
+
+        
 
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
@@ -151,6 +168,7 @@ public class Main {
         menu.addCommand(new RunExampleCommand("5", example5.toString(), controller5));  
         menu.addCommand(new RunExampleCommand("6", example6.toString(), controller6));
         menu.addCommand(new RunExampleCommand("7", example7.toString(), controller7));  
+        menu.addCommand(new RunExampleCommand("8", example8.toString(), controller8));
         menu.show();
     }
 }

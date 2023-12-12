@@ -46,7 +46,7 @@ public class WriteToHeapStatement implements IStatement{
                 }
             }
         }
-        return programState;
+        return null;
     }
     
     @Override

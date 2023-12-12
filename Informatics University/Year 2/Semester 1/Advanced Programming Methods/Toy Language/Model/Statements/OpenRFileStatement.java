@@ -43,7 +43,7 @@ public class OpenRFileStatement implements IStatement {
                 fileTable.put(fileName, file);
             }
         }
-        return programState;
+        return null;
     }
     
 }
