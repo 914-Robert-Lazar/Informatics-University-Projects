@@ -120,7 +120,7 @@ BEGIN
 
 		EXEC @is_foreign = CheckIfForeignKey @table_name, @column_name;
 
-		IF (@is_primary = 1 AND @is_foreign = 1) OR @is_primary = 0
+		IF (@is_primary = 1 AND @is_foreign = 1) OR @is_primary = 0 OR @column_type <> 'int'
 		BEGIN
 			SET @insert_stmt_column = @insert_stmt_column + @column_name + ',';
 		END
@@ -180,7 +180,7 @@ BEGIN
 					SET @insert_stmt_value = @insert_stmt_value + CONVERT(VARCHAR(20), @new_foreignkey_value_date) + ', ';
 				END
 			END
-			ELSE IF @is_primary = 0
+			ELSE IF @is_primary = 0 OR @column_type <> 'int'
 			BEGIN
 				IF @column_type = 'int'
 				BEGIN
@@ -197,7 +197,7 @@ BEGIN
 				END
 				ELSE IF @column_type = 'date'
 				BEGIN
-					SET @insert_stmt_value = @insert_stmt_value + '''' + CONVERT(VARCHAR(20), FORMAT(GETDATE(), 'yyyy-mm-dd')) + ''',';
+					SET @insert_stmt_value = @insert_stmt_value + '''' + CONVERT(VARCHAR(20), FORMAT(GETDATE(), 'yyyy-MM-dd')) + ''',';
 				END
 			END
 
@@ -209,17 +209,25 @@ BEGIN
 		SET @insert_stmt_value = @insert_stmt_value + ');';
 		DECLARE @insert_stmt VARCHAR(200) = @insert_stmt_column + @insert_stmt_value;
 
-		EXEC(@insert_stmt);
-
-		SET @counter = @counter + 1;
+		BEGIN TRY
+			PRINT(@insert_stmt);
+			EXEC(@insert_stmt);
+			SET @counter = @counter + 1;
+		END TRY
+		BEGIN CATCH
+		END CATCH
 	END
 
 	CLOSE ColumnCursor;
 END
 GO
 
-EXEC GenerateInsert 2, 1000;
+DELETE FROM Meal
 GO
+
+EXEC GenerateInsert 4, 5000;
+GO
+
 
 SELECT C.name AS ColumnName, T.name AS DataType
 FROM sys.columns C INNER JOIN sys.types T ON C.system_type_id = T.system_type_id
@@ -235,7 +243,10 @@ WHERE TableID = 2
 GO
 
 DECLARE @xd BIT;
-EXEC @xd = 
+EXEC @xd = CheckIfPrimaryKey 'FitnessCalendar', 'DayOfWeekID';
+PRINT(@xd);
+GO
+
 
 CREATE OR ALTER PROCEDURE RunTest(@test_id INT) AS
 BEGIN
@@ -251,3 +262,115 @@ BEGIN
 	WHERE TestID = @test_id
 
 	--delete rows from tables
+	IF @table_count > 0
+	BEGIN
+		DECLARE delete_cursor CURSOR LOCAL SCROLL FOR
+			SELECT T.Name
+			FROM Tables T INNER JOIN TestTables TT ON T.TableID = TT.TableID
+			WHERE TT.TestID = @test_id
+			ORDER BY TT.Position ASC;
+
+		OPEN delete_cursor;
+		DECLARE @table_name VARCHAR(30);
+		FETCH FIRST FROM delete_cursor INTO
+			@table_name;
+		DECLARE @delete_stmt VARCHAR(50);
+
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SET @delete_stmt = 'DELETE FROM ' + @table_name;
+			EXEC(@delete_stmt);
+
+			FETCH NEXT FROM delete_cursor INTO
+				@table_name;
+
+		END
+
+		CLOSE delete_cursor;
+	END
+
+	--inserting and view evaluation
+	DECLARE @Description VARCHAR(100) = 'Number of tables tested ' + CONVERT(varchar(10), @table_count) + ', number of views tested : ' + CONVERT(varchar(10), @view_count);
+	DECLARE @end_time VARCHAR(20);
+	DECLARE @start_time VARCHAR(20) = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+
+	INSERT INTO TestRuns(Description, StartAt) VALUES (@Description, @start_time);
+	DECLARE @last_test_id INT = @@IDENTITY;
+
+	IF @table_count > 0
+	BEGIN
+		DECLARE insert_cursor CURSOR LOCAL SCROLL FOR
+			SELECT T.TableID, TT.NoOfRows
+			FROM Tables T INNER JOIN TestTables TT ON T.TableID = TT.TableID
+			WHERE TT.TestID = @test_id
+			ORDER BY TT.Position DESC;
+
+		OPEN insert_cursor;
+		DECLARE @table_id INT;
+		DECLARE @no_rows INT;
+
+		FETCH FIRST FROM insert_cursor INTO
+			@table_id, @no_rows;
+
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			PRINT(@table_id);
+			DECLARE @start_table_test_time VARCHAR(20) = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+
+			EXEC GenerateInsert @table_id, @no_rows;
+
+			DECLARE @end_table_test_time VARCHAR(20) = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+			
+			INSERT INTO TestRunTables(TestRunID, TableID, StartAt, EndAt) VALUES (@last_test_id, @table_id, @start_table_test_time, @end_table_test_time);
+
+			FETCH NEXT FROM insert_cursor INTO
+				@table_id, @no_rows;
+		END
+
+		CLOSE insert_cursor;
+	END
+
+	IF @view_count > 0
+	BEGIN
+		DECLARE view_cursor CURSOR LOCAL SCROLL FOR
+			SELECT V.ViewID, V.Name
+			FROM Views V INNER JOIN TestViews TV ON V.ViewID = TV.ViewID
+			WHERE TV.TestID = @test_id;
+
+		OPEN view_cursor;
+		DECLARE @view_name VARCHAR(30);
+		DECLARE @view_id INT;
+		DECLARE @view_stmt VARCHAR(50);
+
+		FETCH NEXT FROM view_cursor INTO
+			@view_id, @view_name
+
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SET @view_stmt = 'SELECT* FROM ' + @view_name;
+
+			DECLARE @start_view_test_time VARCHAR(20) = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+
+			EXEC(@view_stmt);
+
+			DECLARE @end_view_test_time VARCHAR(20) = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+
+			INSERT INTO TestRunViews (TestRunID, ViewID, StartAt, EndAt) VALUES (@last_test_id, @view_id, @start_view_test_time, @end_view_test_time);
+
+			FETCH NEXT FROM view_cursor INTO
+				@view_id, @view_name;
+		END
+	END
+	
+	SET @end_time = FORMAT(GETDATE(), 'yyyy-MM-dd HH:mm:ss');
+
+	UPDATE TestRuns
+	SET EndAt = @end_time
+	WHERE TestRunID = @last_test_id;
+END
+GO
+
+EXEC RunTest 3
+GO
+
+SELECT* FROM TestRunViews;

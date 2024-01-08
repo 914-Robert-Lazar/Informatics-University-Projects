@@ -2,7 +2,7 @@ USE Fitness_Guide
 GO
 
 INSERT INTO Tables (Name) VALUES 
-('Meal'), ('Consumed'), ('FitnessCalendar');
+('Meal'), ('Consumed'), ('FitnessCalendar'), ('DayOfTrainingWeek');
 GO
 
 SELECT * FROM Tables;

@@ -1,0 +1,19 @@
+192.168.128.0/17
+Lan1: 1024 + 3 = 1027 < 2^11 = 2048, so it can store 2048 - 3 = 2045 hosts => /21 : 
+	ip address of network: 192.168.128.0
+	mask: 255.255.248.0, 
+	broadcast address: 192.168.135.255
+
+Lan4: 100 + 3 = 103 < 2^7 = 128, so it can store 128 - 3 = 125 hosts => /25
+	ip address of network: 192.168.136.0
+	mask: 255.255.255.128
+	broadcast address: 192.168.136.127
+
+Lan3: 56 + 3 = 59 < 2^6 = 64, so it can store 64 - 3 = 61 hosts => /26
+	ip address of network: 192.168.136.128
+	mask: 255.255.255.192
+	broadcast address: 192.168.136.191
+Lan2: 15 + 3 = 18 < 2^5 = 32, so it can store 32 - 3 = 29 hosts => /27:
+	ip address of network: 192.168.136.192
+	mask: 255.255.255.224
+	broadcast address: 192.168.136.223
