@@ -1,0 +1,19 @@
+(defun depthOfNode (tree node depthList)
+  (cond
+   ((and (not (null depthList)) (= 0 (car depthList))) 
+    (progn
+      (setf (cadr depthList) (- (cadr depthList) 1))
+      (depthOfNode tree node (cdr depthList))
+      )
+    )
+   ((not (numberp (car tree))) (cond
+                                ((eq (car tree) node) (list-length depthList))
+                                (t (depthOfNode (cdr tree) node depthList))
+                                )
+    )                    
+   ((numberp (car tree)) (progn
+                           (setq depthList (cons (car tree) depthList))
+                           (depthOfNode (cdr tree) node depthList)
+                           ))
+   )
+)

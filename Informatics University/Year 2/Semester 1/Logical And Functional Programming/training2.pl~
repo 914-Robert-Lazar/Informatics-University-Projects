@@ -1,0 +1,15 @@
+f(1, 1):-!.
+f(K, X):-
+    K1 is K - 1,
+    f(K1, Y),
+    aux(Y, X, K1).
+
+aux(Y, X, K1):-
+    Y > 1,!,
+    K2 is K1 - 1,
+    X is K2.
+aux(Y, X, _):-
+    Y > 0.5,!,
+    X is Y.
+aux(Y, X, _):-
+    X is Y - 1.

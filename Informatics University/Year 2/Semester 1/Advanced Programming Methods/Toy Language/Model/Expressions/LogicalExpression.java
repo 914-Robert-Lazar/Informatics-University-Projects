@@ -4,6 +4,7 @@ import Controller.MyException;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
 import Model.Types.BooleanType;
+import Model.Types.Type;
 import Model.Values.BooleanValue;
 import Model.Values.Value;
 
@@ -59,5 +60,23 @@ public class LogicalExpression  implements Expression{
         }
 
         return expression1.toString() + sign + expression2.toString();
+    }
+
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type type1, type2;
+        type1 = expression1.typecheck(typeEnv);
+        type2 = expression2.typecheck(typeEnv);
+        if (type1.equals(new BooleanType())) {
+            if (type2.equals(new BooleanType())) {
+                return new BooleanType();
+            }
+            else {
+                throw new MyException("Second operand is not a boolean.");
+            }
+        }
+        else {
+            throw new MyException("First operand is not a boolean.");
+        }
     }
 }

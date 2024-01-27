@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import Controller.MyException;
 import Model.ProgramStateComponents.ExecutionStack;
+import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.ProgramState;
+import Model.Types.Type;
 
 public class ForkStatement implements IStatement{
     IStatement statement;
@@ -23,6 +25,12 @@ public class ForkStatement implements IStatement{
     @Override
     public String toString() {
         return "Fork(" + statement + ");";
+    }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        statement.typecheck(typeEnv.copy());
+        return typeEnv;
     }
 
 

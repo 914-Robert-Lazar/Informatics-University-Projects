@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="634.0" prefWidth="1301.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.toylanguagegui.RunProgramController">
+   <children>
+      <VBox layoutX="27.0" layoutY="25.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Symbol Table:" />
+            <TableView fx:id="symbolTableView" prefHeight="212.0" prefWidth="450.0">
+              <columns>
+                <TableColumn fx:id="nameSymbolTableColumn" prefWidth="99.99996757507324" text="Symbol" />
+                <TableColumn fx:id="valueSymbolTableColumn" prefWidth="103.2000503540039" text="Value" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="259.0" layoutY="25.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Heap Table:" />
+            <TableView fx:id="heapTable" prefHeight="212.0" prefWidth="450.0">
+               <columns>
+                  <TableColumn fx:id="addressHeapTableColumn" prefWidth="99.99996757507324" text="Address" />
+                  <TableColumn fx:id="valueHeapTableColumn" prefWidth="103.2000503540039" text="Value" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="490.0" layoutY="25.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="File Table:" />
+            <ListView fx:id="fileListView" prefHeight="212.0" prefWidth="203.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="722.0" layoutY="25.0" prefHeight="230.0" prefWidth="203.0">
+         <children>
+            <Label text="Number of Program States:" />
+            <TextField fx:id="noOfPrograms" prefHeight="26.0" prefWidth="202.0" />
+            <Label prefHeight="18.0" prefWidth="200.0" text="States:" />
+            <ListView fx:id="programStateListView" prefHeight="173.0" prefWidth="203.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="27.0" layoutY="282.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Exe Stack:" />
+            <ListView fx:id="exeStackListView" prefHeight="212.0" prefWidth="203.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="259.0" layoutY="282.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Out:" />
+            <ListView fx:id="outListView" prefHeight="212.0" prefWidth="203.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="490.0" layoutY="282.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Lock Table:" />
+            <TableView fx:id="lockTable" prefHeight="212.0" prefWidth="450.0">
+               <columns>
+                  <TableColumn fx:id="locationLockTableColumn" prefWidth="99.99996757507324" text="Location" />
+                  <TableColumn fx:id="valueLockTableColumn" prefWidth="103.2000503540039" text="Value" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="722.0" layoutY="282.0" prefHeight="229.0" prefWidth="203.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Latch Table:" />
+            <TableView fx:id="latchTable" prefHeight="212.0" prefWidth="450.0">
+               <columns>
+                  <TableColumn fx:id="locationLatchTableColumn" prefWidth="99.99996757507324" text="Location" />
+                  <TableColumn fx:id="valueLatchTableColumn" prefWidth="103.2000503540039" text="Value" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <Button fx:id="runOneStepButton" layoutX="445.0" layoutY="538.0" mnemonicParsing="false" onAction="#runOneStepButtonHandler" text="Run One Step" />
+      <VBox layoutX="951.0" layoutY="25.0" prefHeight="230.0" prefWidth="310.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Count Semaphore Table:" />
+            <TableView fx:id="countSemaphoreTable" prefHeight="212.0" prefWidth="303.0">
+               <columns>
+                  <TableColumn fx:id="indexCountSemaphoreTableColumn" prefWidth="102.40002059936523" text="Index" />
+                  <TableColumn fx:id="valueCountSemaphoreTableColumn" prefWidth="101.59994506835938" text="Value" />
+                  <TableColumn fx:id="listCountSemaphoreTableColumn" prefWidth="103.2000503540039" text="ListOfValue" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="951.0" layoutY="282.0" prefHeight="230.0" prefWidth="310.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="202.0" text="Toy Semaphore Table:" />
+            <TableView fx:id="toySemaphoreTable" prefHeight="212.0" prefWidth="303.0">
+               <columns>
+                  <TableColumn fx:id="indexToySemaphoreTableColumn" prefWidth="45.5999755859375" text="Index" />
+                  <TableColumn fx:id="value1ToySemaphoreTableColumn" prefWidth="61.5999755859375" text="Value1" />
+                  <TableColumn fx:id="listToySemaphoreTableColumn" prefWidth="134.4000244140625" text="ListOfValue" />
+                  <TableColumn fx:id="value2ToySemaphoreTableColumn" prefWidth="67.19992675781248" text="Value2" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets left="20.0" right="20.0" top="20.0" />
+   </padding>
+</AnchorPane>

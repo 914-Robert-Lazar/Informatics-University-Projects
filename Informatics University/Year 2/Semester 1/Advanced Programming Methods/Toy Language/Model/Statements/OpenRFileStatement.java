@@ -10,6 +10,7 @@ import Controller.MyException;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.StringType;
+import Model.Types.Type;
 import Model.Values.StringValue;
 import Model.Values.Value;
 
@@ -45,5 +46,15 @@ public class OpenRFileStatement implements IStatement {
         }
         return null;
     }
-    
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeExpression.equals(new StringType())) {
+            return typeEnv;
+        }
+        else {
+            throw new MyException("The argument of OpenRFile does not have type string.");
+        }
+    }
 }

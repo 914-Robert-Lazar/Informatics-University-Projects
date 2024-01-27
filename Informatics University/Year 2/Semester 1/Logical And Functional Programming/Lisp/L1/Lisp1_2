@@ -1,0 +1,7 @@
+(defun dot_product (l1 l2)
+  (cond
+   ((null l1) 0)
+   (t (+ (* (car l1) (car l2)) (dot_product(cdr l1) (cdr l2))))
+  )
+)
+

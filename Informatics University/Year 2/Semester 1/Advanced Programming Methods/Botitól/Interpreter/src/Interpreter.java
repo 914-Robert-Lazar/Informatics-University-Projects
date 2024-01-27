@@ -1,0 +1,88 @@
+import controller.Controller;
+import exception.InterpreterException;
+import model.ProgramState;
+import model.adt.Dictionary;
+import model.adt.Heap;
+import model.adt.List;
+import model.adt.Stack;
+import model.expressions.*;
+import model.statements.*;
+import model.types.IntType;
+import model.types.ReferenceType;
+import model.types.StringType;
+import model.values.IntValue;
+import model.values.StringValue;
+import model.values.Value;
+import repository.Repository;
+import repository.RepositoryInterface;
+import utils.Utils;
+import view.command.ExitCommand;
+import view.command.RunCommand;
+import view.menu.TextMenu;
+
+import java.io.BufferedReader;
+
+public class Interpreter {
+    public static void main(String[] strings) throws InterpreterException {
+        Statement ex1= Utils.buildStatement(new VariableDeclarationStatement("v",new IntType()),new AssignmentStatement("v",new ValueExpression(new IntValue(2))),new PrintStatement(new VariableExpression("v")));
+        ex1.typeCheck(new Dictionary<>());
+        ProgramState state=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex1);
+        RepositoryInterface<ProgramState> repo=new Repository<>("src/log1.txt");
+        repo.add(state);
+        Controller controller=new Controller(repo);
+        Statement ex2=Utils.buildStatement(new VariableDeclarationStatement("varf",new StringType()),new AssignmentStatement("varf", new ValueExpression(new StringValue("src/test.in"))),new OpenReadFileStatement(new VariableExpression("varf")),new VariableDeclarationStatement("varc",new IntType()),new ReadFileStatement("varc",new VariableExpression("varf")),new PrintStatement(new VariableExpression("varc")),new ReadFileStatement("varc",new VariableExpression("varf")),new PrintStatement(new VariableExpression("varc")),new CloseReadFileStatement(new VariableExpression("varf")));
+        ex2.typeCheck(new Dictionary<>());
+        ProgramState state2=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex2);
+        RepositoryInterface<ProgramState> repo2=new Repository<>("src/log2.txt");
+        repo2.add(state2);
+        Controller controller2=new Controller(repo2);
+        Statement ex3=Utils.buildStatement(new VariableDeclarationStatement("a",new IntType()),new VariableDeclarationStatement("b",new IntType()),new AssignmentStatement("a",new ValueExpression(new IntValue(2))),new AssignmentStatement("b",new ValueExpression(new IntValue(4))),new VariableDeclarationStatement("v",new ReferenceType(new IntType())),new New("v",new ArithmeticExpression(new VariableExpression("a"),new VariableExpression("b"), ArithmeticExpression.Operand.ADD)),new VariableDeclarationStatement("c",new ReferenceType(new ReferenceType(new IntType()))),new New("c",new VariableExpression("v")),new PrintStatement(new VariableExpression("v")),new PrintStatement(new VariableExpression("c")),new PrintStatement(new ReadHeapExpression(new VariableExpression("v"))),new PrintStatement(new ReadHeapExpression(new ReadHeapExpression(new VariableExpression("c")))));
+        ex3.typeCheck(new Dictionary<>());
+        ProgramState state3=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex3);
+        RepositoryInterface<ProgramState> repo3=new Repository<>("src/log3.txt");
+        repo3.add(state3);
+        Controller controller3=new Controller(repo3);
+        Statement ex4=Utils.buildStatement(new VariableDeclarationStatement("a",new IntType()),new VariableDeclarationStatement("b",new IntType()),new AssignmentStatement("a",new ValueExpression(new IntValue(2))),new AssignmentStatement("b",new ValueExpression(new IntValue(4))),new VariableDeclarationStatement("v",new ReferenceType(new IntType())),new New("v",new VariableExpression("a")),new PrintStatement(new ReadHeapExpression(new VariableExpression("v"))),new HeapWritingStatement("v",new VariableExpression("b")),new PrintStatement(new ReadHeapExpression(new VariableExpression("v"))));
+        ex4.typeCheck(new Dictionary<>());
+        ProgramState state4=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex4);
+        RepositoryInterface<ProgramState> repo4=new Repository<>("src/log4.txt");
+        repo4.add(state4);
+        Controller controller4=new Controller(repo4);
+        Statement ex5=Utils.buildStatement(new VariableDeclarationStatement("v",new IntType()),new AssignmentStatement("v",new ValueExpression(new IntValue(4))),new WhileStatement(new RelationalExpression(new VariableExpression("v"),new ValueExpression(new IntValue(1)), RelationalExpression.Operand.GREATER),new CompoundStatement(new PrintStatement(new VariableExpression("v")),new AssignmentStatement("v",new ArithmeticExpression(new VariableExpression("v"),new ValueExpression(new IntValue(1)), ArithmeticExpression.Operand.SUB)))),new PrintStatement(new VariableExpression("v")));
+        ex5.typeCheck(new Dictionary<>());
+        ProgramState state5=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex5);
+        RepositoryInterface<ProgramState> repo5=new Repository<>("src/log5.txt");
+        repo5.add(state5);
+        Controller controller5=new Controller(repo5);
+        Statement ex6=Utils.buildStatement(new VariableDeclarationStatement("v",new ReferenceType(new IntType())),new New("v",new ValueExpression(new IntValue(2))),new VariableDeclarationStatement("a",new ReferenceType(new ReferenceType(new IntType()))),new New("a",new VariableExpression("v")),new New("v",new ValueExpression(new IntValue(30))),new PrintStatement(new ReadHeapExpression(new ReadHeapExpression(new VariableExpression("a")))));
+        ex6.typeCheck(new Dictionary<>());
+        ProgramState state6=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex6);
+        RepositoryInterface<ProgramState> repo6=new Repository<>("src/log6.txt");
+        repo6.add(state6);
+        Controller controller6=new Controller(repo6);
+        Statement ex7=Utils.buildStatement(new VariableDeclarationStatement("v",new IntType()),new VariableDeclarationStatement("a",new ReferenceType(new IntType())),new AssignmentStatement("v",new ValueExpression(new IntValue(10))),new New("a",new ValueExpression(new IntValue(22))),new ForkStatement(Utils.buildStatement(new HeapWritingStatement("a",new ValueExpression(new IntValue(30))),new AssignmentStatement("v",new ValueExpression(new IntValue(32))),new PrintStatement(new VariableExpression("v")),new PrintStatement(new ReadHeapExpression(new VariableExpression("a"))))),new PrintStatement(new VariableExpression("v")),new PrintStatement(new ReadHeapExpression(new VariableExpression("a"))));
+        ex7.typeCheck(new Dictionary<>());
+        ProgramState state7=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex7);
+        RepositoryInterface<ProgramState> repo7=new Repository<>("src/log7.txt");
+        repo7.add(state7);
+        Controller controller7=new Controller(repo7);
+        Statement ex8=Utils.buildStatement(new VariableDeclarationStatement("a",new ReferenceType(new IntType())),new New("a",new ValueExpression(new IntValue(3))),new New("a",new ValueExpression(new IntValue(4))),new NopStatement());
+        ex8.typeCheck(new Dictionary<>());
+        ProgramState state8=new ProgramState(new Stack<Statement>(),new Dictionary<String, Value>(),new List<Value>(),new Dictionary<StringValue, BufferedReader>(),new Heap(),ex8);
+        RepositoryInterface<ProgramState> repo8=new Repository<>("src/log8.txt");
+        repo8.add(state8);
+        Controller controller8=new Controller(repo8);
+        TextMenu menu=new TextMenu();
+        menu.addCommand(new ExitCommand("0", "exit"));
+        menu.addCommand(new RunCommand("1",ex1.toString(),controller));
+        menu.addCommand(new RunCommand("2",ex2.toString(),controller2));
+        menu.addCommand(new RunCommand("3",ex3.toString(),controller3));
+        menu.addCommand(new RunCommand("4",ex4.toString(),controller4));
+        menu.addCommand(new RunCommand("5",ex5.toString(),controller5));
+        menu.addCommand(new RunCommand("6",ex6.toString(),controller6));
+        menu.addCommand(new RunCommand("7",ex7.toString(),controller7));
+        menu.addCommand(new RunCommand("8",ex8.toString(),controller8));
+        menu.show();
+
+    }
+}

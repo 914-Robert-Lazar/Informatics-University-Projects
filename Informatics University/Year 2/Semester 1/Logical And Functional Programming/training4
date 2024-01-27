@@ -1,0 +1,35 @@
+f4(1, 1):-!.
+f4(K, X):-
+    K1 is K - 1,
+    f4(K1, Y),
+    aux4(Y, X, K1).
+
+aux4(Y, X, K1):-
+    Y > 1,!,
+    K2 is K1 - 1,
+    X is K2.
+aux4(Y, X, _):-
+    Y > 0.5,!,
+    X is Y.
+aux4(Y, X, _):-
+    X is Y - 1.
+
+insert2(L, E, [E|L]).
+insert2([_|T], E, R):-
+    insert(T, E, R).
+
+%arrangement(L - list, K - integer, R - list)
+arrangement([H|_], 1, [H]).
+arrangement([H|T], K, R1):-
+    K > 1,
+    K1 is K - 1,
+    arrangement(T, K1, R),
+    insert2(R, H, R1).
+
+allSol(L, K, R):-
+    findall(RL, arrangement(L, K, RL), R).
+
+
+
+
+

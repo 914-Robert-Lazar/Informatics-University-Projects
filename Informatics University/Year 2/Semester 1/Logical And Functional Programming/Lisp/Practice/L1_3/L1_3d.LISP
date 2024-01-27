@@ -1,0 +1,10 @@
+(defun NOOccurences (l a n)
+  (cond
+   ((null l) n)
+   ((and (atom l) (equal l a)) 1)
+   ((and (atom l) (not (equal l a))) 0)
+   ((and (atom (car l)) (equal (car l) a)) (NOOccurences (cdr l) a (+ n 1)))
+   ((and (atom (car l)) (not (equal (car l) a))) (NOOccurences (cdr l) a n))
+   (t (NOOccurences (cdr l) a (+ n (NOOccurences (car l) a 0))))
+   )
+)

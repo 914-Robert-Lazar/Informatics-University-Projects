@@ -9,6 +9,7 @@ import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.ReferenceType;
+import Model.Types.Type;
 import Model.Values.ReferenceValue;
 import Model.Values.Value;
 
@@ -48,5 +49,16 @@ public class NewStatement implements IStatement {
     @Override
     public String toString() {
         return "new(" + this.name + ", " + this.expression.toString() + ")";
+    }
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeVariable = typeEnv.findValue(name);
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeVariable.equals(new ReferenceType(typeExpression))) {
+            return typeEnv;
+        }
+        else {
+            throw new MyException("NEW statement: right hand side and left hand side have different types.");
+        }
     }
 }

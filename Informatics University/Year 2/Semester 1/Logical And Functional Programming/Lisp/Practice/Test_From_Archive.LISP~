@@ -1,0 +1,10 @@
+(defun deleteEvenSublists (l n lin)
+  (cond
+   ((nil l) (cond
+             ((and (= (mod n 2) 0) (= lin 1)) nil)
+             (t l)
+             ))
+   ((atom l) l)
+   ((atom (car l)) (cons (car l) (deleteEvenSublists (cdr l) (+ n 1) lin)))
+   ((and (listp (car l)) (= (deleteEvenSublists (car l) 0 1) nil)) (deleteEvenSublists (cdr l) (+ n 1) lin))
+   (t 

@@ -1,0 +1,99 @@
+USE Bank_Prac_Exam_Tutorial1
+GO
+
+CREATE TABLE Customer 
+(CustomerID INT PRIMARY KEY IDENTITY(1,1),
+CName VARCHAR(30),
+DateOfBirth DATE)
+GO
+
+
+CREATE TABLE Account
+(AccountID INT PRIMARY KEY IDENTITY(1,1),
+IBANCode VARCHAR(20),
+Balance INT,
+CustomerID INT REFERENCES Customer(CustomerID))
+GO
+
+CREATE TABLE CreditCard
+(CardID INT PRIMARY KEY IDENTITY(1,1),
+Number VARCHAR(20),
+CVV VARCHAR(4),
+AccountID INT REFERENCES Account(AccountID))
+GO
+
+CREATE TABLE ATM
+(ATMID INT PRIMARY KEY IDENTITY(1,1),
+ATMAddress VARCHAR(30))
+GO
+
+CREATE TABLE BankTransaction
+(TransactionID INT PRIMARY KEY IDENTITY(1,1),
+ATMID INT REFERENCES ATM(ATMID),
+CardID INT REFERENCES CreditCard(CardID),
+SumOfMoney INT,
+ExactTime DATETIME)
+GO
+
+CREATE OR ALTER PROCEDURE DeleteTransactions (@CardNumber VARCHAR(20))
+AS
+	BEGIN
+		DELETE FROM BankTransaction
+		WHERE CardID = 
+			(SELECT C.CardID
+			FROM CreditCard C
+			WHERE C.Number = @CardNumber)
+	END
+GO
+
+INSERT INTO Customer (CName, DateOfBirth) VALUES ('Jozsi', GETDATE()), ('Guatemalai Jozsma', GETDATE())
+GO
+
+DELETE FROM BankTransaction
+WHERE TransactionID > 5
+
+INSERT INTO Account (IBANCode, Balance, CustomerID) VALUES ('RO23RFE2213213213', 111111121, 2), ('BU34drt32432432', 44123, 1), ('WW334rfewf232d23', 1143, 2)
+GO
+
+INSERT CreditCard (Number, CVV, AccountID) VALUES ('123135124', '342', 2), ('44443232', '632', 2), ('563421566', '719', 3)
+GO
+
+INSERT INTO ATM (ATMAddress) VALUES ('34yreg23r'), ('r2ef324r3'), ('fwdf32e1r32')
+GO
+
+INSERT INTO BankTransaction (ATMID, CardID, SumOfMoney, ExactTime) VALUES (1, 1, 423, GETDATE()), (1, 2, 2233, GETDATE()), (2, 1, 625, GETDATE()),
+(3, 1, 1000, GETDATE()), (2, 2, 643, GETDATE()), (1, 1, 332, GETDATE()), (2, 2, 22, GETDATE())
+GO
+
+SELECT * FROM Customer
+GO
+
+CREATE OR ALTER VIEW CardAtAllATMs AS
+	SELECT C.Number
+	FROM CreditCard C INNER JOIN
+	(SELECT T.CardID, COUNT(*) AS NOATMs
+	FROM 
+		(SELECT CardID, ATMID
+		FROM BankTransaction B
+		GROUP BY CardID, ATMID) T
+	GROUP BY T.CardID) B ON C.CardID = B.CardID
+	WHERE NOATMs = 
+		(SELECT COUNT(*)
+		FROM ATM)
+GO
+
+SELECT * FROM CardAtAllATMs
+GO
+
+CREATE OR ALTER FUNCTION CardWithMoreThan2000 ()
+RETURNS TABLE
+AS 
+	RETURN (SELECT C.Number, C.CVV
+			FROM CreditCard C INNER JOIN 
+				(SELECT B.CardID, SUM(B.SumOfMoney) AS SumOfTransActions
+				FROM BankTransaction B
+				GROUP BY B.CardID
+				HAVING SUM(B.SumOfMoney) > 2000) A ON A.CardID = C.CardID)
+GO
+
+SELECT* FROM CardWithMoreThan2000()

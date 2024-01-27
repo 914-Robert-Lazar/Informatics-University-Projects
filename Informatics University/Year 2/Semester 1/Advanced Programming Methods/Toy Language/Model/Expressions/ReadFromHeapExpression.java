@@ -3,6 +3,8 @@ package Model.Expressions;
 import Controller.MyException;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
+import Model.Types.ReferenceType;
+import Model.Types.Type;
 import Model.Values.ReferenceValue;
 import Model.Values.Value;
 
@@ -32,5 +34,16 @@ public class ReadFromHeapExpression implements Expression {
     @Override
     public String toString() {
         return "ReadHeap(" + this.expression.toString() + ")";
+    }
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type type = expression.typecheck(typeEnv);
+        if (type instanceof ReferenceType) {
+            ReferenceType referenceType = (ReferenceType) type;
+            return referenceType.getInner();
+        }
+        else {
+            throw new MyException("The read from heap argument is not a ReferenceType.");
+        }
     }
 }

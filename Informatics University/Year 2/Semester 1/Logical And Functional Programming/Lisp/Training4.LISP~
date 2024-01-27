@@ -1,0 +1,15 @@
+(defun f3(l)
+  ((lambda (v)
+     (cond
+      ((atom l) -1)
+      ((> v 0) (+ (car l) v (f (cdr l))))
+      (t (f (cdr l)))
+      )
+     )
+   (f (car l))
+   )
+)
+
+(defun g2(f l)
+  (funcall f l)
+)

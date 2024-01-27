@@ -1,0 +1,15 @@
+(defun depth (l m curr)
+  (if (> curr m) (setq m curr))
+  (cond
+   ((null l) m)
+   ((not (listp l)) m)
+   ((listp l) (setq m 1))
+   ((listp (car l))
+    (progn
+      (depth (car l) m (+ curr 1))
+      (depth (cdr l) m curr)
+    )
+   )
+   (t (depth (cdr l) m curr))
+  )
+)

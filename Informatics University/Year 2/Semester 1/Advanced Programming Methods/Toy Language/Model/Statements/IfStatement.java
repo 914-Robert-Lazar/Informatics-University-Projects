@@ -2,9 +2,11 @@ package Model.Statements;
 
 import Controller.MyException;
 import Model.Expressions.Expression;
+import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IExecutionStack;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.BooleanType;
+import Model.Types.Type;
 import Model.Values.BooleanValue;
 import Model.Values.Value;
 
@@ -42,5 +44,19 @@ public class IfStatement implements IStatement{
     @Override
     public String toString() {
         return "If (" + condition.toString() + ") then (" + ifStatement.toString() + ") else (" + elseStatement + ")";
+    }
+
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExpression = condition.typecheck(typeEnv);
+        if (typeExpression.equals(new BooleanType())) {
+            ifStatement.typecheck(typeEnv.copy());
+            elseStatement.typecheck(typeEnv.copy());
+            return typeEnv;
+        }
+        else {
+            throw new MyException("The condition of If does not have the type boolean.");
+        }
     }
 }

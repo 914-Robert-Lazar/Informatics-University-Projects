@@ -9,6 +9,7 @@ import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.ReferenceType;
+import Model.Types.Type;
 import Model.Values.ReferenceValue;
 import Model.Values.Value;
 
@@ -52,5 +53,17 @@ public class WriteToHeapStatement implements IStatement{
     @Override
     public String toString() {
         return "WriteToHeap(" + this.variableName + ", " + this.expression.toString() + ")";
+    }
+    
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeVariable = typeEnv.findValue(variableName);
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeVariable.equals(new ReferenceType(typeExpression))) {
+            return typeEnv;
+        }
+        else {
+            throw new MyException("The type of the expression and the location type of the varibale are different.");
+        }
     }
 }

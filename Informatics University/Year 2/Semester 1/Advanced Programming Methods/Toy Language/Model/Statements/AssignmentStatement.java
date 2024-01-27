@@ -44,5 +44,17 @@ public class AssignmentStatement implements IStatement{
     public String toString() {
         return id + " = " + expression.toString();
     }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeVariable = typeEnv.findValue(id);
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeVariable.equals(typeExpression)) {
+            return typeEnv;
+        }
+        else {
+            throw new MyException("Assignment: right hand side and left hand side have different types.");
+        }
+    }
     
 }

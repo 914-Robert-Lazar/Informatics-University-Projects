@@ -1,0 +1,14 @@
+(defun factorial (n)
+  (cond ((zerop n) 1)
+        (t (* n (factorial (- n 1))))
+  )
+)
+
+(defun removeAll (l e)
+  (cond
+   ((null l) nil)
+   ((listp (car l)) (cons (removeAll(car l) e) (removeAll(cdr l) e)) )
+   ((equal (car l) e) (removeAll(cdr l) e))
+   (t (cons (car l) (removeAll(cdr l) e)))
+  )
+)

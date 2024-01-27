@@ -9,6 +9,7 @@ import Model.Expressions.Expression;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.StringType;
+import Model.Types.Type;
 import Model.Values.Value;
 import Model.Values.StringValue;
 
@@ -45,6 +46,17 @@ public class CloseRFileStatement implements IStatement {
         }
 
         return null;
+    }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeExpression.equals(new StringType())) {
+            return typeEnv;
+        }
+        else {
+            throw new MyException("The argument of CloseRFile does not have type string.");
+        }
     }
     
 }

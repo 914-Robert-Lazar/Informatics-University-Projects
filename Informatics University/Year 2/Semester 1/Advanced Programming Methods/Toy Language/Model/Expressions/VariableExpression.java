@@ -3,6 +3,7 @@ package Model.Expressions;
 import Controller.MyException;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
+import Model.Types.Type;
 import Model.Values.Value;
 
 public class VariableExpression implements Expression {
@@ -20,5 +21,10 @@ public class VariableExpression implements Expression {
     @Override
     public String toString() {
         return id;
+    }
+
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        return typeEnv.findValue(id);
     }
 }

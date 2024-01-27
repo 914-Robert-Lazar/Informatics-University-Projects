@@ -4,6 +4,7 @@ import Controller.MyException;
 import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IHeap;
 import Model.Types.IntegerType;
+import Model.Types.Type;
 import Model.Values.IntegerValue;
 import Model.Values.Value;
 
@@ -77,5 +78,23 @@ public class ArithmeticExpression implements Expression{
         }
 
         return expression1.toString() + sign + expression2.toString();
+    }
+
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type type1, type2;
+        type1 = expression1.typecheck(typeEnv);
+        type2 = expression2.typecheck(typeEnv);
+        if (type1.equals(new IntegerType())) {
+            if (type2.equals(new IntegerType())) {
+                return new IntegerType();
+            }
+            else {
+                throw new MyException("Second operand is not an integer.");
+            }
+        }
+        else {
+            throw new MyException("First operand is not an integer.");
+        }
     }
 }

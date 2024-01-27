@@ -2,8 +2,10 @@ package Model.Statements;
 
 import Controller.MyException;
 import Model.Expressions.Expression;
+import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IOutputList;
 import Model.ProgramStateComponents.ProgramState;
+import Model.Types.Type;
 import Model.Values.Value;
 
 public class PrintStatement implements IStatement{
@@ -25,6 +27,12 @@ public class PrintStatement implements IStatement{
         outputList.add(value);
 
         return null;
+    }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        expression.typecheck(typeEnv);
+        return typeEnv;
     }
 
     

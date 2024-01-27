@@ -5,8 +5,11 @@ import java.io.IOException;
 
 import Controller.MyException;
 import Model.Expressions.Expression;
+import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.IExecutionStack;
 import Model.ProgramStateComponents.ProgramState;
+import Model.Types.BooleanType;
+import Model.Types.Type;
 import Model.Values.BooleanValue;
 import Model.Values.Value;
 
@@ -39,5 +42,17 @@ public class WhileStatement implements IStatement {
     @Override
     public String toString() {
         return "while (" + this.expression.toString() + ") " + this.statement + ";";
+    }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeExpression.equals(new BooleanType())) {
+            statement.typecheck(typeEnv.copy());
+            return typeEnv;
+        }
+        else {
+            throw new MyException("The condition of While does not have the type boolean.");
+        }
     }
 }

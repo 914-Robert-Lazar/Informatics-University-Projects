@@ -1,6 +1,7 @@
 package Controller;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -19,6 +20,7 @@ import Repository.IRepository;
 public class Controller {
     private IRepository repository;
     private ExecutorService executor;
+    
 
     public Controller(IRepository repository) {
         this.repository = repository;
@@ -27,6 +29,19 @@ public class Controller {
     public void addProgramToRepository(ProgramState programState) {
         this.repository.add(programState);
     } 
+
+    public Collection<Value> getAllSymbolTableValues() {
+        Collection<Value> res = new LinkedList<>();
+        this.repository.getProgramList().stream().forEach(programState -> {
+           for (Map.Entry<String, Value> entry : programState.getSymTable().getMap().entrySet()) {
+                if (!res.contains(entry.getValue())) {
+                    res.add(entry.getValue());
+                }
+           } 
+        });
+
+        return res;
+    }
 
     public void oneStepForAllProgramStates(List<ProgramState> programStates) throws InterruptedException{
         List<Callable<ProgramState>> callList = programStates.stream().map((ProgramState p) -> (Callable<ProgramState>)(()-> {
@@ -52,7 +67,7 @@ public class Controller {
 
     public void allStep() throws InterruptedException {
         executor = Executors.newFixedThreadPool(2);
-        List<ProgramState> programStates = removeCompletedPrograms(repository.getProgramList());
+        List<ProgramState> programStates = repository.getProgramList();
 
         programStates.forEach(program -> {
             try {
@@ -64,10 +79,8 @@ public class Controller {
         
         while (programStates.size() > 0) {
             oneStepForAllProgramStates(programStates);
-            for (ProgramState state:programStates
-            ) {
-                state.getHeap().setContent(safeGarbageCollector(getAllAdresses(state.getSymTable().getMap().values(), state.getHeap()),state.getHeap().getContent()));
-            }
+            ProgramState state = programStates.get(0);
+            state.getHeap().setContent(safeGarbageCollector(getAllAdresses(this.getAllSymbolTableValues(), state.getHeap()),state.getHeap().getContent()));
             programStates = removeCompletedPrograms(repository.getProgramList());
         }
 

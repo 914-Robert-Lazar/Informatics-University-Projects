@@ -9,6 +9,7 @@ import Model.ProgramStateComponents.IDictionary;
 import Model.ProgramStateComponents.ProgramState;
 import Model.Types.IntegerType;
 import Model.Types.StringType;
+import Model.Types.Type;
 import Model.Values.IntegerValue;
 import Model.Values.StringValue;
 import Model.Values.Value;
@@ -66,6 +67,23 @@ public class ReadFileStatement implements IStatement{
         }
 
         return null;
+    }
+
+    @Override
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+        Type typeVariable = typeEnv.findValue(variableName);
+        Type typeExpression = expression.typecheck(typeEnv);
+        if (typeVariable.equals(new IntegerType())) {
+            if (typeExpression.equals(new StringType())) {
+                return typeEnv;
+            }
+            else {
+                throw new MyException("The expression for the file name for ReadFile does not have a type string.");
+            }
+        }
+        else {
+            throw new MyException("The type of the variable for ReadFile does not have a type int.");
+        }
     }
     
 }
