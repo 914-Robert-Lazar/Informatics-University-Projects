@@ -19,7 +19,7 @@ public class ForkStatement implements IStatement{
     @Override
     public ProgramState execute(ProgramState programState) throws MyException, FileNotFoundException, IOException {
         return new ProgramState(new ExecutionStack<IStatement>(), programState.getSymTable().copy(), programState.getOut(), 
-                                programState.getFileTable(), programState.getHeap(), programState.getSemaphoreTable(), statement);
+                                programState.getFileTable(), programState.getHeap(), programState.getLatchTable(), statement);
     }
     
     @Override

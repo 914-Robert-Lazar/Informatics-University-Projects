@@ -48,7 +48,7 @@ public class SelectProgramController{
         Stage mainWindowStage = new Stage();
         FXMLLoader selectFxmlLoader = new FXMLLoader(getClass().getResource("runProgram.fxml"));
         AnchorPane root = (AnchorPane) selectFxmlLoader.load();
-        Scene scene = new Scene(root, 840, 600);
+        Scene scene = new Scene(root, 1050, 600);
         RunProgramController mainController = selectFxmlLoader.getController();
 
         mainController.setSelectedController((programsListView.getSelectionModel().getSelectedItem().getController()));

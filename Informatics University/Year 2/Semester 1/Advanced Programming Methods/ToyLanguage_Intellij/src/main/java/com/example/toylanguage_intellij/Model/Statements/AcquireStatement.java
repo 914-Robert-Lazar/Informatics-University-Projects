@@ -1,53 +1,55 @@
 package com.example.toylanguage_intellij.Model.Statements;
 
 import com.example.toylanguage_intellij.Controller.MyException;
-import com.example.toylanguage_intellij.Model.ProgramStateComponents.IDictionary;
-import com.example.toylanguage_intellij.Model.ProgramStateComponents.IExecutionStack;
-import com.example.toylanguage_intellij.Model.ProgramStateComponents.ILockTable;
-import com.example.toylanguage_intellij.Model.ProgramStateComponents.ProgramState;
+import com.example.toylanguage_intellij.Model.ProgramStateComponents.*;
 import com.example.toylanguage_intellij.Model.Types.IntegerType;
 import com.example.toylanguage_intellij.Model.Types.Type;
 import com.example.toylanguage_intellij.Model.Values.IntegerValue;
 import com.example.toylanguage_intellij.Model.Values.Value;
+import javafx.util.Pair;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
-public class LockStatement implements IStatement {
-    private final String variableName;
-
-    public  LockStatement(String variableName) {
+public class AcquireStatement implements IStatement {
+    String variableName;
+    public AcquireStatement(String variableName) {
         this.variableName = variableName;
     }
     @Override
     public ProgramState execute(ProgramState programState) throws MyException, FileNotFoundException, IOException {
-        IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
         IDictionary<String, Value> symbolTable = programState.getSymTable();
-        ILockTable<Integer> lockTable = programState.getLockTable();
+        ISemaphoreTable<Pair<Integer, List<Integer>>> semaphoreTable = programState.getSemaphoreTable();
+        IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
 
         if (symbolTable.isDefined(variableName)) {
             Value foundIndex = symbolTable.findValue(variableName);
             if (foundIndex.getType().equals(new IntegerType())) {
                 IntegerValue foundIndexInt = (IntegerValue) foundIndex;
-                if (lockTable.isDefined(foundIndexInt.getValue())) {
-                    if (lockTable.findValue(foundIndexInt.getValue()) == -1) {
-                        lockTable.update(foundIndexInt.getValue(), programState.getId());
+                if (semaphoreTable.isDefined(foundIndexInt.getValue())) {
+                    Pair<Integer, List<Integer>> data = semaphoreTable.findValue(foundIndexInt.getValue());
+                    if (data.getKey() > data.getValue().size()) {
+                        if (!data.getValue().contains(programState.getId())) {
+                            data.getValue().add(programState.getId());
+                        }
                     }
                     else {
                         executionStack.push(this);
                     }
                 }
                 else {
-                    throw new MyException("Lock does not exist");
+                    throw new MyException("Variable not found in semaphore table.");
                 }
             }
             else {
-                throw new MyException("The value associated with the variable from Lock is not of type int");
+                throw new MyException("The value associated with the variable from acquire is not of type int");
             }
         }
         else {
-            throw new MyException("The variable in lock statement is not in symbol table.");
+            throw new MyException("The variable in acquire statement is not in symbol table.");
         }
+
         return null;
     }
 
@@ -60,7 +62,7 @@ public class LockStatement implements IStatement {
     }
 
     @Override
-    public String toString() {
-        return "lock (" + this.variableName + ")";
+    public String toString(){
+        return "acquire(" + this.variableName + ")";
     }
 }

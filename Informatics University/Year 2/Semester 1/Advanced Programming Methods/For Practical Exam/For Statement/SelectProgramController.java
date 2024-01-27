@@ -57,7 +57,7 @@ public class SelectProgramController{
         Stage mainWindowStage = new Stage();
         FXMLLoader selectFxmlLoader = new FXMLLoader(getClass().getResource("runProgram.fxml"));
         AnchorPane root = (AnchorPane) selectFxmlLoader.load();
-        Scene scene = new Scene(root, 840, 600);
+        Scene scene = new Scene(root, 1050, 600);
         RunProgramController mainController = selectFxmlLoader.getController();
 
         mainController.setSelectedController((programsListView.getSelectionModel().getSelectedItem().getController()));
@@ -267,7 +267,7 @@ public class SelectProgramController{
             alert.showAndWait();
         }
 
-        IStatement example10 = new CompoundStatement(new VariableDeclarationStatement("a", new ReferenceType(new IntegerType())),
+        IStatement example11 = new CompoundStatement(new VariableDeclarationStatement("a", new ReferenceType(new IntegerType())),
                                 new CompoundStatement(new NewStatement("a", new ValueExpression(new IntegerValue(20))),
                                 new CompoundStatement(
                                 new ForStatement(new ValueExpression(new IntegerValue(0)), new ValueExpression(new IntegerValue(3)),
@@ -277,12 +277,12 @@ public class SelectProgramController{
                                                         new ArithmeticExpression(new VariableExpression("v"), new ReadFromHeapExpression(new VariableExpression("a")), 3))))
                                                 ), new PrintStatement(new ReadFromHeapExpression(new VariableExpression("a"))))));
         try {
-            example10.typecheck(new SymbolTable<String, Type>());
-            ProgramState programState10 = createProgramState(example10);
-            IRepository repository10 = new Repository("log10.txt");
-            Controller controller10 = new Controller(repository10);
-            controller10.addProgramToRepository(programState10);
-            programsListView.getItems().add(new RunExampleCommand("10", example10.toString(), controller10));
+            example11.typecheck(new SymbolTable<String, Type>());
+            ProgramState programState11 = createProgramState(example11);
+            IRepository repository11 = new Repository("log11.txt");
+            Controller controller11 = new Controller(repository11);
+            controller11.addProgramToRepository(programState11);
+            programsListView.getItems().add(new RunExampleCommand("11", example11.toString(), controller11));
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");

@@ -17,8 +17,8 @@
         <Label layoutX="106.0" layoutY="314.0" text="Output" />
         <ListView fx:id="fileListView" layoutX="281.0" layoutY="342.0" prefHeight="200.0" prefWidth="200.0" />
         <Label layoutX="358.0" layoutY="314.0" text="FileTable" />
-        <ListView fx:id="programStateListView" layoutX="805.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" />
-        <Label layoutX="857.0" layoutY="56.0" text="Program State IDs" />
+        <ListView fx:id="programStateListView" layoutX="550.0" layoutY="342.0" prefHeight="200.0" prefWidth="200.0" />
+        <Label layoutX="602.0" layoutY="314.0" text="Program State IDs" />
         <TableView fx:id="symbolTableView" layoutX="281.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
             <columns>
                 <TableColumn fx:id="symbolVarNameColumn" prefWidth="95.0" text="Variable Name" />
@@ -29,12 +29,11 @@
         <ListView fx:id="exeStackListView" layoutX="550.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" />
         <Label layoutX="622.0" layoutY="56.0" text="ExeStack" />
         <Button fx:id="runOneStepButton" layoutX="448.0" layoutY="14.0" mnemonicParsing="false" onAction="#runOneStepForEach" text="Run One Step For Each" />
-   <TableView fx:id="semaphoreTableView" layoutX="550.0" layoutY="342.0" prefHeight="200.0" prefWidth="456.0">
+   <TableView fx:id="lockTableView" layoutX="811.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
      <columns>
-       <TableColumn fx:id="semaphoreIndexColumn" text="Index" />
-       <TableColumn fx:id="semaphoreValueColumn" prefWidth="120.0" text="Value" />
-         <TableColumn fx:id="semaphoreValueListColumn" prefWidth="255.0" text="List Of Ids" />
+       <TableColumn fx:id="lockLocationColumn" prefWidth="100.0" text="Location" />
+       <TableColumn fx:id="lockValueColumn" prefWidth="99.0" text="Value" />
      </columns>
    </TableView>
-   <Label layoutX="716.0" layoutY="314.0" text="SemaphoreTable" />
+   <Label layoutX="883.0" layoutY="56.0" text="LockTable" />
 </AnchorPane>
