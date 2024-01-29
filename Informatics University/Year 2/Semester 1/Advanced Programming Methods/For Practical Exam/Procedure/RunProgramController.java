@@ -56,13 +56,13 @@ public class RunProgramController {
     private TableColumn<SymbolTableEntry, String> symbolVarNameColumn;
 
     @FXML
-    public TableView<LatchTableEntry> latchTableView;
+    public TableView<ProcedureEntry> procedureTableView;
 
     @FXML
-    public TableColumn<LatchTableEntry, String> latchLocationColumn;
+    public TableColumn<ProcedureEntry, String> procedureDefinitionColumn;
 
     @FXML
-    public TableColumn<LatchTableEntry, String> latchValueColumn;
+    public TableColumn<ProcedureEntry, String> procedureBodyColumn;
 
     @FXML
     private Button runOneStepButton;
@@ -120,19 +120,19 @@ public class RunProgramController {
         this.symbolVarNameColumn.setCellValueFactory(new PropertyValueFactory<>("variableName"));
         this.symbolValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        this.latchLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        this.latchValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        this.procedureDefinitionColumn.setCellValueFactory(new PropertyValueFactory<>("definition"));
+        this.procedureBodyColumn.setCellValueFactory(new PropertyValueFactory<>("body"));
 
         IHeap<Value> heapTable = this.selectedProgram.getHeap();
         IDictionary<StringValue, BufferedReader> fileTable = this.selectedProgram.getFileTable();
         IOutputList<Value> output = this.selectedProgram.getOut();
-        ILatchTable<Integer> latchTable = this.selectedProgram.getLatchTable();
+        IProcedureTable<Pair<List<String>, IStatement>> procedureTable = this.selectedProgram.getProcedureTable();
 
         // We update their content with the new content
         heapTable.getContent().forEach((address, value)->this.heapTableView.getItems().add(new HeapEntry(address, value)));
         fileTable.getMap().forEach((fileName, bufferedReader)->this.fileListView.getItems().add(fileName.getValue()));
         output.getOutput().forEach((value)->this.outListView.getItems().add(value));
-        latchTable.getContent().forEach((index, value)->this.latchTableView.getItems().add(new LatchTableEntry(index, value)));
+        procedureTable.getContent().forEach((index, value)->this.procedureTableView.getItems().add(new ProcedureEntry(new ProcedureDefinition(index, value.getKey()), value.getValue())));
 
         selectedController.getRepository().getProgramList().forEach((programState)->this.programStateListView.getItems().add(programState));
 
@@ -161,7 +161,7 @@ public class RunProgramController {
         this.symbolTableView.getItems().clear();
         this.exeStackListView.getItems().clear();
         this.fileListView.getItems().clear();
-        this.latchTableView.getItems().clear();
+        this.procedureTableView.getItems().clear();
 
 
         this.NOProgramStates.setText(Integer.toString( selectedController.getRepository().getProgramList().size()));
@@ -175,7 +175,7 @@ public class RunProgramController {
         selectedProgram.getSymTable().getMap().forEach((varname, value)->{
             this.symbolTableView.getItems().add(new SymbolTableEntry(varname, value));
         });
-        selectedProgram.getLatchTable().getContent().forEach((index, value)->this.latchTableView.getItems().add(new LatchTableEntry(index, value)));
+        selectedProgram.getProcedureTable().getContent().forEach((index, value)->this.procedureTableView.getItems().add(new ProcedureEntry(new ProcedureDefinition(index, value.getKey()), value.getValue())));
         selectedProgram.getExecutionStack().getReversed().forEach(stmt ->{
             this.exeStackListView.getItems().add(stmt);
         });

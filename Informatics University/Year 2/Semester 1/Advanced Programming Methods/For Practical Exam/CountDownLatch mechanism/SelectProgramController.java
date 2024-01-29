@@ -342,59 +342,5 @@ public class SelectProgramController{
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
-
-        IStatement example11 = new CompoundStatement(
-                new VariableDeclarationStatement("a", new ReferenceType(new IntegerType())),
-                new CompoundStatement(
-                        new VariableDeclarationStatement("b", new ReferenceType(new IntegerType())),
-                        new CompoundStatement(
-                                new VariableDeclarationStatement("v", new IntegerType()),
-                                new CompoundStatement(
-                                        new NewStatement("a", new ValueExpression(new IntegerValue(0))),
-                                        new CompoundStatement(
-                                                new NewStatement("b", new ValueExpression(new IntegerValue(0))),
-                                                new CompoundStatement(
-                                                        new WriteToHeapStatement("a", new ValueExpression(new IntegerValue(1))),
-                                                        new CompoundStatement(
-                                                                new WriteToHeapStatement("b", new ValueExpression(new IntegerValue(2))),
-                                                                new CompoundStatement(
-                                                                        new ConditionalAssignmentStatement(
-                                                                                "v",
-                                                                                new RelationalExpression(new ReadFromHeapExpression(new VariableExpression("a")), new ReadFromHeapExpression(new VariableExpression("b")), "<"),
-                                                                                new ValueExpression(new IntegerValue(100)),
-                                                                                new ValueExpression(new IntegerValue(200))),
-                                                                        new CompoundStatement(
-                                                                                new PrintStatement(new VariableExpression("v")),
-                                                                                new CompoundStatement(
-                                                                                        new ConditionalAssignmentStatement(
-                                                                                                "v",
-                                                                                                new RelationalExpression(new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("b")), new ValueExpression(new IntegerValue(2)), 2), new ReadFromHeapExpression(new VariableExpression("a")), ">"),
-                                                                                                new ValueExpression(new IntegerValue(100)),
-                                                                                                new ValueExpression(new IntegerValue(200))),
-                                                                                        new PrintStatement(new VariableExpression("v"))
-                                                                                )
-                                                                        )
-                                                                )
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                )
-        );
-        try {
-            example11.typecheck(new SymbolTable<String, Type>());
-            ProgramState programState11 = createProgramState(example11);
-            IRepository repository11 = new Repository("log11.txt");
-            Controller controller11 = new Controller(repository11);
-            controller11.addProgramToRepository(programState11);
-            programsListView.getItems().add(new RunExampleCommand("11", example11.toString(), controller11));
-        } catch (MyException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(example11.toString());
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
     }
 }

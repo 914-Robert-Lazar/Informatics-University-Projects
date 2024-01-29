@@ -10,10 +10,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.example.toylanguage_intellij.Model.ProgramStateComponents.IDictionary;
+import com.example.toylanguage_intellij.Model.ProgramStateComponents.IProcedureTable;
 import com.example.toylanguage_intellij.Model.ProgramStateComponents.ProgramState;
 import com.example.toylanguage_intellij.Model.Statements.IStatement;
 import com.example.toylanguage_intellij.Model.Values.StringValue;
 import com.example.toylanguage_intellij.Model.Values.Value;
+import javafx.util.Pair;
 
 public class Repository implements IRepository{
     String logFilePath;
@@ -58,10 +60,10 @@ public class Repository implements IRepository{
         for (Map.Entry<Integer, Value> entry : heap.entrySet()) {
             logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
         }
-        logFile.println("LatchTable:");
-        Map<Integer, Integer> latchTable = programState.getLatchTable().getContent();
-        for (Map.Entry<Integer, Integer> entry : latchTable.entrySet()) {
-            logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
+        logFile.println("ProcedureTable:");
+        Map<String, Pair<List<String>, IStatement>> procedureTable = programState.getProcedureTable().getContent();
+        for (Map.Entry<String, Pair<List<String>, IStatement>> entry : procedureTable.entrySet()) {
+            logFile.println(entry.getKey() + ": " + entry.getValue().toString());
         }
         logFile.println();
         logFile.close();

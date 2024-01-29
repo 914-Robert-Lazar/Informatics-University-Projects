@@ -65,7 +65,7 @@ public class SelectProgramController{
         IOutputList<Value> outputList = new OutputList<Value>();
         IDictionary<StringValue, BufferedReader> fileTable = new FileTable<StringValue, BufferedReader>();
         IHeap<Value> heap = new Heap<Value>();
-        ILatchTable<Integer> semaphoreTable = new LatchTable<>();
+        ISemaphoreTable<Pair<Integer, List<Integer>>> semaphoreTable = new SemaphoreTable<>();
 
         return new ProgramState(stack, symbolTable, outputList, fileTable, heap, semaphoreTable, statement);
     }
@@ -257,88 +257,6 @@ public class SelectProgramController{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(example9.toString());
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
-
-        IStatement example10 = new CompoundStatement(
-                new VariableDeclarationStatement("v1", new ReferenceType(new IntegerType())),
-                new CompoundStatement(
-                        new VariableDeclarationStatement("v2", new ReferenceType(new IntegerType())),
-                        new CompoundStatement(
-                                new VariableDeclarationStatement("v3", new ReferenceType(new IntegerType())),
-                                new CompoundStatement(
-                                        new VariableDeclarationStatement("cnt", new IntegerType()),
-                                        new CompoundStatement(
-                                                new NewStatement("v1", new ValueExpression(new IntegerValue(2))),
-                                                new CompoundStatement(
-                                                        new NewStatement("v2", new ValueExpression(new IntegerValue(3))),
-                                                        new CompoundStatement(
-                                                                new NewStatement("v3", new ValueExpression(new IntegerValue(4))),
-                                                                new CompoundStatement(
-                                                                        new NewLatchStatement("cnt", new ReadFromHeapExpression(new VariableExpression("v2"))),
-                                                                        new CompoundStatement(
-                                                                                new ForkStatement(
-                                                                                        new CompoundStatement(
-                                                                                                new WriteToHeapStatement("v1", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v1")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                new CompoundStatement(
-                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v1"))),
-                                                                                                        new CompoundStatement(
-                                                                                                                new CountDownStatement("cnt"),
-                                                                                                                new ForkStatement(
-                                                                                                                        new CompoundStatement(
-                                                                                                                                new WriteToHeapStatement("v2", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v2")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                                                new CompoundStatement(
-                                                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v2"))),
-                                                                                                                                        new CompoundStatement(
-                                                                                                                                                new CountDownStatement("cnt"),
-                                                                                                                                                new ForkStatement(
-                                                                                                                                                        new CompoundStatement(
-                                                                                                                                                                new WriteToHeapStatement("v3", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v3")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                                                                                new CompoundStatement(
-                                                                                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v3"))),
-                                                                                                                                                                        new CountDownStatement("cnt")
-                                                                                                                                                                )
-                                                                                                                                                        )
-                                                                                                                                                )
-                                                                                                                                        )
-                                                                                                                                )
-                                                                                                                        )
-                                                                                                                )
-                                                                                                        )
-                                                                                                )
-                                                                                        )
-                                                                                ),
-                                                                                new CompoundStatement(
-                                                                                        new AwaitStatement("cnt"),
-                                                                                        new CompoundStatement(
-                                                                                                new PrintStatement(new ValueExpression(new IntegerValue(100))),
-                                                                                                new CompoundStatement(
-                                                                                                        new CountDownStatement("cnt"),
-                                                                                                        new PrintStatement(new ValueExpression(new IntegerValue(100)))
-                                                                                                )
-                                                                                        )
-                                                                                )
-                                                                        )
-                                                                )
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                )
-        );
-        try {
-            example10.typecheck(new SymbolTable<String, Type>());
-            ProgramState programState10 = createProgramState(example10);
-            IRepository repository10 = new Repository("log10.txt");
-            Controller controller10 = new Controller(repository10);
-            controller10.addProgramToRepository(programState10);
-            programsListView.getItems().add(new RunExampleCommand("10", example10.toString(), controller10));
-        } catch (MyException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(example10.toString());
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }

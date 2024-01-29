@@ -17,8 +17,8 @@
         <Label layoutX="106.0" layoutY="314.0" text="Output" />
         <ListView fx:id="fileListView" layoutX="281.0" layoutY="342.0" prefHeight="200.0" prefWidth="200.0" />
         <Label layoutX="358.0" layoutY="314.0" text="FileTable" />
-        <ListView fx:id="programStateListView" layoutX="550.0" layoutY="342.0" prefHeight="200.0" prefWidth="200.0" />
-        <Label layoutX="602.0" layoutY="314.0" text="Program State IDs" />
+        <ListView fx:id="programStateListView" layoutX="816.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" />
+        <Label layoutX="868.0" layoutY="56.0" text="Program State IDs" />
         <TableView fx:id="symbolTableView" layoutX="281.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
             <columns>
                 <TableColumn fx:id="symbolVarNameColumn" prefWidth="95.0" text="Variable Name" />
@@ -29,11 +29,11 @@
         <ListView fx:id="exeStackListView" layoutX="550.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" />
         <Label layoutX="622.0" layoutY="56.0" text="ExeStack" />
         <Button fx:id="runOneStepButton" layoutX="448.0" layoutY="14.0" mnemonicParsing="false" onAction="#runOneStepForEach" text="Run One Step For Each" />
-   <TableView fx:id="latchTableView" layoutX="811.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
+   <TableView fx:id="procedureTableView" layoutX="553.0" layoutY="349.0" prefHeight="200.0" prefWidth="464.0">
      <columns>
-       <TableColumn fx:id="latchLocationColumn" prefWidth="100.0" text="Location" />
-       <TableColumn fx:id="latchValueColumn" prefWidth="99.0" text="Value" />
+       <TableColumn fx:id="procedureDefinitionColumn" prefWidth="148.0" text="Definition" />
+       <TableColumn fx:id="procedureBodyColumn" prefWidth="315.0" text="Body" />
      </columns>
    </TableView>
-   <Label layoutX="883.0" layoutY="56.0" text="LatchTable" />
+   <Label layoutX="758.0" layoutY="314.0" text="ProcedureTable" />
 </AnchorPane>

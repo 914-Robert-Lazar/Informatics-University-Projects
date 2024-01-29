@@ -3,11 +3,11 @@ package com.example.toylanguage_intellij.Model.ProgramStateComponents;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LockTable<Val> implements ILockTable<Val> {
+public class SemaphoreTable<Val> implements ISemaphoreTable<Val>{
     public static int nextAddress = 0;
     protected Map<Integer, Val> map;
 
-    public LockTable() {
+    public SemaphoreTable() {
         this.map = new HashMap<Integer, Val>();
     }
     private int nextFreeAddress() {

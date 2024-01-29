@@ -18,7 +18,7 @@ import com.example.toylanguage_intellij.Model.Values.Value;
 import com.example.toylanguage_intellij.Repository.IRepository;
 
 public class Controller {
-    private IRepository repository;
+    private final IRepository repository;
     private ExecutorService executor;
     
 
@@ -69,14 +69,6 @@ public class Controller {
     public void oneStepAtATime() throws InterruptedException, MyException {
         executor = Executors.newFixedThreadPool(2);
         List<ProgramState> programStates = repository.getProgramList();
-
-        programStates.forEach(program -> {
-            try {
-                repository.logProgramState(program);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         if (!programStates.isEmpty()) {
             oneStepForAllProgramStates(programStates);

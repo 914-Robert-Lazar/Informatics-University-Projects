@@ -286,7 +286,7 @@ public class SelectProgramController{
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setHeaderText(example10.toString());
+            alert.setHeaderText(example11.toString());
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }

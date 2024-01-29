@@ -65,9 +65,9 @@ public class SelectProgramController{
         IOutputList<Value> outputList = new OutputList<Value>();
         IDictionary<StringValue, BufferedReader> fileTable = new FileTable<StringValue, BufferedReader>();
         IHeap<Value> heap = new Heap<Value>();
-        ILatchTable<Integer> semaphoreTable = new LatchTable<>();
+        IProcedureTable<Pair<List<String>, IStatement>> procedureTable = new ProcedureTable<>();
 
-        return new ProgramState(stack, symbolTable, outputList, fileTable, heap, semaphoreTable, statement);
+        return new ProgramState(stack, symbolTable, outputList, fileTable, heap, procedureTable, statement);
     }
 
     @FXML
@@ -262,71 +262,91 @@ public class SelectProgramController{
         }
 
         IStatement example10 = new CompoundStatement(
-                new VariableDeclarationStatement("v1", new ReferenceType(new IntegerType())),
-                new CompoundStatement(
-                        new VariableDeclarationStatement("v2", new ReferenceType(new IntegerType())),
+                new NewProcedureStatement(
+                        "sum",
+                        List.of("a", "b"),
                         new CompoundStatement(
-                                new VariableDeclarationStatement("v3", new ReferenceType(new IntegerType())),
+                                new VariableDeclarationStatement("v", new IntegerType()),
                                 new CompoundStatement(
-                                        new VariableDeclarationStatement("cnt", new IntegerType()),
+                                        new AssignmentStatement(
+                                                "v",
+                                                new ArithmeticExpression(new VariableExpression("a"), new VariableExpression("b"), 1)
+                                        ),
+                                        new PrintStatement(new VariableExpression("v"))
+                                )
+                        )
+                ),
+                new CompoundStatement(
+                        new NewProcedureStatement(
+                                "product",
+                                List.of("a", "b"),
+                                new CompoundStatement(
+                                        new VariableDeclarationStatement("v", new IntegerType()),
                                         new CompoundStatement(
-                                                new NewStatement("v1", new ValueExpression(new IntegerValue(2))),
+                                                new AssignmentStatement(
+                                                        "v",
+                                                        new ArithmeticExpression(new VariableExpression("a"), new VariableExpression("b"), 3)
+                                                ),
+                                                new PrintStatement(new VariableExpression("v"))
+                                        )
+                                )
+                        ),
+                        new CompoundStatement(
+                                new VariableDeclarationStatement(
+                                        "v",
+                                        new IntegerType()
+                                ),
+                                new CompoundStatement(
+                                        new VariableDeclarationStatement(
+                                                "w",
+                                                new IntegerType()
+                                        ),
+                                        new CompoundStatement(
+                                                new AssignmentStatement(
+                                                        "v",
+                                                        new ValueExpression(new IntegerValue(2))
+                                                ),
                                                 new CompoundStatement(
-                                                        new NewStatement("v2", new ValueExpression(new IntegerValue(3))),
+                                                        new AssignmentStatement(
+                                                                "w",
+                                                                new ValueExpression(new IntegerValue(5))
+                                                        ),
                                                         new CompoundStatement(
-                                                                new NewStatement("v3", new ValueExpression(new IntegerValue(4))),
+                                                                new CallProcedureStatement(
+                                                                        "sum",
+                                                                        List.of(new ArithmeticExpression(new VariableExpression("v"), new ValueExpression(new IntegerValue(10)), 3),
+                                                                                new VariableExpression("w")
+                                                                        )
+                                                                ),
                                                                 new CompoundStatement(
-                                                                        new NewLatchStatement("cnt", new ReadFromHeapExpression(new VariableExpression("v2"))),
-                                                                        new CompoundStatement(
-                                                                                new ForkStatement(
-                                                                                        new CompoundStatement(
-                                                                                                new WriteToHeapStatement("v1", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v1")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                new CompoundStatement(
-                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v1"))),
-                                                                                                        new CompoundStatement(
-                                                                                                                new CountDownStatement("cnt"),
-                                                                                                                new ForkStatement(
-                                                                                                                        new CompoundStatement(
-                                                                                                                                new WriteToHeapStatement("v2", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v2")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                                                new CompoundStatement(
-                                                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v2"))),
-                                                                                                                                        new CompoundStatement(
-                                                                                                                                                new CountDownStatement("cnt"),
-                                                                                                                                                new ForkStatement(
-                                                                                                                                                        new CompoundStatement(
-                                                                                                                                                                new WriteToHeapStatement("v3", new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v3")), new ValueExpression(new IntegerValue(10)), 3)),
-                                                                                                                                                                new CompoundStatement(
-                                                                                                                                                                        new PrintStatement(new ReadFromHeapExpression(new VariableExpression("v3"))),
-                                                                                                                                                                        new CountDownStatement("cnt")
-                                                                                                                                                                )
-                                                                                                                                                        )
-                                                                                                                                                )
-                                                                                                                                        )
-                                                                                                                                )
-                                                                                                                        )
-                                                                                                                )
-                                                                                                        )
-                                                                                                )
-                                                                                        )
-                                                                                ),
+                                                                        new PrintStatement(new VariableExpression("v")),
+                                                                        new ForkStatement(
                                                                                 new CompoundStatement(
-                                                                                        new AwaitStatement("cnt"),
-                                                                                        new CompoundStatement(
-                                                                                                new PrintStatement(new ValueExpression(new IntegerValue(100))),
-                                                                                                new CompoundStatement(
-                                                                                                        new CountDownStatement("cnt"),
-                                                                                                        new PrintStatement(new ValueExpression(new IntegerValue(100)))
+                                                                                        new CallProcedureStatement(
+                                                                                                "product",
+                                                                                                List.of(
+                                                                                                        new VariableExpression("v"),
+                                                                                                        new VariableExpression("w")
+                                                                                                )
+                                                                                        ),
+                                                                                        new ForkStatement(
+                                                                                                new CallProcedureStatement(
+                                                                                                        "sum",
+                                                                                                        List.of(new VariableExpression("v"), new VariableExpression("w"))
                                                                                                 )
                                                                                         )
                                                                                 )
+
                                                                         )
                                                                 )
                                                         )
+
                                                 )
                                         )
                                 )
                         )
                 )
+
         );
         try {
             example10.typecheck(new SymbolTable<String, Type>());
@@ -339,60 +359,6 @@ public class SelectProgramController{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(example10.toString());
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-        }
-
-        IStatement example11 = new CompoundStatement(
-                new VariableDeclarationStatement("a", new ReferenceType(new IntegerType())),
-                new CompoundStatement(
-                        new VariableDeclarationStatement("b", new ReferenceType(new IntegerType())),
-                        new CompoundStatement(
-                                new VariableDeclarationStatement("v", new IntegerType()),
-                                new CompoundStatement(
-                                        new NewStatement("a", new ValueExpression(new IntegerValue(0))),
-                                        new CompoundStatement(
-                                                new NewStatement("b", new ValueExpression(new IntegerValue(0))),
-                                                new CompoundStatement(
-                                                        new WriteToHeapStatement("a", new ValueExpression(new IntegerValue(1))),
-                                                        new CompoundStatement(
-                                                                new WriteToHeapStatement("b", new ValueExpression(new IntegerValue(2))),
-                                                                new CompoundStatement(
-                                                                        new ConditionalAssignmentStatement(
-                                                                                "v",
-                                                                                new RelationalExpression(new ReadFromHeapExpression(new VariableExpression("a")), new ReadFromHeapExpression(new VariableExpression("b")), "<"),
-                                                                                new ValueExpression(new IntegerValue(100)),
-                                                                                new ValueExpression(new IntegerValue(200))),
-                                                                        new CompoundStatement(
-                                                                                new PrintStatement(new VariableExpression("v")),
-                                                                                new CompoundStatement(
-                                                                                        new ConditionalAssignmentStatement(
-                                                                                                "v",
-                                                                                                new RelationalExpression(new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("b")), new ValueExpression(new IntegerValue(2)), 2), new ReadFromHeapExpression(new VariableExpression("a")), ">"),
-                                                                                                new ValueExpression(new IntegerValue(100)),
-                                                                                                new ValueExpression(new IntegerValue(200))),
-                                                                                        new PrintStatement(new VariableExpression("v"))
-                                                                                )
-                                                                        )
-                                                                )
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                )
-        );
-        try {
-            example11.typecheck(new SymbolTable<String, Type>());
-            ProgramState programState11 = createProgramState(example11);
-            IRepository repository11 = new Repository("log11.txt");
-            Controller controller11 = new Controller(repository11);
-            controller11.addProgramToRepository(programState11);
-            programsListView.getItems().add(new RunExampleCommand("11", example11.toString(), controller11));
-        } catch (MyException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(example11.toString());
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }

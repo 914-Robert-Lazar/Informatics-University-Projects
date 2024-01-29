@@ -3,7 +3,10 @@ package com.example.toylanguage_intellij;
 
 import com.example.toylanguage_intellij.Controller.Controller;
 import com.example.toylanguage_intellij.Controller.MyException;
-import com.example.toylanguage_intellij.Model.EntriesForGui.*;
+import com.example.toylanguage_intellij.Model.EntriesForGui.HeapEntry;
+import com.example.toylanguage_intellij.Model.EntriesForGui.LockTableEntry;
+import com.example.toylanguage_intellij.Model.EntriesForGui.SemaphoreEntry;
+import com.example.toylanguage_intellij.Model.EntriesForGui.SymbolTableEntry;
 import com.example.toylanguage_intellij.Model.ProgramStateComponents.*;
 import com.example.toylanguage_intellij.Model.Statements.IStatement;
 import com.example.toylanguage_intellij.Model.Values.StringValue;
@@ -56,13 +59,16 @@ public class RunProgramController {
     private TableColumn<SymbolTableEntry, String> symbolVarNameColumn;
 
     @FXML
-    public TableView<LatchTableEntry> latchTableView;
+    public TableView<SemaphoreEntry> semaphoreTableView;
 
     @FXML
-    public TableColumn<LatchTableEntry, String> latchLocationColumn;
+    public TableColumn<SemaphoreEntry, String> semaphoreIndexColumn;
 
     @FXML
-    public TableColumn<LatchTableEntry, String> latchValueColumn;
+    public TableColumn<SemaphoreEntry, String> semaphoreValueColumn;
+
+    @FXML
+    public TableColumn<SemaphoreEntry, String> semaphoreValueListColumn;
 
     @FXML
     private Button runOneStepButton;
@@ -120,19 +126,22 @@ public class RunProgramController {
         this.symbolVarNameColumn.setCellValueFactory(new PropertyValueFactory<>("variableName"));
         this.symbolValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        this.latchLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        this.latchValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        this.semaphoreIndexColumn.setCellValueFactory(new PropertyValueFactory<>("index"));
+        this.semaphoreValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+        this.semaphoreValueListColumn.setCellValueFactory(new PropertyValueFactory<>("list"));
+
+
 
         IHeap<Value> heapTable = this.selectedProgram.getHeap();
         IDictionary<StringValue, BufferedReader> fileTable = this.selectedProgram.getFileTable();
         IOutputList<Value> output = this.selectedProgram.getOut();
-        ILatchTable<Integer> latchTable = this.selectedProgram.getLatchTable();
+        ISemaphoreTable<Pair<Integer, List<Integer>>> semaphoreTable = this.selectedProgram.getSemaphoreTable();
 
         // We update their content with the new content
         heapTable.getContent().forEach((address, value)->this.heapTableView.getItems().add(new HeapEntry(address, value)));
         fileTable.getMap().forEach((fileName, bufferedReader)->this.fileListView.getItems().add(fileName.getValue()));
         output.getOutput().forEach((value)->this.outListView.getItems().add(value));
-        latchTable.getContent().forEach((index, value)->this.latchTableView.getItems().add(new LatchTableEntry(index, value)));
+        semaphoreTable.getContent().forEach((index, value)->this.semaphoreTableView.getItems().add(new SemaphoreEntry(index, value.getKey(), value.getValue())));
 
         selectedController.getRepository().getProgramList().forEach((programState)->this.programStateListView.getItems().add(programState));
 
@@ -161,7 +170,7 @@ public class RunProgramController {
         this.symbolTableView.getItems().clear();
         this.exeStackListView.getItems().clear();
         this.fileListView.getItems().clear();
-        this.latchTableView.getItems().clear();
+        this.semaphoreTableView.getItems().clear();
 
 
         this.NOProgramStates.setText(Integer.toString( selectedController.getRepository().getProgramList().size()));
@@ -175,7 +184,7 @@ public class RunProgramController {
         selectedProgram.getSymTable().getMap().forEach((varname, value)->{
             this.symbolTableView.getItems().add(new SymbolTableEntry(varname, value));
         });
-        selectedProgram.getLatchTable().getContent().forEach((index, value)->this.latchTableView.getItems().add(new LatchTableEntry(index, value)));
+        selectedProgram.getSemaphoreTable().getContent().forEach((index, value)->this.semaphoreTableView.getItems().add(new SemaphoreEntry(index, value.getKey(), value.getValue())));
         selectedProgram.getExecutionStack().getReversed().forEach(stmt ->{
             this.exeStackListView.getItems().add(stmt);
         });

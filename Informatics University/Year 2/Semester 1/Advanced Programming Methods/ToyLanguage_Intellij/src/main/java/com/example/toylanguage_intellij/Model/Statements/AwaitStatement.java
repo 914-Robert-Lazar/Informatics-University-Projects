@@ -10,27 +10,25 @@ import com.example.toylanguage_intellij.Model.Values.Value;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class CountDownStatement implements IStatement{
+public class AwaitStatement implements IStatement{
     String variableName;
-    public CountDownStatement(String variableName) {
+    public AwaitStatement(String variableName) {
         this.variableName = variableName;
     }
     @Override
     public ProgramState execute(ProgramState programState) throws MyException, FileNotFoundException, IOException {
         IDictionary<String, Value> symbolTable = programState.getSymTable();
         ILatchTable<Integer> latchTable = programState.getLatchTable();
-        IOutputList<Value> outputList = programState.getOut();
+        IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
 
         if (symbolTable.isDefined(variableName)) {
             Value foundIndex = symbolTable.findValue(variableName);
             if (foundIndex.getType().equals(new IntegerType())) {
                 IntegerValue foundIndexInt = (IntegerValue) foundIndex;
                 if (latchTable.isDefined(foundIndexInt.getValue())) {
-                    Integer value = latchTable.findValue(foundIndexInt.getValue());
-                    if (value > 0) {
-                        latchTable.update(foundIndexInt.getValue(), value - 1);
+                    if (latchTable.findValue(foundIndexInt.getValue()) != 0) {
+                        executionStack.push(this);
                     }
-                    outputList.add(new IntegerValue(programState.getId()));
                 }
                 else {
                     throw new MyException("Variable not found in latch table.");
@@ -57,6 +55,6 @@ public class CountDownStatement implements IStatement{
 
     @Override
     public String toString(){
-        return "countdown(" + this.variableName + ")";
+        return "await(" + this.variableName + ")";
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.toylanguage_intellij.SelectProgramController"
+            prefHeight="540.0" prefWidth="772.0">
+    <VBox alignment="CENTER" layoutX="25.0" layoutY="15.0" prefHeight="510.0" prefWidth="722.0">
+        <ListView fx:id="programsListView" prefHeight="458.0" prefWidth="747.0"/>
+        <Button fx:id="runProgramButton" mnemonicParsing="false" onAction="#runSelectedProgram" prefHeight="56.0"
+                prefWidth="116.0" text="Run Program"/>
+    </VBox>
+</AnchorPane>

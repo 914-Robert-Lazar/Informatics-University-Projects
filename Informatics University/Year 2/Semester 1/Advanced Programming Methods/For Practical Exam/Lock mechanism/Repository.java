@@ -58,9 +58,9 @@ public class Repository implements IRepository{
         for (Map.Entry<Integer, Value> entry : heap.entrySet()) {
             logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
         }
-        logFile.println("LatchTable:");
-        Map<Integer, Integer> latchTable = programState.getLatchTable().getContent();
-        for (Map.Entry<Integer, Integer> entry : latchTable.entrySet()) {
+        logFile.println("LockTable:");
+        Map<Integer, Integer> lockTable = programState.getLockTable().getContent();
+        for (Map.Entry<Integer, Integer> entry : lockTable.entrySet()) {
             logFile.println(entry.getKey().toString()  + ": " + entry.getValue().toString());
         }
         logFile.println();

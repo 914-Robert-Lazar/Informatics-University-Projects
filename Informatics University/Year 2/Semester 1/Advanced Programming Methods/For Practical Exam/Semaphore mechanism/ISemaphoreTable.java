@@ -2,7 +2,7 @@ package com.example.toylanguage_intellij.Model.ProgramStateComponents;
 
 import java.util.Map;
 
-public interface ILockTable<Val> {
+public interface ISemaphoreTable<Val> {
     int put(Val value);
 
     boolean isDefined(int address);
