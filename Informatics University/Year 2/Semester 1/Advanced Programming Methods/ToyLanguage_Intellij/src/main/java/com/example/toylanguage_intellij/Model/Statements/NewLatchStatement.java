@@ -50,7 +50,7 @@ public class NewLatchStatement implements IStatement{
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type varType = typeEnv.findValue(variableName);
         Type exprType = expression.typecheck(typeEnv);
         if(varType.equals(new IntegerType()) && exprType.equals(new IntegerType())){

@@ -30,7 +30,7 @@ public class CompoundStatement implements IStatement {
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
-        return second.typecheck(first.typecheck(typeEnv));
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
+        return second.typeCheck(first.typeCheck(typeEnv));
     }
 }

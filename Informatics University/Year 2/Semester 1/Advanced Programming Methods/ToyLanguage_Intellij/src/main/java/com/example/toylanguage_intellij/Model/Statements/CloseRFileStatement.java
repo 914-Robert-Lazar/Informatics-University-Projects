@@ -49,7 +49,7 @@ public class CloseRFileStatement implements IStatement {
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type typeExpression = expression.typecheck(typeEnv);
         if (typeExpression.equals(new StringType())) {
             return typeEnv;

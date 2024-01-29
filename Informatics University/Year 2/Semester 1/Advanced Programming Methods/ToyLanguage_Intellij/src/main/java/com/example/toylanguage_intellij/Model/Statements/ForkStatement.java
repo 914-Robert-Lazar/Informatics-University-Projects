@@ -28,8 +28,8 @@ public class ForkStatement implements IStatement{
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
-        statement.typecheck(typeEnv.copy());
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
+        statement.typeCheck(typeEnv.copy());
         return typeEnv;
     }
 

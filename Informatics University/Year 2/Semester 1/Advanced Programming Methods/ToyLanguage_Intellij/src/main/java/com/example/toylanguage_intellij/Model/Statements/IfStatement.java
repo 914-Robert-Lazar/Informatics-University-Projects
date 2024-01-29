@@ -48,11 +48,11 @@ public class IfStatement implements IStatement{
 
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type typeExpression = condition.typecheck(typeEnv);
         if (typeExpression.equals(new BooleanType())) {
-            ifStatement.typecheck(typeEnv.copy());
-            elseStatement.typecheck(typeEnv.copy());
+            ifStatement.typeCheck(typeEnv.copy());
+            elseStatement.typeCheck(typeEnv.copy());
             return typeEnv;
         }
         else {

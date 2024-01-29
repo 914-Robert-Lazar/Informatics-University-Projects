@@ -35,7 +35,7 @@ public class ConditionalAssignmentStatement implements IStatement{
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type variableType = typeEnv.findValue(id);
         Type exprType1 = expression1.typecheck(typeEnv);
         Type exprType2 = expression2.typecheck(typeEnv);

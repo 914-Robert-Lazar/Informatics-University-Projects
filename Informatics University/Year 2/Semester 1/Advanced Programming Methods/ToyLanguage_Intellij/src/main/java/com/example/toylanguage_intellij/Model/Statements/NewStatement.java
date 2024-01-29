@@ -51,7 +51,7 @@ public class NewStatement implements IStatement {
         return "new(" + this.name + ", " + this.expression.toString() + ")";
     }
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type typeVariable = typeEnv.findValue(name);
         Type typeExpression = expression.typecheck(typeEnv);
         if (typeVariable.equals(new ReferenceType(typeExpression))) {

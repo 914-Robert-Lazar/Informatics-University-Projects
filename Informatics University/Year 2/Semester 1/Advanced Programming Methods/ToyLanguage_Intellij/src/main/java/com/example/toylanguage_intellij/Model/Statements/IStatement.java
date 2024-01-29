@@ -10,5 +10,5 @@ import com.example.toylanguage_intellij.Model.Types.Type;
 
 public interface IStatement {
     ProgramState execute(ProgramState programState) throws MyException, FileNotFoundException, IOException;
-    IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException;
+    IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException;
 }

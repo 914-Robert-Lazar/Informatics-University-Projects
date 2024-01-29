@@ -46,7 +46,7 @@ public class AwaitStatement implements IStatement{
     }
 
     @Override
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnv) throws MyException {
+    public IDictionary<String, Type> typeCheck(IDictionary<String, Type> typeEnv) throws MyException {
         Type varType = typeEnv.findValue(variableName);
         if(varType.equals(new IntegerType())){
             return typeEnv;

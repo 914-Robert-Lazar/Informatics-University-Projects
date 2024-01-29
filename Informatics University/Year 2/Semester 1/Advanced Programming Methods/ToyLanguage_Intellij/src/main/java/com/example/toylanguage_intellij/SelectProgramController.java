@@ -2,7 +2,6 @@ package com.example.toylanguage_intellij;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 
 import com.example.toylanguage_intellij.Controller.Controller;
 import com.example.toylanguage_intellij.Controller.MyException;
@@ -15,7 +14,6 @@ import com.example.toylanguage_intellij.Model.Expressions.ValueExpression;
 import com.example.toylanguage_intellij.Model.Expressions.VariableExpression;
 import com.example.toylanguage_intellij.Model.ProgramStateComponents.*;
 import com.example.toylanguage_intellij.Model.Statements.*;
-import com.example.toylanguage_intellij.Model.Types.BooleanType;
 import com.example.toylanguage_intellij.Model.Types.IntegerType;
 import com.example.toylanguage_intellij.Model.Types.ReferenceType;
 import com.example.toylanguage_intellij.Model.Types.StringType;
@@ -35,7 +33,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 public class SelectProgramController{
 
@@ -76,7 +73,7 @@ public class SelectProgramController{
                 new CompoundStatement(new AssignmentStatement("number1", new ValueExpression(new IntegerValue(3))),
                 new PrintStatement(new VariableExpression("number1"))));
         try {
-                example1.typecheck(new SymbolTable<String, Type>());
+                example1.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState1 = createProgramState(example1);
                 IRepository repository1 = new Repository("log1.txt");
                 Controller controller1 = new Controller(repository1);
@@ -96,7 +93,7 @@ public class SelectProgramController{
                 new CompoundStatement(new AssignmentStatement("var1", new ArithmeticExpression(new ValueExpression(new IntegerValue(8)), new ValueExpression(new IntegerValue(2)), 4)),
                 new PrintStatement(new VariableExpression("var1")))));
         try {
-                example2.typecheck(new SymbolTable<String, Type>());
+                example2.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState2 = createProgramState(example2);
                 IRepository repository2 = new Repository("log2.txt");
                 Controller controller2 = new Controller(repository2);
@@ -115,7 +112,7 @@ public class SelectProgramController{
                 new CompoundStatement(new AssignmentStatement("bool1", new LogicalExpression(new ValueExpression(new BooleanValue(false)), new ValueExpression(new BooleanValue(true)), 2)),
                 new PrintStatement(new VariableExpression("bool1")))), example2), example1);
         try {
-                example3.typecheck(new SymbolTable<String, Type>());
+                example3.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState3 = createProgramState(example3);
                 IRepository repository3 = new Repository("log3.txt");
                 Controller controller3 = new Controller(repository3);
@@ -139,7 +136,7 @@ public class SelectProgramController{
                 new CompoundStatement(new PrintStatement(new VariableExpression("varc")), 
                 new CloseRFileStatement(new VariableExpression("varf"))))))))));
         try {
-                example4.typecheck(new SymbolTable<String, Type>());
+                example4.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState4 = createProgramState(example4);
                 IRepository repository4 = new Repository("log4.txt");
                 Controller controller4 = new Controller(repository4);
@@ -161,7 +158,7 @@ public class SelectProgramController{
                         new ArithmeticExpression(new VariableExpression("v"), new ValueExpression(new IntegerValue(1)), 
                         2)))), new PrintStatement(new VariableExpression("v")))));
         try {
-                example5.typecheck(new SymbolTable<String, Type>());
+                example5.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState5 = createProgramState(example5);
                 IRepository repository5 = new Repository("log5.txt");
                 Controller controller5 = new Controller(repository5);
@@ -182,7 +179,7 @@ public class SelectProgramController{
                 new CompoundStatement(new NewStatement("v", new ValueExpression(new IntegerValue(30))), 
                 new PrintStatement(new ReadFromHeapExpression(new ReadFromHeapExpression(new VariableExpression("a")))))))));
         try {
-                example6.typecheck(new SymbolTable<String, Type>());
+                example6.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState6 = createProgramState(example6);
                 IRepository repository6 = new Repository("log6.txt");
                 Controller controller6 = new Controller(repository6);
@@ -204,7 +201,7 @@ public class SelectProgramController{
                 new PrintStatement(new ArithmeticExpression(new ReadFromHeapExpression(new VariableExpression("v")), 
                 new ValueExpression(new IntegerValue(5)), 1)))))));
         try {
-                example7.typecheck(new SymbolTable<String, Type>());
+                example7.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState7 = createProgramState(example7);
                 IRepository repository7 = new Repository("log7.txt");
                 Controller controller7 = new Controller(repository7);
@@ -227,7 +224,7 @@ public class SelectProgramController{
                 new CompoundStatement(new PrintStatement(new VariableExpression("v")), new PrintStatement(new ReadFromHeapExpression(new VariableExpression("a"))))))), 
                 new CompoundStatement(new PrintStatement(new VariableExpression("v")), new PrintStatement(new ReadFromHeapExpression(new VariableExpression("a")))))))));
         try {
-                example8.typecheck(new SymbolTable<String, Type>());
+                example8.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState8 = createProgramState(example8);
                 IRepository repository8 = new Repository("log8.txt");
                 Controller controller8 = new Controller(repository8);
@@ -247,7 +244,7 @@ public class SelectProgramController{
                 new CompoundStatement(new ForkStatement(new ForkStatement(new NewStatement("a", new VariableExpression("counter")))), 
                 new AssignmentStatement("counter", new ArithmeticExpression(new VariableExpression("counter"), new ValueExpression(new IntegerValue(1)), 1))))));
         try {
-                example9.typecheck(new SymbolTable<String, Type>());
+                example9.typeCheck(new SymbolTable<String, Type>());
                 ProgramState programState9 = createProgramState(example9);
                 IRepository repository9 = new Repository("log9.txt");
                 Controller controller9 = new Controller(repository9);
@@ -329,7 +326,7 @@ public class SelectProgramController{
                 )
         );
         try {
-            example10.typecheck(new SymbolTable<String, Type>());
+            example10.typeCheck(new SymbolTable<String, Type>());
             ProgramState programState10 = createProgramState(example10);
             IRepository repository10 = new Repository("log10.txt");
             Controller controller10 = new Controller(repository10);
@@ -383,7 +380,7 @@ public class SelectProgramController{
                 )
         );
         try {
-            example11.typecheck(new SymbolTable<String, Type>());
+            example11.typeCheck(new SymbolTable<String, Type>());
             ProgramState programState11 = createProgramState(example11);
             IRepository repository11 = new Repository("log11.txt");
             Controller controller11 = new Controller(repository11);
