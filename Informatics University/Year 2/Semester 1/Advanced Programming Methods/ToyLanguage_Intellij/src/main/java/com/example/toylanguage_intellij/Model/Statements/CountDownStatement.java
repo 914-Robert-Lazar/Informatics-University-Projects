@@ -37,11 +37,11 @@ public class CountDownStatement implements IStatement{
                 }
             }
             else {
-                throw new MyException("The value associated with the variable from newLock is not of type int");
+                throw new MyException("The value associated with the variable from countdown is not of type int");
             }
         }
         else {
-            throw new MyException("The variable in await statement is not in symbol table.");
+            throw new MyException("The variable in countdown statement is not in symbol table.");
         }
 
         return null;

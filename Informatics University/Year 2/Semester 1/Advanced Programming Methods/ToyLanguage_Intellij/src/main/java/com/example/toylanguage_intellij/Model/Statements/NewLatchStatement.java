@@ -39,11 +39,11 @@ public class NewLatchStatement implements IStatement{
                 symbolTable.put(variableName, new IntegerValue(newFreeLocation));
             }
             else {
-                throw new MyException("The value associated with the variable from newLock is not of type int");
+                throw new MyException("The value associated with the variable from new latch is not of type int");
             }
         }
         else {
-            throw new MyException("The variable in new lock statement is not in symbol table.");
+            throw new MyException("The variable in new latch statement is not in symbol table.");
         }
 
         return null;

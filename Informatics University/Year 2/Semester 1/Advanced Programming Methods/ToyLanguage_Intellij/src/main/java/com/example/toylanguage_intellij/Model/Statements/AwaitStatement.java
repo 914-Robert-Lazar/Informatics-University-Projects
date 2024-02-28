@@ -35,7 +35,7 @@ public class AwaitStatement implements IStatement{
                 }
             }
             else {
-                throw new MyException("The value associated with the variable from newLock is not of type int");
+                throw new MyException("The value associated with the variable from await is not of type int");
             }
         }
         else {

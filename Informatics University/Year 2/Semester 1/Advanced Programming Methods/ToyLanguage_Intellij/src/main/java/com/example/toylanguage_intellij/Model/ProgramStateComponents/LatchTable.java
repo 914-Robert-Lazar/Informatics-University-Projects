@@ -30,7 +30,7 @@ public class LatchTable<Val> implements ILatchTable<Val>{
     }
 
     @Override
-    public void update(int address, Val value) {
+    public synchronized void update(int address, Val value) {
         map.put(address, value);
     }
 
