@@ -1,0 +1,43 @@
+table {
+    width: 40vw;
+    margin: auto;
+    margin-top: 3vw;
+    display:grid;
+    table-layout: fixed;
+}
+
+td {
+    padding: 0vw;
+    border: solid 1px black;
+}
+
+.image_with_content img {
+    display: block;
+    width: 100%;
+    transition: 0.7s ease-out;
+}
+.image_with_content {
+    height: 13vw;
+    overflow: hidden;
+    position: relative;
+}
+
+.image_with_content div {
+    position: absolute;
+    opacity: 0;
+    z-index: 2;
+    transition: 0.7s ease-out;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 45%;
+    width:auto;
+    font-size: large;
+}
+
+.image_with_content:hover div {
+    opacity: 1;
+}
+
+.image_with_content:hover img {
+    opacity: 0.2;
+}

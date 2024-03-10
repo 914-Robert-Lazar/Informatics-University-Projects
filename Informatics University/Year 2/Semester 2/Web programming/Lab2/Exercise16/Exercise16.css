@@ -1,0 +1,41 @@
+nav {
+    position: fixed;
+    width: 300px;
+    background-color: chocolate;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.menu {
+    margin-top: 50%;
+    margin-right: 15%;
+    font-size: larger;
+    list-style-type: none;
+}
+
+.menu li {
+    border: 2px solid black;
+    text-align: center;
+    cursor: pointer;
+}
+
+.menu-item:not(:last-child) {
+    margin-bottom: 5%;
+}
+
+.sub-menu {
+    display: none;
+    position: relative;
+}
+
+.menu li:hover .sub-menu {
+    display: block;
+    float: right;
+    left: -19%;
+}
+
+.sub-menu ul{
+    list-style-type: none;
+    position: absolute;
+}
