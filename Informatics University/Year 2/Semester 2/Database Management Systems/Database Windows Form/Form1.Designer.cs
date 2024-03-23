@@ -60,7 +60,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(424, 64);
+            this.dataGridView1.Location = new System.Drawing.Point(55, 65);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(300, 300);
             this.dataGridView1.TabIndex = 2;
@@ -68,7 +68,7 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(55, 64);
+            this.dataGridView2.Location = new System.Drawing.Point(424, 65);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.Size = new System.Drawing.Size(300, 300);
             this.dataGridView2.TabIndex = 3;
@@ -82,6 +82,7 @@
             this.updateButton.TabIndex = 4;
             this.updateButton.Text = "Update";
             this.updateButton.UseVisualStyleBackColor = true;
+            this.updateButton.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // Form1
             // 

@@ -33,7 +33,7 @@ namespace Database_Windows_Form
 
         void FillData()
         {
-            conn = new SqlConnection(getConnectionString());
+            conn = new SqlConnection(GetConnectionString());
 
             queryWorkoutDay = "SELECT * FROM DayOfTrainingWeek";
             queryCalendarDay = "SELECT * FROM FitnessCalendar";
@@ -46,14 +46,41 @@ namespace Database_Windows_Form
 
             commandBuilder = new SqlCommandBuilder(adapterForCalendarDay);
 
-            dataSet.Relations.Add("Days", dataSet.Tables["WorkoutDay"].Columns["DayOfWeekID"], dataSet.Tables["CalendarDay"].Columns["DayOfWeekID"]);
+            dataSet.Relations.Add("Days", 
+                dataSet.Tables["WorkoutDay"].Columns["DayOfWeekID"], 
+                dataSet.Tables["CalendarDay"].Columns["DayOfWeekID"]);
 
+
+            bindingSourceForWorkoutDay = new BindingSource
+            {
+                DataSource = dataSet.Tables["WorkoutDay"]
+            };
+
+            bindingSourceForCalendarDay = new BindingSource(bindingSourceForWorkoutDay, "Days");
+
+            this.dataGridView1.DataSource = bindingSourceForWorkoutDay;
+            this.dataGridView2.DataSource = bindingSourceForCalendarDay;
+
+            commandBuilder.GetUpdateCommand();
         }
 
-        string getConnectionString()
+        string GetConnectionString()
         {
             return "Data Source=DESKTOP-3HTGUDE\\SQLEXPRESS; Initial Catalog=Fitness_Guide;" +
                 "Integrated Security=true";
+        }
+
+        private void UpdateButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                adapterForCalendarDay.Update(dataSet, "CalendarDay");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }
