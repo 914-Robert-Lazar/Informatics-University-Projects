@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography.X509Certificates;
+using System.Configuration;
 
 namespace Database_Windows_Form
 {
@@ -35,28 +36,28 @@ namespace Database_Windows_Form
         {
             conn = new SqlConnection(GetConnectionString());
 
-            queryWorkoutDay = "SELECT * FROM DayOfTrainingWeek";
-            queryCalendarDay = "SELECT * FROM FitnessCalendar";
+            queryWorkoutDay = ConfigurationManager.AppSettings["query1"];
+            queryCalendarDay = ConfigurationManager.AppSettings["query2"];
 
             adapterForWorkoutDay = new SqlDataAdapter(queryWorkoutDay, conn);
             adapterForCalendarDay = new SqlDataAdapter(queryCalendarDay, conn);
             dataSet = new DataSet();
-            adapterForWorkoutDay.Fill(dataSet, "WorkoutDay");
-            adapterForCalendarDay.Fill(dataSet, "CalendarDay");
+            adapterForWorkoutDay.Fill(dataSet, ConfigurationManager.AppSettings["table1"]);
+            adapterForCalendarDay.Fill(dataSet, ConfigurationManager.AppSettings["table2"]);
 
             commandBuilder = new SqlCommandBuilder(adapterForCalendarDay);
 
-            dataSet.Relations.Add("Days", 
-                dataSet.Tables["WorkoutDay"].Columns["DayOfWeekID"], 
-                dataSet.Tables["CalendarDay"].Columns["DayOfWeekID"]);
+            dataSet.Relations.Add(ConfigurationManager.AppSettings["connectedTable"], 
+                dataSet.Tables[ConfigurationManager.AppSettings["table1"]].Columns[ConfigurationManager.AppSettings["columnToConnect"]], 
+                dataSet.Tables[ConfigurationManager.AppSettings["table2"]].Columns[ConfigurationManager.AppSettings["columnToConnect"]]);
 
 
             bindingSourceForWorkoutDay = new BindingSource
             {
-                DataSource = dataSet.Tables["WorkoutDay"]
+                DataSource = dataSet.Tables[ConfigurationManager.AppSettings["table1"]]
             };
 
-            bindingSourceForCalendarDay = new BindingSource(bindingSourceForWorkoutDay, "Days");
+            bindingSourceForCalendarDay = new BindingSource(bindingSourceForWorkoutDay, ConfigurationManager.AppSettings["connectedTable"]);
 
             this.dataGridView1.DataSource = bindingSourceForWorkoutDay;
             this.dataGridView2.DataSource = bindingSourceForCalendarDay;
@@ -74,13 +75,18 @@ namespace Database_Windows_Form
         {
             try
             {
-                adapterForCalendarDay.Update(dataSet, "CalendarDay");
+                adapterForCalendarDay.Update(dataSet, ConfigurationManager.AppSettings["table2"]);
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

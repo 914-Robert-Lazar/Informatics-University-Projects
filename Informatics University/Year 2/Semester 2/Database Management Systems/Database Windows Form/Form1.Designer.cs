@@ -56,6 +56,7 @@
             this.label2.Size = new System.Drawing.Size(193, 33);
             this.label2.TabIndex = 1;
             this.label2.Text = "Calendar Day";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // dataGridView1
             // 
