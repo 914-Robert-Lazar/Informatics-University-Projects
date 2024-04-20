@@ -21,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.example.rest.Model.Exercise;
-import com.example.rest.Repository.Repository;
+import com.example.rest.Model.Muscle;
+import com.example.rest.Repository.ExerciseRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,24 +37,32 @@ class PayRollApplicationTests {
 	private ObjectMapper objectMapper;
 
 	@Autowired
-	private Repository repository;
+	private ExerciseRepository repository;
 					
-	@SuppressWarnings("null")
 	@Test
 	void testAdd() throws JsonProcessingException, Exception {
 		Exercise mockExercise = new Exercise("Dip", "push", 3);
 
-		ResultActions result = mockMvc.perform(post("/api/exercises").contentType(MediaType.APPLICATION_JSON)
+		ResultActions exerciseResult = mockMvc.perform(post("/api/exercises").contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(mockExercise)));
 		
-		result.andExpect(status().isOk())
+		exerciseResult.andExpect(status().is2xxSuccessful())
 			.andDo(print())
 			.andExpect(jsonPath("$.name", is(mockExercise.getName())))
 			.andExpect(jsonPath("$.type", is(mockExercise.getType())))
 			.andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
+
+		Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
+
+		ResultActions validMuscleResult = mockMvc.perform(post("/api/muscles").contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(validMuscle)));
+		
+		validMuscleResult.andExpect(status().is2xxSuccessful())
+			.andDo(print())
+			.andExpect(jsonPath("$.name", is(validMuscle.getName())))
+			.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
 	}
 
-	@SuppressWarnings("null")
 	@Test
 	void testUpdate() throws JsonProcessingException, Exception {
 		Exercise mockExercise = new Exercise("Dip", "push", 3);
@@ -68,9 +77,8 @@ class PayRollApplicationTests {
 			  .andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
 	}
 
-	@SuppressWarnings("null")
 	@Test
-	public void testGetAll() throws Exception{
+	public void testGetAll() throws Exception {
         List<Exercise> listOfExercises = new ArrayList<>();
         listOfExercises.add(new Exercise("Dip", "push", 3));
         listOfExercises.add(new Exercise("Pull-up", "pull", 3));

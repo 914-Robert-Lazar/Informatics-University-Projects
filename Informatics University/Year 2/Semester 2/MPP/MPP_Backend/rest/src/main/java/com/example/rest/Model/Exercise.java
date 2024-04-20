@@ -2,16 +2,41 @@ package com.example.rest.Model;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Exercise")
 public class Exercise {
-    private @Id @GeneratedValue Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ExerciseID")
+    private  Long id;
+
+    @Column(name = "Name")
     private String name;
+
+    @Column(name = "Type")
     private String type;
+
+    @Column(name = "Level")
     private int level;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "exerciseInUse", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Muscle> muscles;
 
     public Exercise() {}
 
@@ -19,6 +44,7 @@ public class Exercise {
         this.name = name;
         this.type = type;
         this.level = level;
+        this.muscles = new ArrayList<Muscle>();
     }
 
     public Long getId() {
@@ -33,6 +59,11 @@ public class Exercise {
     public int getLevel() {
         return this.level;
     }
+    
+    @JsonIgnore
+    public List<Muscle> getMuscles() {
+        return this.muscles;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -46,6 +77,31 @@ public class Exercise {
     public void setLevel(int level) {
         this.level = level;
     }
+    public void setMuscles(List<Muscle> muscles) {
+        this.muscles = muscles;
+    }
+
+    public void addMuscle(Muscle muscle) {
+        if (muscles.contains(muscle)) {
+            return;
+        }
+
+        this.muscles.add(muscle);
+
+        muscle.setExerciseInUse(this);
+    }
+
+    public void removeMuscle(Muscle muscle) {
+        if (!muscles.contains(muscle)) {
+            return;
+        }
+
+        muscles.remove(muscle);
+
+        muscle.setExerciseInUse(null);
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

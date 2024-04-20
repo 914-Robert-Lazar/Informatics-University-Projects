@@ -1,4 +1,4 @@
-const countiesWithCities = {"Hargita": ["Miercurea-Ciuc", "Odorheiu-Secuiesc", "Vlahita"], "Cluj": ["Cluj-Napoca", "Dej", "Turda", "Huedin"],
+const countiesWithCities = {"Harghita": ["Miercurea-Ciuc", "Odorheiu-Secuiesc", "Vlahita"], "Cluj": ["Cluj-Napoca", "Dej", "Turda", "Huedin"],
         "Covasna": ["Sfantu Gheorghe", "Covasna"]}
 
 function changeContent() {

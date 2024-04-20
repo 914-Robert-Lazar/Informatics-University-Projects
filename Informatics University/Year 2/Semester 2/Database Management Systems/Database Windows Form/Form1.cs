@@ -10,22 +10,22 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography.X509Certificates;
 using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace Database_Windows_Form
 {
     public partial class Form1 : Form
     {
         SqlConnection conn = null;
-        SqlDataAdapter adapterForWorkoutDay = null;
-        SqlDataAdapter adapterForCalendarDay = null;
+        SqlDataAdapter adapterForTable1 = null;
+        SqlDataAdapter adapterForTable2 = null;
         DataSet dataSet;
-        BindingSource bindingSourceForWorkoutDay;
-        BindingSource bindingSourceForCalendarDay;
-
+        BindingSource bindingSourceForTable1;
+        BindingSource bindingSourceForTable2;
         SqlCommandBuilder commandBuilder;
 
-        string queryWorkoutDay;
-        string queryCalendarDay;
+        string queryTable1;
+        string queryTable2;
         public Form1()
         {
             InitializeComponent();
@@ -36,31 +36,31 @@ namespace Database_Windows_Form
         {
             conn = new SqlConnection(GetConnectionString());
 
-            queryWorkoutDay = ConfigurationManager.AppSettings["query1"];
-            queryCalendarDay = ConfigurationManager.AppSettings["query2"];
+            queryTable1 = ConfigurationManager.AppSettings["query1"];
+            queryTable2 = ConfigurationManager.AppSettings["query2"];
 
-            adapterForWorkoutDay = new SqlDataAdapter(queryWorkoutDay, conn);
-            adapterForCalendarDay = new SqlDataAdapter(queryCalendarDay, conn);
+            adapterForTable1 = new SqlDataAdapter(queryTable1, conn);
+            adapterForTable2 = new SqlDataAdapter(queryTable2, conn);
             dataSet = new DataSet();
-            adapterForWorkoutDay.Fill(dataSet, ConfigurationManager.AppSettings["table1"]);
-            adapterForCalendarDay.Fill(dataSet, ConfigurationManager.AppSettings["table2"]);
+            adapterForTable1.Fill(dataSet, ConfigurationManager.AppSettings["table1"]);
+            adapterForTable2.Fill(dataSet, ConfigurationManager.AppSettings["table2"]);
 
-            commandBuilder = new SqlCommandBuilder(adapterForCalendarDay);
+            commandBuilder = new SqlCommandBuilder(adapterForTable2);
 
             dataSet.Relations.Add(ConfigurationManager.AppSettings["connectedTable"], 
                 dataSet.Tables[ConfigurationManager.AppSettings["table1"]].Columns[ConfigurationManager.AppSettings["columnToConnect"]], 
                 dataSet.Tables[ConfigurationManager.AppSettings["table2"]].Columns[ConfigurationManager.AppSettings["columnToConnect"]]);
 
 
-            bindingSourceForWorkoutDay = new BindingSource
+            bindingSourceForTable1 = new BindingSource
             {
                 DataSource = dataSet.Tables[ConfigurationManager.AppSettings["table1"]]
             };
 
-            bindingSourceForCalendarDay = new BindingSource(bindingSourceForWorkoutDay, ConfigurationManager.AppSettings["connectedTable"]);
+            bindingSourceForTable2 = new BindingSource(bindingSourceForTable1, ConfigurationManager.AppSettings["connectedTable"]);
 
-            this.dataGridView1.DataSource = bindingSourceForWorkoutDay;
-            this.dataGridView2.DataSource = bindingSourceForCalendarDay;
+            this.dataGridView1.DataSource = bindingSourceForTable1;
+            this.dataGridView2.DataSource = bindingSourceForTable2;
 
             commandBuilder.GetUpdateCommand();
         }
@@ -75,18 +75,13 @@ namespace Database_Windows_Form
         {
             try
             {
-                adapterForCalendarDay.Update(dataSet, ConfigurationManager.AppSettings["table2"]);
+                adapterForTable2.Update(dataSet, ConfigurationManager.AppSettings["table2"]);
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

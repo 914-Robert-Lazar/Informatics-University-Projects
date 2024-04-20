@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="src/jquery-3.7.1.min.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <select id="selectType" onchange=createComponent()>
+            <option value="table">table</option>
+            <option value="ul">ul</option>
+            <option value="ol">ol</option>
+        </select>
+        <div id="container"></div>
+    </body>
+    <script src="src/selectTable.js"></script>
+    <script>createComponent()</script>
+</html>

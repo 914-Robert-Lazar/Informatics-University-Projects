@@ -1,4 +1,6 @@
-﻿namespace Database_Windows_Form
+﻿using System.Configuration;
+
+namespace Database_Windows_Form
 {
     partial class Form1
     {
@@ -43,9 +45,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(49, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(183, 33);
+            this.label1.Size = new System.Drawing.Size(0, 33);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Workout Day";
+            this.label1.Text = ConfigurationManager.AppSettings["table1"];
             // 
             // label2
             // 
@@ -55,8 +57,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(193, 33);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Calendar Day";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label2.Text = ConfigurationManager.AppSettings["table2"];
             // 
             // dataGridView1
             // 
@@ -106,7 +107,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label1 = new System.Windows.Forms.Label();
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
