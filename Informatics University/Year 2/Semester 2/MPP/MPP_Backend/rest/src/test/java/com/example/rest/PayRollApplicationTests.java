@@ -75,6 +75,16 @@ class PayRollApplicationTests {
 			  .andExpect(jsonPath("$.name", is(mockExercise.getName())))
 			  .andExpect(jsonPath("$.type", is(mockExercise.getType())))
 			  .andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
+
+		Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
+
+		ResultActions validMuscleResult = mockMvc.perform(put("/api/muscles/{id}", 1).contentType(MediaType.APPLICATION_JSON)
+			.content(objectMapper.writeValueAsString(validMuscle)));
+		
+		validMuscleResult.andExpect(status().is2xxSuccessful())
+			.andDo(print())
+			.andExpect(jsonPath("$.name", is(validMuscle.getName())))
+			.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
 	}
 
 	@Test

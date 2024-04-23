@@ -60,10 +60,29 @@ public class MuscleController {
         return new Muscle(name, randomExercise, size);
     }
 
+    private Muscle createRandomMuscle(Exercise givenExercise) {
+        Random rand = new Random();
+        Integer nameLength = rand.nextInt(15) + 1;
+        String name = fakeValuesService.regexify("[a-z]{" + nameLength + "}");
+        
+        Integer size = rand.nextInt(5) + 1;
+
+        return new Muscle(name, givenExercise, size);
+    }
+
     @MessageMapping("/generatedMuscle")
     @SendTo("/topic/generatedMuscle")
     public Muscle sendMuscle(Muscle muscle) {
         return muscle;
+    }
+
+    @Scheduled(fixedRate = 20000)
+    public void generateMuscle(Exercise givenExercise) {
+        Muscle currentMuscle = createRandomMuscle(givenExercise);
+        givenExercise.addMuscle(currentMuscle);
+        exerciseRepository.save(givenExercise);
+        // log.info("Preloading " + currentMuscle);
+        this.template.convertAndSend("/topic/generatedMuscle", currentMuscle);
     }
 
     @Scheduled(fixedRate = 20000)
@@ -72,7 +91,7 @@ public class MuscleController {
         Exercise givenExercise = currentMuscle.getExerciseInUse();
         givenExercise.addMuscle(currentMuscle);
         exerciseRepository.save(givenExercise);
-        log.info("Preloading " + currentMuscle);
+        // log.info("Preloading " + currentMuscle);
         this.template.convertAndSend("/topic/generatedMuscle", currentMuscle);
     }
 

@@ -1,0 +1,51 @@
+a {
+    text-decoration: none;
+    color: black;
+    font-size: larger;
+}
+
+.nonTableButton {
+    margin-top: 20px;
+    font-size: large;
+}
+
+form {
+    font-size: larger;
+}
+
+input {
+    font-size: large;
+}
+
+select {
+    font-size: large;
+}
+
+body {
+    text-align: center;
+}
+
+#prevType {
+    font-size: large;
+}
+
+#addButton {
+    font-size: large;
+}
+
+#descriptionInput {
+    width: 500px;
+}
+
+#nameInput {
+    margin-left: 8px;
+}
+
+#typeInput {
+    margin-left: 16px;
+}
+
+#cancelButton {
+    font-size: large;
+    width: 200px;
+}

@@ -85,10 +85,11 @@ public class ExerciseController {
     }
 
     @Scheduled(fixedRate = 20000)
-    public void generateExercise() {
+    public Exercise generateExercise() {
         Exercise currentExercise = createRandomExercise();
-        log.info("Preloading " + currentExercise);
-        this.template.convertAndSend("/topic/generatedExercise", repository.save(currentExercise));
+        // log.info("Preloading " + currentExercise);
+        this.template.convertAndSend("/topic/generatedExercise", currentExercise);
+        return repository.save(currentExercise);
     }
 
     public ExerciseController(ExerciseRepository repository, MuscleRepository muscleRepository) {
@@ -149,18 +150,6 @@ public class ExerciseController {
 
     @PutMapping("/api/exercises/{id}/muscle")
     Exercise addMuscleToExercise(@PathVariable("id") Long id, @RequestBody Muscle newMuscle) {
-        // Exercise currentExercise = repository.findById(id).orElseThrow(() -> new ExerciseNotFoundException(id));
-
-        // muscleRepository.findById(muscleID)
-        // .map(muscle -> {
-        //     muscle.setExerciseInUse(currentExercise);
-        //     return muscleRepository.save(muscle);
-        // })
-        // .orElseGet(() -> {
-        //     newMuscle.setExerciseInUse(currentExercise);
-        //     return muscleRepository.save(newMuscle);
-        // });
-        
         return repository.findById(id)
         .map(exercise -> {
             exercise.addMuscle(newMuscle);

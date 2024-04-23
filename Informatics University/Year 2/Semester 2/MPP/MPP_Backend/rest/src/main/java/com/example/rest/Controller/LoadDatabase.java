@@ -5,6 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.rest.Model.Exercise;
+
 @Configuration
 class LoadDatabase {
     @Bean
@@ -20,9 +22,11 @@ class LoadDatabase {
             // log.info("Preloading " + repository.save(new Exercise("Ring bodyrows", "pull", 2)));
             // log.info("Preloading " + repository.save(new Exercise("Reverse nordic curl", "leg", 5)));
             // log.info("Preloading " + repository.save(new Exercise("One arm push up", "push", 5)));
-            // for (int i = 0; i < 50; ++i) {
-            //     exerciseController.generateExercise();
-            //     TimeUnit.SECONDS.sleep(2);
+            // for (int i = 0; i < 1000; ++i) {
+            //     Exercise currentExercise = exerciseController.generateExercise();
+            //     for (int j = 0; j < 100; ++j) {
+            //         muscleController.generateMuscle(currentExercise);
+            //     }
             // }
             // for (int i = 0; i < 10; ++i) {
             //     muscleController.generateMuscle();
