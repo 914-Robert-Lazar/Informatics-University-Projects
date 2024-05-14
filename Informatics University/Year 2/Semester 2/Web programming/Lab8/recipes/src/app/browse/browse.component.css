@@ -1,0 +1,23 @@
+.main {
+    text-align: center;
+    font-size: large;
+}
+
+#getRecipes {
+    font-size: large;
+}
+
+.nonTableButton {
+    font-size: larger;
+}
+
+#typeSelect {
+    font-size: large;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+table, th, td{
+    border: 1px solid black;
+}
+

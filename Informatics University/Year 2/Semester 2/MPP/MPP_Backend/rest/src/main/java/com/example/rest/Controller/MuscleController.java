@@ -3,10 +3,14 @@ package com.example.rest.Controller;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
+ 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
+import com.example.rest.Exceptions.ExerciseNotFoundException;
 import com.example.rest.Exceptions.MuscleNotFoundException;
 import com.example.rest.Model.Exercise;
 import com.example.rest.Model.Muscle;
@@ -76,13 +81,14 @@ public class MuscleController {
         return muscle;
     }
 
-    @Scheduled(fixedRate = 20000)
     public void generateMuscle(Exercise givenExercise) {
         Muscle currentMuscle = createRandomMuscle(givenExercise);
-        givenExercise.addMuscle(currentMuscle);
-        exerciseRepository.save(givenExercise);
+        exerciseRepository.findById(givenExercise.getId())
+        .map(exercise -> {
+            exercise.addMuscle(currentMuscle);
+            return exerciseRepository.save(exercise);});
         // log.info("Preloading " + currentMuscle);
-        this.template.convertAndSend("/topic/generatedMuscle", currentMuscle);
+        // this.template.convertAndSend("/topic/generatedMuscle", currentMuscle);
     }
 
     @Scheduled(fixedRate = 20000)
@@ -121,6 +127,16 @@ public class MuscleController {
     Muscle one(@PathVariable Long id) {
         return muscleRepository.findById(id).orElseThrow(() -> new MuscleNotFoundException(id));
     }
+
+    @GetMapping("/api/exercises/{id}/muscles")
+    public Page<Muscle> getMusclesOfExercise(@PathVariable Long id, Pageable pageable) {
+        Exercise givenExercise = exerciseRepository.findById(id).orElseThrow(() -> new ExerciseNotFoundException(id));
+        PageRequest request = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        int start = (int) request.getOffset();
+        int end = start + request.getPageSize() < givenExercise.getMuscles().size() ? start + request.getPageSize() : givenExercise.getMuscles().size();
+        List<Muscle> pageContent = givenExercise.getMuscles().subList(start, end);
+        return new PageImpl<>(pageContent, request, givenExercise.getMuscles().size());
+    }
     
     @PutMapping("/api/muscles/{id}")
     Muscle replaceMuscle(@RequestBody Muscle newMuscle, @PathVariable Long id) {
@@ -143,9 +159,5 @@ public class MuscleController {
     }
 
     
-    @DeleteMapping("/api/muscles/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteMuscle(@PathVariable Long id) {
-        muscleRepository.deleteById(id);
-    }
+    
 }

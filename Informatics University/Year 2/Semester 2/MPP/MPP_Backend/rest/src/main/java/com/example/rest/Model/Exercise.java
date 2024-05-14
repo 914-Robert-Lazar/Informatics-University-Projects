@@ -35,7 +35,7 @@ public class Exercise {
     private int level;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "exerciseInUse", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "exerciseInUse", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Muscle> muscles;
 
     public Exercise() {}

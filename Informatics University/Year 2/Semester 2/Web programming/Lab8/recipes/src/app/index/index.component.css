@@ -1,0 +1,17 @@
+table, th, td{
+    border: 1px solid black;
+}
+
+.main {
+    text-align: center;
+}
+
+#browseButton {
+    margin-top: 30px;
+    font-size: x-large;
+}
+
+#addButton {
+    margin-top: 30px;
+    font-size: x-large;
+}

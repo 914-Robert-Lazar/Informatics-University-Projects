@@ -1,0 +1,37 @@
+#descriptionInput {
+    width: 500px;
+}
+
+#nameInput {
+    margin-left: 8px;
+}
+
+#typeInput {
+    margin-left: 13px;
+}
+
+#cancelButton {
+    font-size: large;
+    width: 200px;
+}
+
+.main {
+    text-align: center;
+}
+
+form {
+    font-size: larger;
+}
+
+input {
+    font-size: large;
+}
+
+select {
+    font-size: large;
+}
+
+#submit {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

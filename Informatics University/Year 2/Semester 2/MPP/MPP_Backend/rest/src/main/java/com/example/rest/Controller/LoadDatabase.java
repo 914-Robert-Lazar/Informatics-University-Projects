@@ -28,10 +28,6 @@ class LoadDatabase {
             //         muscleController.generateMuscle(currentExercise);
             //     }
             // }
-            // for (int i = 0; i < 10; ++i) {
-            //     muscleController.generateMuscle();
-            //     TimeUnit.SECONDS.sleep(2);
-            // }
         };
     }
 }

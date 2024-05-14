@@ -1,0 +1,31 @@
+<div class="main">
+
+    <h1>Food Recipes</h1>
+    <table class="recipes">
+      <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recipe of recipes">
+          <td>{{recipe.id}}</td>
+          <td>{{recipe.author}}</td>
+          <td>{{recipe.name}}</td>
+          <td>{{recipe.type}}</td>
+          <td>{{recipe.description}}</td>
+          <td>
+            <button data-id={{recipe.id}} class='edit'>Edit</button>
+            <button data-id={{recipe.id}} class='delete'>Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="addButton" (click)="toAddPage()">Add Recipe</button><br/>
+    <button id="browseButton" (click)=toBrowsingPage()>Browsing Recipes</button>
+  </div>

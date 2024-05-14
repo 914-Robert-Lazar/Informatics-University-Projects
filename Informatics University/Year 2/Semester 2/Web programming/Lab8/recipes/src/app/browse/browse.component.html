@@ -1,0 +1,37 @@
+<div class="main">
+    <h1>Food Recipes Browsing Page</h1>
+    <form id="getForm" (submit)=getRecipesWithType()>
+        <label for="typeSelect">Type Of Recipe</label>
+        <select id="typeSelect" [ngModel]="selectedValue" (ngModelChange)="selectChange($event)" name="typeSelect">
+            <option *ngFor="let type of types" value={{type}}>{{type}}</option>
+        </select>
+        <input id="getRecipes" type="submit" value="Get Recipes"/>
+    </form>
+    <p>Previous type for the filter: </p>
+    <div [innerHTML]=prevFilter>
+        
+    </div>
+    <div id="Recipes" *ngIf="isShown">
+        <table class="recipes">
+            <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Author</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recipe of recipes">
+                <td>{{recipe.id}}</td>
+                <td>{{recipe.author}}</td>
+                <td>{{recipe.name}}</td>
+                <td>{{recipe.type}}</td>
+                <td>{{recipe.description}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <button class="nonTableButton" (click)="backToMain()">Back to main page</button>
+</div>
