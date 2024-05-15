@@ -11,7 +11,8 @@ export class GenericService {
   httpOptions = {
     headers: new HttpHeaders({ 
         'Content-Type': 'application/json'
-    })
+    }),
+    responseType: 'text'
 }; 
 
   constructor(private http: HttpClient) { }
@@ -43,4 +44,22 @@ export class GenericService {
       return of(result as T);
     };
   } 
+
+  addRecipe(author: string, name: string, type: string, description: string) {
+
+    return this.http.get<Recipe>(this.backendUrl + "/addRecipe.php?author=" + author + "&name=" + name + "&type=" + type +
+      "&description=" + description)
+      .pipe(catchError(this.handleError('addRecipe', "")));
+  }
+
+  deleteRecipe(id: number) {
+    return this.http.get(this.backendUrl + "/deleteRecipe.php?id=" + id)
+      .pipe(catchError(this.handleError('deleteRecipe', "")));
+  }
+
+  editRecipe(id: number, author: string, name: string, type: string, description: string) {
+    return this.http.get<Recipe>(this.backendUrl + "/editRecipe.php?id=" + id + "&author=" + author + "&name=" + name + 
+      "&type=" + type + "&description=" + description)
+      .pipe(catchError(this.handleError('editRecipe', "")));
+  }
 }

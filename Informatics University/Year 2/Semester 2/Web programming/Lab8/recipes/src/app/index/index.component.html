@@ -20,8 +20,8 @@
           <td>{{recipe.type}}</td>
           <td>{{recipe.description}}</td>
           <td>
-            <button data-id={{recipe.id}} class='edit'>Edit</button>
-            <button data-id={{recipe.id}} class='delete'>Delete</button>
+            <button class='edit' (click)="editClick(recipe)">Edit</button>
+            <button class='delete' (click)="deleteClick(recipe.id)">Delete</button>
           </td>
         </tr>
       </tbody>

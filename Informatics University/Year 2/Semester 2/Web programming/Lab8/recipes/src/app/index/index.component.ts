@@ -12,7 +12,6 @@ import { NgFor } from '@angular/common';
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit{
-
   recipes: Recipe[] = [];
   
   constructor(private genericService: GenericService, private router: Router) { }
@@ -29,8 +28,19 @@ export class IndexComponent implements OnInit{
   toBrowsingPage() {
     this.router.navigate(["/browse"]);
   }
-
+  
   toAddPage() {
     this.router.navigate(["/add"]);
+  }
+  deleteClick(id: number) {
+    if (confirm("Are you sure you want to delete this recipe?")) {
+      this.genericService.deleteRecipe(id).subscribe();
+      this.getRecipes();
+    }
+  }
+
+  editClick(selectedRow: Recipe) {
+    localStorage.setItem("selectedRow", JSON.stringify(selectedRow));
+    this.router.navigate(["/edit"]);
   }
 }
