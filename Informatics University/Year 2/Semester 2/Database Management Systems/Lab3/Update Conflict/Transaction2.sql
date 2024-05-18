@@ -1,0 +1,31 @@
+
+
+DECLARE @Retry INT = 5;
+WHILE @Retry > 0
+BEGIN 
+	BEGIN TRY
+		SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+		BEGIN TRAN
+			SELECT * FROM Exercise WHERE ExerciseID = 1;
+			WAITFOR DELAY '00:00:05';
+			SELECT * FROM Exercise WHERE ExerciseID = 1;
+			UPDATE Exercise SET Orientation = 'Horizontal' WHERE ExerciseID = 1;
+		COMMIT TRAN;
+		PRINT('Chill');
+		BREAK;
+	END TRY
+	BEGIN CATCH
+		PRINT('TENYA');
+		DECLARE @ErrorNumber INT = ERROR_NUMBER();
+		IF @ErrorNumber = 3960
+		BEGIN
+			SET @Retry = @Retry - 1;
+			WAITFOR DELAY '00:00:01';
+		END
+		ELSE
+		BEGIN
+			ROLLBACK;
+			THROW;
+		END
+	END CATCH
+END
