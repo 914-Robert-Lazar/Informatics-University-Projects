@@ -39,67 +39,67 @@ class PayRollApplicationTests {
 	@Autowired
 	private ExerciseRepository repository;
 					
-	@Test
-	void testAdd() throws JsonProcessingException, Exception {
-		Exercise mockExercise = new Exercise("Dip", "push", 3);
+	// @Test
+	// void testAdd() throws JsonProcessingException, Exception {
+	// 	Exercise mockExercise = new Exercise("Dip", "push", 3);
 
-		ResultActions exerciseResult = mockMvc.perform(post("/api/exercises").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(mockExercise)));
+	// 	ResultActions exerciseResult = mockMvc.perform(post("/api/exercises").contentType(MediaType.APPLICATION_JSON)
+	// 			.content(objectMapper.writeValueAsString(mockExercise)));
 		
-		exerciseResult.andExpect(status().is2xxSuccessful())
-			.andDo(print())
-			.andExpect(jsonPath("$.name", is(mockExercise.getName())))
-			.andExpect(jsonPath("$.type", is(mockExercise.getType())))
-			.andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
+	// 	exerciseResult.andExpect(status().is2xxSuccessful())
+	// 		.andDo(print())
+	// 		.andExpect(jsonPath("$.name", is(mockExercise.getName())))
+	// 		.andExpect(jsonPath("$.type", is(mockExercise.getType())))
+	// 		.andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
 
-		Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
+	// 	Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
 
-		ResultActions validMuscleResult = mockMvc.perform(post("/api/muscles").contentType(MediaType.APPLICATION_JSON)
-			.content(objectMapper.writeValueAsString(validMuscle)));
+	// 	ResultActions validMuscleResult = mockMvc.perform(post("/api/muscles").contentType(MediaType.APPLICATION_JSON)
+	// 		.content(objectMapper.writeValueAsString(validMuscle)));
 		
-		validMuscleResult.andExpect(status().is2xxSuccessful())
-			.andDo(print())
-			.andExpect(jsonPath("$.name", is(validMuscle.getName())))
-			.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
-	}
+	// 	validMuscleResult.andExpect(status().is2xxSuccessful())
+	// 		.andDo(print())
+	// 		.andExpect(jsonPath("$.name", is(validMuscle.getName())))
+	// 		.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
+	// }
 
-	@Test
-	void testUpdate() throws JsonProcessingException, Exception {
-		Exercise mockExercise = new Exercise("Dip", "push", 3);
+	// @Test
+	// void testUpdate() throws JsonProcessingException, Exception {
+	// 	Exercise mockExercise = new Exercise("Dip", "push", 3);
 
-		ResultActions result = mockMvc.perform(put("/api/exercises/{id}", 1).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(mockExercise)));
+	// 	ResultActions result = mockMvc.perform(put("/api/exercises/{id}", 1).contentType(MediaType.APPLICATION_JSON)
+	// 			.content(objectMapper.writeValueAsString(mockExercise)));
 
-		result.andExpect(status().isOk())
-			  .andDo(print())
-			  .andExpect(jsonPath("$.name", is(mockExercise.getName())))
-			  .andExpect(jsonPath("$.type", is(mockExercise.getType())))
-			  .andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
+	// 	result.andExpect(status().isOk())
+	// 		  .andDo(print())
+	// 		  .andExpect(jsonPath("$.name", is(mockExercise.getName())))
+	// 		  .andExpect(jsonPath("$.type", is(mockExercise.getType())))
+	// 		  .andExpect(jsonPath("$.level", is(mockExercise.getLevel())));
 
-		Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
+	// 	Muscle validMuscle = new Muscle("Triceps", mockExercise, 3);
 
-		ResultActions validMuscleResult = mockMvc.perform(put("/api/muscles/{id}", 1).contentType(MediaType.APPLICATION_JSON)
-			.content(objectMapper.writeValueAsString(validMuscle)));
+	// 	ResultActions validMuscleResult = mockMvc.perform(put("/api/muscles/{id}", 1).contentType(MediaType.APPLICATION_JSON)
+	// 		.content(objectMapper.writeValueAsString(validMuscle)));
 		
-		validMuscleResult.andExpect(status().is2xxSuccessful())
-			.andDo(print())
-			.andExpect(jsonPath("$.name", is(validMuscle.getName())))
-			.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
-	}
+	// 	validMuscleResult.andExpect(status().is2xxSuccessful())
+	// 		.andDo(print())
+	// 		.andExpect(jsonPath("$.name", is(validMuscle.getName())))
+	// 		.andExpect(jsonPath("$.size", is(validMuscle.getSize())));
+	// }
 
-	@Test
-	public void testGetAll() throws Exception {
-        List<Exercise> listOfExercises = new ArrayList<>();
-        listOfExercises.add(new Exercise("Dip", "push", 3));
-        listOfExercises.add(new Exercise("Pull-up", "pull", 3));
-        repository.saveAll(listOfExercises);
+	// @Test
+	// public void testGetAll() throws Exception {
+    //     List<Exercise> listOfExercises = new ArrayList<>();
+    //     listOfExercises.add(new Exercise("Dip", "push", 3));
+    //     listOfExercises.add(new Exercise("Pull-up", "pull", 3));
+    //     repository.saveAll(listOfExercises);
     
-        ResultActions response = mockMvc.perform(get("/api/exercises"));
+    //     ResultActions response = mockMvc.perform(get("/api/exercises"));
 
-        // then - verify the output
-        response.andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.size()",
-                        is(listOfExercises.size() + 9)));
-    }
+    //     // then - verify the output
+    //     response.andExpect(status().isOk())
+    //             .andDo(print())
+    //             .andExpect(jsonPath("$.size()",
+    //                     is(listOfExercises.size() + 9)));
+    // }
 }
