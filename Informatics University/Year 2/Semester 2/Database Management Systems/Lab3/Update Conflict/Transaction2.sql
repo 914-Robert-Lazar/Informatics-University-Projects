@@ -1,4 +1,5 @@
-
+USE Fitness_Guide
+GO
 
 DECLARE @Retry INT = 5;
 WHILE @Retry > 0

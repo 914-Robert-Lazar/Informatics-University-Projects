@@ -71,11 +71,11 @@ AS
 		EXEC addMuscle 'Forearm', 'Grip';
 
 		EXEC addToUses 'Muscle-up', 'Forearm'
-		print('Siker');
+		print('"Success');
 		COMMIT TRAN
 	END TRY
 	BEGIN CATCH
-		print('Kudarc');
+		print('Fail');
 		ROLLBACK TRAN
 		RETURN
 	END CATCH
@@ -90,16 +90,14 @@ AS
 		EXEC addMuscle 'Forearm', 'Grip';
 
 		EXEC addToUses 'Muscle-up', 'Forearms'
-		print('Siker');
+		print('Success');
 		COMMIT TRAN
 	END TRY
 	BEGIN CATCH
-		print('Kudarc');
+		print('Fail');
 		ROLLBACK TRAN
 		RETURN
 	END CATCH
-	print('Siker');
-	COMMIT TRAN
 GO
 
 EXEC rollBackSuccessScenario;
@@ -111,56 +109,96 @@ GO
 --without rollback
 CREATE OR ALTER PROCEDURE noRollbackSuccessScenario
 AS
-	DECLARE @ERRORS INT
-	SET @ERRORS = 0
+	DECLARE @addExerciseSuccess BIT = 0;
+	DECLARE @addMuscleSuccess BIT = 0;
+	DECLARE @addUsesSuccess BIT = 0;
+	DECLARE @ErrorMessage NVARCHAR(4000);
+	BEGIN TRAN
 	BEGIN TRY
 		EXEC addExercise 'Reverse Nordic curl', 'Leg', 'Horizontal';
-	END TRY
-	BEGIN CATCH
-		SET @ERRORS = @ERRORS + 1
-	END CATCH
+		SET @addExerciseSuccess = 1
+		SAVE TRANSACTION addedExercise
 
-	BEGIN TRY
 		EXEC addMuscle 'Hamstrings', 'Leg';
+		SET @addMuscleSuccess = 1
+		SAVE TRANSACTION addedMuscle
+
+		EXEC addToUses 'Reverse Nordic curl', 'Hamstrings'
+		SET @addUsesSuccess = 1
+		SAVE TRANSACTION addedToUses
+		PRINT('All succeeded')
+		COMMIT TRAN;
 	END TRY
 	BEGIN CATCH
-		SET @ERRORS = @ERRORS + 1
+		IF @@Trancount > 0
+		BEGIN
+			IF @addExerciseSuccess = 0
+			BEGIN
+				PRINT('XD1');
+				ROLLBACK TRAN
+			END
+			ELSE IF @addMuscleSuccess = 0
+			BEGIN
+				PRINT('XD2');
+				ROLLBACK TRAN addedExercise
+				COMMIT TRAN
+			END
+			ELSE IF @addUsesSuccess = 0
+			BEGIN
+				PRINT('XD3');
+				ROLLBACK TRAN addedMuscle
+				COMMIT TRAN
+			END
+		END
+		RETURN
 	END CATCH
-	PRINT(@ERRORS);
-	IF (@ERRORS = 0) BEGIN
-		BEGIN TRY
-			EXEC addToUses 'Reverse Nordic curl', 'Hamstrings'
-		END TRY
-		BEGIN CATCH
-		END CATCH
-	END
 GO
 
 CREATE OR ALTER PROCEDURE noRollbackErrorScenario
 AS
-	DECLARE @ERRORS INT
-	SET @ERRORS = 0
+	DECLARE @addExerciseSuccess BIT = 0;
+	DECLARE @addMuscleSuccess BIT = 0;
+	DECLARE @addUsesSuccess BIT = 0;
+	DECLARE @ErrorMessage NVARCHAR(4000);
+	BEGIN TRAN
 	BEGIN TRY
 		EXEC addExercise 'Reverse Nordic curl', 'Leg', 'Horizontal';
-	END TRY
-	BEGIN CATCH
-		SET @ERRORS = @ERRORS + 1
-	END CATCH
+		SET @addExerciseSuccess = 1
+		SAVE TRANSACTION addedExercise
 
-	BEGIN TRY
 		EXEC addMuscle NULL, 'Leg';
+		SET @addMuscleSuccess = 1
+		SAVE TRANSACTION addedMuscle
+
+		EXEC addToUses 'Reverse Nordic curl', 'Hamstrings'
+		SET @addUsesSuccess = 1
+		SAVE TRANSACTION addedToUses
+		PRINT('All succeeded')
+		COMMIT TRAN;
 	END TRY
 	BEGIN CATCH
-		SET @ERRORS = @ERRORS + 1
+		IF @@Trancount > 0
+		BEGIN
+			IF @addExerciseSuccess = 0
+			BEGIN
+				PRINT('XD1');
+				ROLLBACK TRAN
+			END
+			ELSE IF @addMuscleSuccess = 0
+			BEGIN
+				PRINT('XD2');
+				ROLLBACK TRAN addedExercise
+				COMMIT TRAN
+			END
+			ELSE IF @addUsesSuccess = 0
+			BEGIN
+				PRINT('XD3');
+				ROLLBACK TRAN addedMuscle
+				COMMIT TRAN
+			END
+		END
+		RETURN
 	END CATCH
-	
-	IF (@ERRORS = 0) BEGIN
-		BEGIN TRY
-			EXEC addToUses 'Reverse Nordic curl', 'Hamstrings'
-		END TRY
-		BEGIN CATCH
-		END CATCH
-	END
 GO
 
 EXEC noRollbackErrorScenario;
@@ -177,6 +215,9 @@ WHERE ExerciseID > 7
 
 
 SELECT * FROM LogTable;
+SELECT* FROM Exercise;
+SELECT * FROM Muscle;
+SELECT * FROM Uses;
 
 EXEC noRollbackSuccessScenario;
 GO
