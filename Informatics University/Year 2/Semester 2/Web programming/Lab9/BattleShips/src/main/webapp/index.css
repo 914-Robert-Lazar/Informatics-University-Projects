@@ -1,0 +1,58 @@
+body {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.parts {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.ownCell {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+}
+
+.ownCell:hover {
+    cursor: pointer;
+}
+
+.opponentCell:hover {
+    cursor: pointer;
+}
+
+.opponentCell {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+}
+
+.selectedOwnCell {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+    background-color: cornflowerblue;
+}
+
+.hitCell {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+    background-color: red;
+}
+
+.missedCell {
+    border: 1px solid black;
+    height: 30px;
+    width: 30px;
+    background-color: darkturquoise;
+}
