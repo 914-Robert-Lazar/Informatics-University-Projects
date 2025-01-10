@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1205,1816" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1205,1419" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -119,12 +119,10 @@
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="572,1751" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="496,1354" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="njl:JObject" Name="textToTranslateJson" />
       <Variable x:TypeArguments="x:String" Name="API_KEY" />
-      <Variable x:TypeArguments="x:String" Name="httpCallBody" />
-      <Variable x:TypeArguments="njl:JObject" Name="translatedTextJson" />
       <Variable x:TypeArguments="x:String" Name="parsedDocument" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
@@ -132,9 +130,23 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON" sap:VirtualizedContainerService.HintSize="510,90" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_1" JsonObject="[textToTranslateJson]" JsonString="[System.IO.File.ReadAllText(&quot;example2.json&quot;)]" />
-    <ui:ReadTextFile File="{x:Null}" Content="[parsedDocument]" DisplayName="Read Text File" FileName="parsed2.tex" sap:VirtualizedContainerService.HintSize="510,80" sap2010:WorkflowViewState.IdRef="ReadTextFile_2" />
-    <Assign sap:VirtualizedContainerService.HintSize="510,82" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Read Parsed Files.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Read Parsed Files.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <OutArgument x:TypeArguments="njl:JObject" x:Key="textToTranslateJson">
+          <VisualBasicReference x:TypeArguments="njl:JObject" ExpressionText="textToTranslateJson" />
+        </OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="parsedDocumentName">
+          <Literal x:TypeArguments="x:String">parsed2.tex</Literal>
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="parsedJsonName">
+          <Literal x:TypeArguments="x:String">example2.json</Literal>
+        </InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="parsedDocument">
+          <VisualBasicReference x:TypeArguments="x:String" ExpressionText="parsedDocument" />
+        </OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[API_KEY]</OutArgument>
       </Assign.To>
@@ -142,21 +154,13 @@
         <InArgument x:TypeArguments="x:String">b731cb46-ec8f-409c-bed2-6e2ee6877ecd:fx</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="510,82" sap2010:WorkflowViewState.IdRef="Assign_3">
-      <Assign.To>
-        <OutArgument x:TypeArguments="njl:JObject">[translatedTextJson]</OutArgument>
-      </Assign.To>
-      <Assign.Value>
-        <InArgument x:TypeArguments="njl:JObject">[New JObject()]</InArgument>
-      </Assign.Value>
-    </Assign>
-    <ui:ForEach x:TypeArguments="scg:KeyValuePair(x:String, njl:JToken)" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="510,848" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[textToTranslateJson]">
+    <ui:ForEach x:TypeArguments="scg:KeyValuePair(x:String, njl:JToken)" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="434,670" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[textToTranslateJson]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="scg:KeyValuePair(x:String, njl:JToken)">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="scg:KeyValuePair(x:String, njl:JToken)" Name="currentItem" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="476,662" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="376,484" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <Sequence.Variables>
               <Variable x:TypeArguments="x:String" Name="response" />
               <Variable x:TypeArguments="njl:JObject" Name="jsonResponse" />
@@ -166,46 +170,38 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[currentItem.Value.ToString]" />
-            <ui:HttpClient ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="ANY" AuthenticationType="None" Body="[String.Format(&quot;auth_key={0}&amp;text={1}&amp;target_lang=HU&amp;source_lang=EN&quot;, API_KEY, currentItem.Value.ToString)]" BodyFormat="application/x-www-form-urlencoded" DisplayName="HTTP Request" EnableSSLVerification="True" EndPoint="https://api-free.deepl.com/v2/translate" sap:VirtualizedContainerService.HintSize="434,70" sap2010:WorkflowViewState.IdRef="HttpClient_1" Method="POST" Result="[response]" TimeoutMS="6000">
-              <ui:HttpClient.Attachments>
-                <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
-              </ui:HttpClient.Attachments>
-              <ui:HttpClient.Cookies>
-                <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
-              </ui:HttpClient.Cookies>
-              <ui:HttpClient.Headers>
-                <InArgument x:TypeArguments="x:String" x:Key="Authorization">["DeepL-Auth-Key " + API_KEY]</InArgument>
-              </ui:HttpClient.Headers>
-              <ui:HttpClient.Parameters>
-                <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
-              </ui:HttpClient.Parameters>
-              <ui:HttpClient.UrlSegments>
-                <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
-              </ui:HttpClient.UrlSegments>
-            </ui:HttpClient>
-            <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_2" JsonObject="[jsonResponse]" JsonString="[response]" />
-            <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
-              <Assign.To>
-                <OutArgument x:TypeArguments="njl:JToken">[translatedTextJson(currentItem.Key.ToString)]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="njl:JToken">[jsonResponse("translations")(0)("text").ToString]</InArgument>
-              </Assign.Value>
-            </Assign>
-            <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
-              <Assign.To>
-                <OutArgument x:TypeArguments="x:String">[parsedDocument]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="x:String">[New Regex(currentItem.Key.ToString).Replace(parsedDocument, jsonResponse("translations")(0)("text").ToString, 1)]</InArgument>
-              </Assign.Value>
-            </Assign>
+            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[currentItem.Value.ToString]" />
+            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Translate Text.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Translate Text.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="API_KEY">
+                  <VisualBasicValue x:TypeArguments="x:String" ExpressionText="API_KEY" />
+                </InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="textToTranslate">
+                  <VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentItem.Value.ToString" />
+                </InArgument>
+                <OutArgument x:TypeArguments="njl:JObject" x:Key="jsonResponse">
+                  <VisualBasicReference x:TypeArguments="njl:JObject" ExpressionText="jsonResponse" />
+                </OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Reinsert Translated Text.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Reinsert Translated Text.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InOutArgument x:TypeArguments="x:String" x:Key="parsedDocument">
+                  <VisualBasicReference x:TypeArguments="x:String" ExpressionText="parsedDocument" />
+                </InOutArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="textToReplace">
+                  <VisualBasicValue x:TypeArguments="x:String" ExpressionText="currentItem.Key.ToString" />
+                </InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="replacement">
+                  <VisualBasicValue x:TypeArguments="x:String" ExpressionText="jsonResponse(&quot;translations&quot;)(0)(&quot;text&quot;).ToString" />
+                </InArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
           </Sequence>
         </ActivityAction>
       </ui:ForEach.Body>
     </ui:ForEach>
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="510,85" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[parsedDocument]" />
-    <ui:WriteTextFile File="{x:Null}" DisplayName="Write Text File" FileName="translatedArticle.tex" sap:VirtualizedContainerService.HintSize="510,133" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[parsedDocument]" />
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[parsedDocument]" />
+    <ui:WriteTextFile File="{x:Null}" DisplayName="Write Text File" FileName="translatedArticle.tex" sap:VirtualizedContainerService.HintSize="434,133" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[parsedDocument]" />
   </Sequence>
 </Activity>
